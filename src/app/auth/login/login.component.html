@@ -1,1 +1,50 @@
-<p>login works!</p>
+<section>
+  <form
+    [formGroup]="loginForm"
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+    (submit)="onSubmit()"
+  >
+    <h3 mat-label>Login für Datenänderung</h3>
+    <mat-form-field>
+      <input
+        type="email"
+        matInput
+        placeholder="Ihre Email"
+        formControlName="email"
+      />
+      <mat-error>Bitte gültige Mail-Adresse eingeben</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        type="password"
+        matInput
+        placeholder="Ihr Kennwort"
+        formControlName="password"
+      />
+      <mat-error
+        *ngIf="
+          loginForm.get('password').errors &&
+          loginForm.get('password').errors['required']
+        "
+        >Bitte Kennwort eingeben</mat-error
+      >
+      <mat-error
+        *ngIf="
+          loginForm.get('password').errors &&
+          loginForm.get('password').errors['minlength']
+        "
+        >Kennwort muss mindestens 7 Stellen haben</mat-error
+      >
+    </mat-form-field>
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      [disabled]="loginForm.invalid"
+    >
+      Anmelden
+    </button>
+  </form>
+</section>
