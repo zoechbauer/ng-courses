@@ -1,1 +1,8 @@
-<p>courses works!</p>
+<section>
+  <h1>Test Firestore</h1>
+  <ul>
+    <li *ngFor="let course of courses | async">
+      {{ course.title }}
+    </li>
+  </ul>
+</section>

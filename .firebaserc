@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ng-courses": {
+      "hosting": {
+        "ng-courses": [
+          "ng-courses"
+        ]
+      }
+    }
+  }
+}
