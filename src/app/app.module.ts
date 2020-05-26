@@ -17,6 +17,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { environment } from 'src/environments/environment';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { TodosComponent } from './todos/todos.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     LoginComponent,
     HeaderComponent,
     SidenavListComponent,
+    TodosComponent,
   ],
   imports: [
     BrowserModule,
