@@ -1,0 +1,11 @@
+.welcome {
+  text-align: center;
+}
+
+.welcome-border {
+  margin: 20px 50px;
+}
+
+section {
+  max-width: 500px;
+}
