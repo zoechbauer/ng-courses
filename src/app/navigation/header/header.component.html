@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+  <div fxHide.gt-xs>
+    <button mat-button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div>
+    <a routerLink="/">Meine Kurse</a>
+  </div>
+  <div fxFlex fxLayoutAlign="end" fxHide.xs>
+    <ul fxLayout="row" fxLayoutGap="20px" class="navigation-items">
+      <li *ngIf="loggedIn"><a routerLink="/courses">Kurse</a></li>
+      <li *ngIf="!loggedIn"><a routerLink="/login">Login</a></li>
+      <li *ngIf="loggedIn" (click)="onLogout()">Logout</li>
+    </ul>
+  </div>
+</mat-toolbar>

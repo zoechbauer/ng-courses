@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { AuthData } from './auth-data.model';
 
@@ -6,9 +8,21 @@ import { AuthData } from './auth-data.model';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
+  authChanged = new Subject<boolean>();
+
+  constructor(private router: Router) {}
 
   login(login: AuthData) {
-    console.log('LogIn Data in Service', login);
+    // TODO login is missing
+    console.log('Login', login);
+    this.authChanged.next(true);
+    this.router.navigate(['/courses']);
+  }
+
+  logout() {
+    // TODO logout is missing
+    console.log('logout');
+    this.authChanged.next(false);
+    this.router.navigate(['/']);
   }
 }

@@ -15,6 +15,8 @@ import { CoursesComponent } from './courses/courses.component';
 import { CourseDetailComponent } from './courses/course-detail/course-detail.component';
 import { LoginComponent } from './auth/login/login.component';
 import { environment } from 'src/environments/environment';
+import { HeaderComponent } from './navigation/header/header.component';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { environment } from 'src/environments/environment';
     CoursesComponent,
     CourseDetailComponent,
     LoginComponent,
+    HeaderComponent,
+    SidenavListComponent,
   ],
   imports: [
     BrowserModule,
