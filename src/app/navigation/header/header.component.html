@@ -11,6 +11,9 @@
     <ul fxLayout="row" fxLayoutGap="20px" class="navigation-items">
       <li *ngIf="loggedIn"><a routerLink="/courses">Kurse</a></li>
       <li *ngIf="!loggedIn"><a routerLink="/login">Login</a></li>
+      <li *ngIf="loggedIn">
+        <a routerLink="/welcome"><mat-icon>help</mat-icon></a>
+      </li>
       <li *ngIf="loggedIn" (click)="onLogout()">Logout</li>
     </ul>
   </div>

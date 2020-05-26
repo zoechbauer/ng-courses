@@ -1,16 +1,31 @@
-<mat-nav-list>
-  <a mat-list-item routerLink="/courses" *ngIf="loggedIn">
+<mat-nav-list class="sidenav">
+  <a mat-list-item (click)="onClose()">
+    <mat-icon>arrow_back</mat-icon>
+    <span class="nav-caption">zurück</span>
+  </a>
+
+  <a mat-list-item routerLink="/" (click)="onClose()">
+    <mat-icon>home</mat-icon>
+    <span class="nav-caption">Home</span>
+  </a>
+
+  <a mat-list-item routerLink="/courses" *ngIf="loggedIn" (click)="onClose()">
     <mat-icon>thumb_up</mat-icon>
     <span class="nav-caption">Kurse</span>
   </a>
 
-  <a mat-list-item routerLink="/login" *ngIf="!loggedIn">
+  <a mat-list-item routerLink="/login" *ngIf="!loggedIn" (click)="onClose()">
     <mat-icon>input</mat-icon>
     <span class="nav-caption">Login</span>
   </a>
 
   <mat-list-item>
-    <button mat-icon-button (click)="onLogout()" *ngIf="loggedIn">
+    <button
+      mat-icon-button
+      (click)="onLogout()"
+      *ngIf="loggedIn"
+      (click)="onClose()"
+    >
       <mat-icon>eject</mat-icon>
       <span class="nav-caption">Logout</span>
     </button>

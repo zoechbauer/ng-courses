@@ -3,3 +3,13 @@
   font-size: 14px;
   font-weight: 400;
 }
+
+.sidenav {
+  background-color: #3f5185;
+  height: 100%;
+}
+
+.nav-caption,
+mat-icon {
+  color: white;
+}
