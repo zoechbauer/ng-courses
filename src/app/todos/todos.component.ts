@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 
 import { todoList } from './todos.data';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-todos',
@@ -11,6 +12,7 @@ import { todoList } from './todos.data';
 })
 export class TodosComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   datasource = new MatTableDataSource(todoList);
   displayedColumns: string[] = ['id', 'status', 'type', 'category', 'todo'];
 
@@ -18,6 +20,7 @@ export class TodosComponent implements OnInit {
 
   ngOnInit(): void {
     this.datasource.sort = this.sort;
+    this.datasource.paginator = this.paginator;
   }
 
   applyFilter(event: Event) {
