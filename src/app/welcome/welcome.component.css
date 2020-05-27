@@ -1,0 +1,23 @@
+.header,
+.footer {
+  text-align: center;
+  margin: auto;
+}
+
+header {
+  padding-bottom: 10px;
+}
+
+.welcome-page {
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+section,
+header {
+  max-width: 500px;
+}
+
+section {
+  margin-bottom: 10px !important;
+}

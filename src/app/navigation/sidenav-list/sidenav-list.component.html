@@ -14,6 +14,11 @@
     <span class="nav-caption">Kurse</span>
   </a>
 
+  <a mat-list-item routerLink="/todos" (click)="onClose()">
+    <mat-icon>build</mat-icon>
+    <span class="nav-caption">Todos</span>
+  </a>
+
   <a mat-list-item routerLink="/login" *ngIf="!loggedIn" (click)="onClose()">
     <mat-icon>input</mat-icon>
     <span class="nav-caption">Login</span>

@@ -1,1 +1,91 @@
-<p>welcome works!</p>
+<div class="welcome-page">
+  <header class="header">
+    <h1>Hallo!</h1>
+    <h4>
+      Diese App enthält eine Beschreibung meiner wichtigsten Web-Developer
+      Forbildungs-Kurse, die auf meiner
+      <a href="https://github.com/zoechbauer" target="_blank">GitHub-Seite</a>
+      abgelegt sind.
+    </h4>
+  </header>
+  <div
+    fxLayout="column"
+    fxLayout.gt-md="row"
+    fxLayoutAlign.gt-md="start start"
+    fxLayoutAlign="center center"
+    fxLayoutGap="50px"
+  >
+    <section fxFlex>
+      <h2 class="welcome">Geplante Funktionen</h2>
+      <ul>
+        <li>
+          Speichern der Kursdaten als Admin in Firebase (Zugriff mittels
+          Angular/Fire)
+        </li>
+        <li>
+          Abrufen der Kursdaten und anzeigen als angemeldeteter User mit
+          öffentlichen Credentials. Dadurch kann durch PW-Änderung das Abrufen
+          gesperrt werden
+          <ul>
+            <li>Darstellung als mat-table mit Filter- und Suchfunktion</li>
+            <li>Detail-Informationen des ausgewählten Kurses anzeigen</li>
+            <li>Link des Kurses zum GitHub-Repo</li>
+            <li>Link des Kurses zur lauffähigen gehosteten App-Version</li>
+          </ul>
+        </li>
+        <li>
+          Anzeigen allgemeiner Infos ohne Login, zB. Todo-Liste mit statischen,
+          d.h. hardcodierten Aktvitäten
+        </li>
+      </ul>
+    </section>
+    <section fxFlex>
+      <h2 class="welcome">Zweck dieser App</h2>
+      <ol>
+        <li>
+          Dieses App ist als Übungsprojekt vergangener Kursprojekte gedacht mit
+          dem Ziel Praxis in Angular, Angular Material, rxJS und Angular Fire
+          sowie CSS zu erhalten.
+        </li>
+        <li>
+          Der Link zu dieser App wird auch in Bewerbungsgesprächen erwähnt,
+          wodurch Firmen die Möglichkeit haben, sich relativ schnell und einfach
+          einen Überblick über meine Kenntnisse in der Web-Programmierung zu
+          machen.
+          <ul>
+            <li>
+              Was habe ich an Schulungen gemacht ==> Verzweigen zu lauffähigen
+              App
+            </li>
+            <li>
+              Wie wurden die Projekte technisch umgesetzt ==> Verzweigen zum
+              GitHub Repository
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+    <section fxFlex>
+      <h2 class="welcome">Design Überlegungen</h2>
+      <p>Tabellen-Form mit Filter und Sortier-Funktion nur bei Todo-Liste.</p>
+      <div>
+        Die Projekte werden mittels mat-card angezeigt, da man hier als Bild
+        einen Screenshot der App anzeigen kann. Alle Projekte durchscrollen (<
+        10).
+        <ul>
+          <li>Bilder-Gallery</li>
+          <li>je Bild eine kurze Bescheibung</li>
+          <li>
+            Vorteil: man erhält einen Überblick was die App macht. <br />Kurze
+            Anleitung wird für die Benutzung der App benötigt, sonst wird sie
+            nicht aufgerufen.
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+  <footer class="footer">
+    <hr />
+    <h5>Anmerkung: diese Seite wird inhaltlich noch überarbeitet.</h5>
+  </footer>
+</div>
