@@ -9,6 +9,7 @@ import { AuthData } from './auth-data.model';
 })
 export class AuthService {
   authChanged = new Subject<boolean>();
+  private isAuthenticated = false;
 
   constructor(private router: Router) {}
 
@@ -16,6 +17,7 @@ export class AuthService {
     // TODO login is missing
     console.log('Login', login);
     this.authChanged.next(true);
+    this.isAuthenticated = true;
     this.router.navigate(['/courses']);
   }
 
@@ -23,6 +25,11 @@ export class AuthService {
     // TODO logout is missing
     console.log('logout');
     this.authChanged.next(false);
+    this.isAuthenticated = false;
     this.router.navigate(['/']);
+  }
+
+  isAuth() {
+    return this.isAuthenticated;
   }
 }
