@@ -1,4 +1,8 @@
 <h1>Todos für dieses Projekt</h1>
+<mat-form-field>
+  <mat-label>Todos filtern</mat-label>
+  <input matInput (keyup)="applyFilter($event)" />
+</mat-form-field>
 <table mat-table matSort [dataSource]="datasource" class="mat-elevation-z8">
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nr</th>

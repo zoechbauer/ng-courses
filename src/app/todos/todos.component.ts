@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 import { todoList } from './todos.data';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-todos',
@@ -18,5 +18,9 @@ export class TodosComponent implements OnInit {
 
   ngOnInit(): void {
     this.datasource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    this.datasource.filter = (event.target as HTMLInputElement).value.toLowerCase();
   }
 }
