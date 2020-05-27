@@ -7,12 +7,18 @@ table {
   margin: 20px auto;
 }
 
-.header {
+.header,
+.text-center {
   text-align: center;
 }
 
 .filter {
   min-width: 350px;
+}
+
+.status {
+  max-width: 350px;
+  margin: auto;
 }
 
 @media only screen and (max-width: 600px) {
