@@ -4,8 +4,9 @@
       <mat-icon>menu</mat-icon>
     </button>
   </div>
-  <div>
-    <a routerLink="/">Meine Kurse</a>
+  <div class="logo">
+    <a fxHide.xs routerLink="/"><mat-icon class="logo-img">home</mat-icon></a>
+    <a routerLink="/" class="logo-text">Hans Zöchbauer's Kurse</a>
   </div>
   <div fxFlex fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout="row" fxLayoutGap="20px" class="navigation-items">

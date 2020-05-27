@@ -1,6 +1,11 @@
 .header,
 .footer {
   text-align: center;
+  margin: auto;
+}
+
+header {
+  padding-bottom: 10px;
 }
 
 .welcome-page {
@@ -8,6 +13,11 @@
   margin: 20px auto;
 }
 
-section {
+section,
+header {
   max-width: 500px;
+}
+
+section {
+  margin-bottom: 10px !important;
 }

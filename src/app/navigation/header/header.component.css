@@ -14,3 +14,17 @@ li:hover {
   margin: 0;
   cursor: pointer;
 }
+
+.logo {
+  position: relative;
+}
+
+.logo-text {
+  padding-left: 27px;
+}
+
+.logo-img {
+  padding-right: 10px;
+  position: absolute;
+  top: 2px;
+}
