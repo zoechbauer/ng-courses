@@ -1,9 +1,11 @@
-.welcome {
+.header,
+.footer {
   text-align: center;
 }
 
-.welcome-border {
-  margin: 20px 50px;
+.welcome-page {
+  max-width: 1200px;
+  margin: 20px auto;
 }
 
 section {

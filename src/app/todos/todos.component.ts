@@ -24,6 +24,8 @@ export class TodosComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    this.datasource.filter = (event.target as HTMLInputElement).value.toLowerCase();
+    this.datasource.filter = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
   }
 }

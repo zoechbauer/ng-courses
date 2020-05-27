@@ -21,7 +21,7 @@ export const todoList: Todos[] = [
     todo: 'Progressbar fuer offenen Aufgaben',
     category: 'Todos',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ export const todoList: Todos[] = [
     todo: 'Table Layout optimieren',
     category: 'Todos',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 8,
