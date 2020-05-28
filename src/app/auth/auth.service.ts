@@ -26,7 +26,6 @@ export class AuthService {
       .then((user) => {
         console.log('Login af', user);
         this.setUserType(login.email);
-        this.setUserType(login.email);
         this.router.navigate(['/courses']);
       })
       .catch((err) => {
@@ -42,7 +41,7 @@ export class AuthService {
       .signOut()
       .then((res) => {
         console.log('logout af', res);
-        this.authChanged.next(AuthUser.null);
+        this.setUserType(null);
         this.router.navigate(['/']);
         this.snackBar.open('Sie wurden abgemeldet', null, {
           duration: environment.snackbar.duration,
