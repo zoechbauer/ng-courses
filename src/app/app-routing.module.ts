@@ -5,12 +5,17 @@ import { CoursesComponent } from './courses/courses.component';
 import { CourseDetailComponent } from './courses/course-detail/course-detail.component';
 import { LoginComponent } from './auth/login/login.component';
 import { TodosComponent } from './todos/todos.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   { path: 'welcome', component: WelcomeComponent },
-  { path: 'courses', component: CoursesComponent },
-  { path: 'courses/:id', component: CourseDetailComponent },
+  { path: 'courses', component: CoursesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'courses/:id',
+    component: CourseDetailComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'login', component: LoginComponent },
   { path: 'todos', component: TodosComponent },
   { path: '**', redirectTo: '/welcome' },
