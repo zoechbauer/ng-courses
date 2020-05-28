@@ -5,7 +5,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthData } from './auth-data.model';
-import '../../environments/environment';
 import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
