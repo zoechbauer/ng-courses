@@ -6,6 +6,8 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
 import { AuthService } from 'src/app/auth/auth.service';
 import { AuthUser } from 'src/app/auth/auth-data.model';
 
@@ -21,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAdmin = false;
   authUser = AuthUser.null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authSub = this.authService.authChanged.subscribe(
@@ -40,6 +42,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  onDisplayCourses() {
+    this.router.navigate(['/courses']);
+  }
+
+  onManageCourses() {
+    this.router.navigate(['/courses/edit']);
   }
 
   ngOnDestroy() {

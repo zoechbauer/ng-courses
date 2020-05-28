@@ -11,7 +11,27 @@
   </div>
   <div fxFlex fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout="row" fxLayoutGap="20px" class="navigation-items">
-      <li *ngIf="loggedIn"><a routerLink="/courses">Kurse</a></li>
+      <li>
+        <button mat-button [matMenuTriggerFor]="menu" class="mnuItemButton">
+          Kurse
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            [disabled]="!loggedIn"
+            (click)="onDisplayCourses()"
+          >
+            Kurse anzeigen
+          </button>
+          <button
+            mat-menu-item
+            [disabled]="!isAdmin"
+            (click)="onManageCourses()"
+          >
+            Kurse verwalten
+          </button>
+        </mat-menu>
+      </li>
       <li routerLink="/todos"><a>Todos</a></li>
       <li *ngIf="!loggedIn"><a routerLink="/login">Login</a></li>
       <li *ngIf="loggedIn">

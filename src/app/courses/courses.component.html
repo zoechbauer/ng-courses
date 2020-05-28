@@ -1,5 +1,6 @@
 <section>
   <h1>Test Firestore</h1>
+  <h2 *ngIf="edit">Edit Mode</h2>
   <ul>
     <li *ngFor="let course of courses | async">
       {{ course.title }}

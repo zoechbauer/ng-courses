@@ -9,9 +9,24 @@
     <span class="nav-caption">Home</span>
   </a>
 
-  <a mat-list-item routerLink="/courses" *ngIf="loggedIn" (click)="onClose()">
-    <mat-icon>thumb_up</mat-icon>
-    <span class="nav-caption">Kurse</span>
+  <a
+    mat-list-item
+    routerLink="/courses"
+    [disabled]="!loggedIn"
+    (click)="onClose()"
+  >
+    <mat-icon [class.disabled]="!loggedIn">thumb_up</mat-icon>
+    <span class="nav-caption" [class.disabled]="!loggedIn">Kurse anzeigen</span>
+  </a>
+
+  <a
+    mat-list-item
+    routerLink="/courses/edit"
+    [disabled]="!isAdmin"
+    (click)="onClose()"
+  >
+    <mat-icon [class.disabled]="!isAdmin">thumb_up</mat-icon>
+    <span class="nav-caption" [class.disabled]="!isAdmin">Kurse verwalten</span>
   </a>
 
   <a mat-list-item routerLink="/todos" (click)="onClose()">

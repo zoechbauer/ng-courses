@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -9,10 +10,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class CoursesComponent implements OnInit {
   courses: Observable<any[]>;
+  edit = false;
 
-  constructor(firestore: AngularFirestore) {
-    this.courses = firestore.collection('courses').valueChanges();
+  constructor(private afs: AngularFirestore, private router: Router) {
+    this.courses = this.afs.collection('courses').valueChanges();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.edit = this.router.url.includes('/courses/edit') ? true : false;
+  }
 }
