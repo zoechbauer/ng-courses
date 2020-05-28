@@ -38,5 +38,10 @@ export const environment = {
     // set password to '' in production mode
     password: 'admin password',
   },
+  // for starting the referenced apps on hosting server
+  course_apps: {
+    login: 'credentials for starting the apps',
+    password: 'credentials for starting the apps',
+  },
 };
 </pre>
