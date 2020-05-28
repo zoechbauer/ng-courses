@@ -32,7 +32,11 @@ export const environment = {
     duration: 3000,
   },
   admin: {
-    login: 'email of admin',
+    // only admin is allowed to manage courses
+    login: 'admin email',
+    // for automatic login in development phase
+    // set password to '' in production mode
+    password: 'admin password',
   },
 };
 </pre>
