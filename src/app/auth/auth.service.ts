@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthData } from './auth-data.model';
-import { AngularFireAuth } from '@angular/fire/auth';
-
+import '../../environments/environment';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +14,11 @@ export class AuthService {
   authChanged = new Subject<boolean>();
   private isAuthenticated = false;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth) {}
+  constructor(
+    private router: Router,
+    private afAuth: AngularFireAuth,
+    private snackBar: MatSnackBar
+  ) {}
 
   login(login: AuthData) {
     this.afAuth
@@ -25,7 +31,9 @@ export class AuthService {
       })
       .catch((err) => {
         console.log('ERR on Login af', err);
-        // TODO display notification error
+        this.snackBar.open('Benutzer und/oder Kennwort sind ungültig', null, {
+          duration: environment.snackbar.duration,
+        });
       });
   }
 
@@ -37,10 +45,14 @@ export class AuthService {
         this.authChanged.next(false);
         this.isAuthenticated = false;
         this.router.navigate(['/']);
-        // TODO display notification info
+        this.snackBar.open('Sie wurden abgemeldet', null, {
+          duration: environment.snackbar.duration,
+        });
       })
       .catch((err) => {
-        // TODO display notification error
+        this.snackBar.open(err, null, {
+          duration: environment.snackbar.duration,
+        });
       });
   }
 
