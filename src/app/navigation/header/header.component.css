@@ -28,3 +28,8 @@ li:hover {
   position: absolute;
   top: 2px;
 }
+
+.admin {
+  padding-left: 20px;
+  color: red;
+}

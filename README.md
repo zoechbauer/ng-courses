@@ -31,5 +31,8 @@ export const environment = {
     // displayed in milliseconds
     duration: 3000,
   },
+  admin: {
+    login: 'email of admin',
+  },
 };
 </pre>

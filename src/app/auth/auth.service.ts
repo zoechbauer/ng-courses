@@ -5,13 +5,14 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthData } from './auth-data.model';
+import { AuthUser } from './auth-data.model';
 import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  authChanged = new Subject<boolean>();
-  private isAuthenticated = false;
+  authChanged = new Subject<AuthUser>();
+  private authUser: AuthUser;
 
   constructor(
     private router: Router,
@@ -24,8 +25,8 @@ export class AuthService {
       .signInWithEmailAndPassword(login.email, login.password)
       .then((user) => {
         console.log('Login af', user);
-        this.authChanged.next(true);
-        this.isAuthenticated = true;
+        this.setUserType(login.email);
+        this.setUserType(login.email);
         this.router.navigate(['/courses']);
       })
       .catch((err) => {
@@ -41,8 +42,7 @@ export class AuthService {
       .signOut()
       .then((res) => {
         console.log('logout af', res);
-        this.authChanged.next(false);
-        this.isAuthenticated = false;
+        this.authChanged.next(AuthUser.null);
         this.router.navigate(['/']);
         this.snackBar.open('Sie wurden abgemeldet', null, {
           duration: environment.snackbar.duration,
@@ -55,7 +55,21 @@ export class AuthService {
       });
   }
 
+  setUserType(email: string) {
+    if (email == null) {
+      this.authUser = AuthUser.null;
+    } else {
+      this.authUser =
+        email === environment.admin.login ? AuthUser.admin : AuthUser.user;
+    }
+    this.authChanged.next(this.authUser);
+  }
+
   isAuth() {
-    return this.isAuthenticated;
+    return this.authUser !== AuthUser.null;
+  }
+
+  isAdmin() {
+    return this.authUser === AuthUser.admin;
   }
 }
