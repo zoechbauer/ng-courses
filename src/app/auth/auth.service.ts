@@ -65,7 +65,8 @@ export class AuthService {
   }
 
   isAuth() {
-    return this.authUser !== AuthUser.null;
+    console.log('isAuth: authUser', this.authUser);
+    return this.authUser === AuthUser.admin || this.authUser === AuthUser.user;
   }
 
   isAdmin() {
