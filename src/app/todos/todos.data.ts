@@ -83,7 +83,7 @@ export const todoList: Todos[] = [
     todo: 'Testdaten für Anzeige in firebase erfassen',
     category: 'Kurse',
     type: 'neu',
-    status: 'offen',
+    status: 'erledigt',
   },
   {
     id: 13,
@@ -97,7 +97,7 @@ export const todoList: Todos[] = [
     todo: 'Detaildaten eines Kurses anzeigen',
     category: 'Kurse',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 15,

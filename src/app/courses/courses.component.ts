@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatAccordion } from '@angular/material/expansion';
 
 import { environment } from 'src/environments/environment';
@@ -29,7 +29,11 @@ export class CoursesComponent implements OnInit {
   // TODO store certificate on firestore
   // at the moment certificate images are stored in assets/images folder with name defined in firestore
 
-  constructor(private afs: AngularFirestore, private router: Router) {}
+  constructor(
+    private afs: AngularFirestore,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.setDisplayMode();
@@ -70,5 +74,10 @@ export class CoursesComponent implements OnInit {
 
   runUrl(url: string) {
     window.open(url, '_blank');
+  }
+
+  editCourse(id: string) {
+    console.log('edit course', id);
+    this.router.navigate([id], { relativeTo: this.route });
   }
 }

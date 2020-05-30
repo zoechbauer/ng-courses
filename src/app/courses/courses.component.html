@@ -22,6 +22,9 @@
             <p *ngIf="!expanded">{{ course.title }}</p>
             <h3 *ngIf="expanded">{{ course.title }}</h3>
           </mat-panel-title>
+          <button *ngIf="edit" mat-icon-button (click)="editCourse(course.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
         </mat-expansion-panel-header>
         <div fxLayout fxLayout.lt-md="column" fxLayoutGap="20px">
           <mat-card class="course-card" fxFlex="1 1 100%">
