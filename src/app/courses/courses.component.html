@@ -1,8 +1,97 @@
-<section>
-  <h1>Test Firestore</h1>
-  <ul>
-    <li *ngFor="let course of courses | async">
-      {{ course.title }}
-    </li>
-  </ul>
+<section class="course-list">
+  <header>
+    <div class="course-header">
+      <button mat-raised-button color="primary" (click)="accordion.openAll()">
+        alle aufklappen
+      </button>
+      <button mat-raised-button color="primary" (click)="accordion.closeAll()">
+        alle zuklappen
+      </button>
+      <h3>Liste der abgeschlossenen Kurse</h3>
+      <h3 *ngIf="edit">Edit Mode</h3>
+    </div>
+  </header>
+  <mat-accordion class="course-headers-align" multi>
+    <div *ngFor="let course of courses | async">
+      <mat-expansion-panel
+        (afterExpand)="expanded = true"
+        (afterCollapse)="expanded = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <p *ngIf="!expanded">{{ course.title }}</p>
+            <h3 *ngIf="expanded">{{ course.title }}</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxLayout fxLayout.lt-md="column" fxLayoutGap="20px">
+          <mat-card class="course-card" fxFlex="1 1 100%">
+            <mat-card-header>
+              <div
+                mat-card-avatar
+                class="course-header-image"
+                [ngClass]="course.school | lowercase"
+              ></div>
+              <mat-card-title> {{ course.school }} </mat-card-title>
+              <mat-card-subtitle
+                >Kursleiter: {{ course.teacher }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <img
+              mat-card-image
+              class="certificate"
+              src="../../assets/images/{{ course.certificateName }}"
+              alt="Kursbestaetigung"
+            />
+          </mat-card>
+
+          <div class="course-card" fxFlex="1 1 100%">
+            <h1 *ngIf="edit">Id</h1>
+            <p *ngIf="edit">{{ course.id }}</p>
+            <h3>Kurzfassung</h3>
+            <p>{{ course.summary }}</p>
+            <h3>Kurs-Beschreibung</h3>
+            <p>{{ course.description }}</p>
+          </div>
+          <div class="course-card" fxFlex="1 1 100%">
+            <h3>Kategorie und Topics</h3>
+            <p>{{ course.category }}</p>
+            <p>{{ course.topics }}</p>
+            <h3>Source-Code und Testen der App</h3>
+            <p>
+              Der Source-Code ist in <strong>GitHub</strong> eingecheckt und die
+              App ist bei <strong>{{ course.hosting }}</strong> gehostet.
+            </p>
+            <div *ngIf="course.credentials">
+              <p>
+                Bei GitHub brauchen Sie sich nicht anmelden. Bei der App
+                verwenden Sie bitte folgende Credentials:
+              </p>
+              <h5>
+                <strong>User: </strong>{{ appUser }} und
+                <strong>Kennwort:</strong> {{ appPassword }}
+              </h5>
+            </div>
+            <div class="course-buttons">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="runUrl(course.githubUrl)"
+                [disabled]="!course.githubUrl"
+              >
+                Source in GitHub
+              </button>
+              <button
+                mat-raised-button
+                color="accent"
+                (click)="runUrl(course.hostedUrl)"
+                [disabled]="!course.hostedUrl"
+              >
+                App starten
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
 </section>

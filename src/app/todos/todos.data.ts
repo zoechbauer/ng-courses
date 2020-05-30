@@ -62,7 +62,7 @@ export const todoList: Todos[] = [
     todo: 'Login und Logout in firebase',
     category: 'Login',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 10,
@@ -87,31 +87,31 @@ export const todoList: Todos[] = [
   },
   {
     id: 13,
-    todo: 'Kursdaten als Card mit Screenshot anzeigen',
+    todo: 'Kurs-Übersicht als aufklappbares Akkordeon anzeigen',
     category: 'Kurse',
     type: 'neu',
-    status: 'offen',
+    status: 'erledigt',
   },
   {
     id: 14,
-    todo: 'Detaildaten einer Card anzeigen',
+    todo: 'Detaildaten eines Kurses anzeigen',
     category: 'Kurse',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 15,
     todo: 'Formular zum Erfassen der Kursdaten erstellen',
     category: 'Kurse',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 16,
     todo: 'Kursdaten in firebase speichern',
     category: 'Kurse',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 17,
@@ -139,7 +139,7 @@ export const todoList: Todos[] = [
     todo: 'Konzept für Kursverwaltung erstellen',
     category: 'Kurse erfassen',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 21,
@@ -167,6 +167,6 @@ export const todoList: Todos[] = [
     todo: 'Einbinden der Stammdatenprogramme in Framework',
     category: 'Kurse erfassen',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
 ];

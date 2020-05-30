@@ -28,3 +28,13 @@ li:hover {
   position: absolute;
   top: 2px;
 }
+
+.admin {
+  padding-left: 20px;
+  color: red;
+}
+
+.mnuItemButton {
+  font-size: 20px;
+  line-height: 20px;
+}

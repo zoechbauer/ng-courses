@@ -31,5 +31,17 @@ export const environment = {
     // displayed in milliseconds
     duration: 3000,
   },
+  admin: {
+    // only admin is allowed to manage courses
+    login: 'admin email',
+    // for automatic login in development phase
+    // set password to '' in production mode
+    password: 'admin password',
+  },
+  // for starting the referenced apps on hosting server
+  course_apps: {
+    login: 'credentials for starting the apps',
+    password: 'credentials for starting the apps',
+  },
 };
 </pre>

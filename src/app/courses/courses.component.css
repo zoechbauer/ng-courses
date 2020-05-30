@@ -1,0 +1,48 @@
+.course-list {
+  margin: auto;
+  max-width: 100%;
+}
+
+.course-list header {
+  text-align: center;
+}
+
+.course-header {
+  margin-top: 20px;
+}
+
+.course-header button,
+.course-buttons button {
+  margin-bottom: 20px;
+  margin-right: 10px;
+  width: 140px;
+}
+
+.course-buttons {
+  width: 350px;
+  margin: auto;
+}
+
+.title-highlight {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.course-header-image {
+  background-image: url('https://seeklogo.com/images/U/udemy-logo-C3D3F5AC0C-seeklogo.com.png');
+  background-size: contain;
+}
+
+.course-card {
+  max-width: 800px;
+  text-align: justify;
+}
+
+.certificate {
+  background-size: cover;
+}
+
+.udemy {
+  height: 34px;
+  border-radius: 0;
+}

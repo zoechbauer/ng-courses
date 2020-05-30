@@ -12,6 +12,11 @@ const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
   { path: 'courses', component: CoursesComponent, canActivate: [AuthGuard] },
   {
+    path: 'courses/edit',
+    component: CoursesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'courses/:id',
     component: CourseDetailComponent,
     canActivate: [AuthGuard],
