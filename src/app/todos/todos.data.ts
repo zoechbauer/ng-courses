@@ -87,17 +87,17 @@ export const todoList: Todos[] = [
   },
   {
     id: 13,
-    todo: 'Kursdaten als Card mit Screenshot anzeigen',
+    todo: 'Kurs-Übersicht als aufklappbares Akkordeon anzeigen',
     category: 'Kurse',
     type: 'neu',
-    status: 'offen',
+    status: 'erledigt',
   },
   {
     id: 14,
-    todo: 'Detaildaten einer Card anzeigen',
+    todo: 'Detaildaten eines Kurses anzeigen',
     category: 'Kurse',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 15,
