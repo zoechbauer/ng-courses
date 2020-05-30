@@ -1,33 +1,100 @@
-<section>
-  <h1>Liste der abgeschlossenen Kurse</h1>
-  <h2 *ngIf="edit">Edit Mode</h2>
-  <ul>
-    <li *ngFor="let course of courses | async">
-      <!-- display all data of course, used for layout design with material card -->
-      <h1 *ngIf="edit">Id</h1>
-      <p>{{ course.id }}</p>
-      <h1>Title</h1>
-      <p>{{ course.title }}</p>
-      <h2>Summary</h2>
-      <p>{{ course.summary }}}</p>
-      <h2>Confirmation</h2>
-      <p>{{ course.confirmation.toDate() | date: 'dd.MM.yyyy' }}</p>
-      <h2>Category</h2>
-      <p>{{ course.category }}</p>
-      <h2>Duration</h2>
-      <p>{{ course.duration }}</p>
-      <h2>Description</h2>
-      <p>{{ course.description }}</p>
-      <h2>Link zu Github und Hosting</h2>
-      <a [href]="course.githubUrl" target="_blank">Github Repo</a> <br />
-      <a [href]="course.hostedUrl" target="_blank">App ausprobieren</a>
-      <p>User: {{ appUser }}, Kennwort: {{ appPassword }}</p>
-      <h2>School</h2>
-      <p>{{ course.school }}</p>
-      <h2>Teacher</h2>
-      <p>{{ course.teacher }}</p>
-      <h2>Topics</h2>
-      <p>{{ course.topics }}</p>
-    </li>
-  </ul>
+<section class="course-list">
+  <header>
+    <div class="course-action-buttons">
+      <button mat-raised-button color="primary" (click)="accordion.openAll()">
+        alle aufklappen
+      </button>
+      <button mat-raised-button color="primary" (click)="accordion.closeAll()">
+        alle zuklappen
+      </button>
+    </div>
+    <h3>Liste der abgeschlossenen Kurse</h3>
+    <h3 *ngIf="edit">Edit Mode</h3>
+  </header>
+  <mat-accordion class="course-headers-align" multi>
+    <div *ngFor="let course of courses | async">
+      <mat-expansion-panel
+        (afterExpand)="expanded = true"
+        (afterCollapse)="expanded = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <p *ngIf="!expanded">{{ course.title }}</p>
+            <h3 *ngIf="expanded">{{ course.title }}</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxLayout fxLayout.lt-sm="column" fxLayoutGap="20px">
+          <mat-card class="course-card" fxFlex>
+            <mat-card-header>
+              <div
+                mat-card-avatar
+                class="course-header-image"
+                [ngClass]="course.school | lowercase"
+              ></div>
+              <mat-card-title> {{ course.school }} </mat-card-title>
+              <mat-card-subtitle
+                >Kursleiter: {{ course.teacher }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <img
+              mat-card-image
+              class="certificate"
+              src="../../assets/images/{{ course.certificateName }}"
+              alt="Kursbestaetigung"
+            />
+          </mat-card>
+
+          <mat-card class="course-card" fxFlex>
+            <mat-card-header> </mat-card-header>
+            <mat-card-content>
+              <h1 *ngIf="edit">Id</h1>
+              <p *ngIf="edit">{{ course.id }}</p>
+              <h3>Kurzfassung</h3>
+              <p>{{ course.summary }}</p>
+              <h3>Kurs-Beschreibung</h3>
+              <p>{{ course.description }}</p>
+              <mat-card-content>
+                <h3>Kategorie und Topics</h3>
+                <p>{{ course.category }}</p>
+                <p>{{ course.topics }}</p>
+              </mat-card-content>
+              <h3>Source-Code und Testen der App</h3>
+              <p>
+                Der Source-Code ist in <strong>GitHub</strong> eingecheckt und
+                die App ist bei <strong>{{ course.hosting }}</strong> gehostet.
+              </p>
+              <div *ngIf="course.credentials">
+                <p>
+                  Bei GitHub brauchen Sie sich nicht anmelden. Bei der App
+                  verwenden Sie bitte folgende Credentials:
+                </p>
+                <h5>
+                  <strong>User: </strong>{{ appUser }} und
+                  <strong>Kennwort:</strong> {{ appPassword }}
+                </h5>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="runUrl(course.githubUrl)"
+                [disabled]="!course.githubUrl"
+              >
+                Source in GitHub
+              </button>
+              <button
+                mat-raised-button
+                color="accent"
+                (click)="runUrl(course.hostedUrl)"
+                [disabled]="!course.hostedUrl"
+              >
+                App starten
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
 </section>

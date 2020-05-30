@@ -1,8 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { MatAccordion } from '@angular/material/expansion';
+
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -11,10 +20,14 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./courses.component.css'],
 })
 export class CoursesComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  expanded: boolean;
   courses: Observable<any[]>;
   edit = false;
   appUser: string;
   appPassword: string;
+  // TODO store certificate on firestore
+  // at the moment certificate images are stored in assets/images folder with name defined in firestore
 
   constructor(private afs: AngularFirestore, private router: Router) {}
 
@@ -53,5 +66,13 @@ export class CoursesComponent implements OnInit {
   getAppCredentials() {
     this.appUser = environment.course_apps.login;
     this.appPassword = environment.course_apps.password;
+  }
+
+  test() {
+    console.log('expanded');
+  }
+
+  runUrl(url: string) {
+    window.open(url, '_blank');
   }
 }

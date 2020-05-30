@@ -13,6 +13,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
 
 const MaterialModules = [
   MatButtonModule,
@@ -29,6 +31,8 @@ const MaterialModules = [
   MatSnackBarModule,
   MatMenuModule,
   MatCheckboxModule,
+  MatExpansionModule,
+  MatCardModule,
 ];
 
 @NgModule({
