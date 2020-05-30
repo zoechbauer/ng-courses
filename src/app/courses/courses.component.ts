@@ -68,10 +68,6 @@ export class CoursesComponent implements OnInit {
     this.appPassword = environment.course_apps.password;
   }
 
-  test() {
-    console.log('expanded');
-  }
-
   runUrl(url: string) {
     window.open(url, '_blank');
   }

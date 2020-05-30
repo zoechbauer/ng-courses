@@ -1,15 +1,15 @@
 <section class="course-list">
   <header>
-    <div class="course-action-buttons">
+    <div class="course-header">
       <button mat-raised-button color="primary" (click)="accordion.openAll()">
         alle aufklappen
       </button>
       <button mat-raised-button color="primary" (click)="accordion.closeAll()">
         alle zuklappen
       </button>
+      <h3>Liste der abgeschlossenen Kurse</h3>
+      <h3 *ngIf="edit">Edit Mode</h3>
     </div>
-    <h3>Liste der abgeschlossenen Kurse</h3>
-    <h3 *ngIf="edit">Edit Mode</h3>
   </header>
   <mat-accordion class="course-headers-align" multi>
     <div *ngFor="let course of courses | async">
@@ -23,8 +23,8 @@
             <h3 *ngIf="expanded">{{ course.title }}</h3>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div fxLayout fxLayout.lt-sm="column" fxLayoutGap="20px">
-          <mat-card class="course-card" fxFlex>
+        <div fxLayout fxLayout.lt-md="column" fxLayoutGap="20px">
+          <mat-card class="course-card" fxFlex="1 1 100%">
             <mat-card-header>
               <div
                 mat-card-avatar
@@ -44,37 +44,34 @@
             />
           </mat-card>
 
-          <mat-card class="course-card" fxFlex>
-            <mat-card-header> </mat-card-header>
-            <mat-card-content>
-              <h1 *ngIf="edit">Id</h1>
-              <p *ngIf="edit">{{ course.id }}</p>
-              <h3>Kurzfassung</h3>
-              <p>{{ course.summary }}</p>
-              <h3>Kurs-Beschreibung</h3>
-              <p>{{ course.description }}</p>
-              <mat-card-content>
-                <h3>Kategorie und Topics</h3>
-                <p>{{ course.category }}</p>
-                <p>{{ course.topics }}</p>
-              </mat-card-content>
-              <h3>Source-Code und Testen der App</h3>
+          <div class="course-card" fxFlex="1 1 100%">
+            <h1 *ngIf="edit">Id</h1>
+            <p *ngIf="edit">{{ course.id }}</p>
+            <h3>Kurzfassung</h3>
+            <p>{{ course.summary }}</p>
+            <h3>Kurs-Beschreibung</h3>
+            <p>{{ course.description }}</p>
+          </div>
+          <div class="course-card" fxFlex="1 1 100%">
+            <h3>Kategorie und Topics</h3>
+            <p>{{ course.category }}</p>
+            <p>{{ course.topics }}</p>
+            <h3>Source-Code und Testen der App</h3>
+            <p>
+              Der Source-Code ist in <strong>GitHub</strong> eingecheckt und die
+              App ist bei <strong>{{ course.hosting }}</strong> gehostet.
+            </p>
+            <div *ngIf="course.credentials">
               <p>
-                Der Source-Code ist in <strong>GitHub</strong> eingecheckt und
-                die App ist bei <strong>{{ course.hosting }}</strong> gehostet.
+                Bei GitHub brauchen Sie sich nicht anmelden. Bei der App
+                verwenden Sie bitte folgende Credentials:
               </p>
-              <div *ngIf="course.credentials">
-                <p>
-                  Bei GitHub brauchen Sie sich nicht anmelden. Bei der App
-                  verwenden Sie bitte folgende Credentials:
-                </p>
-                <h5>
-                  <strong>User: </strong>{{ appUser }} und
-                  <strong>Kennwort:</strong> {{ appPassword }}
-                </h5>
-              </div>
-            </mat-card-content>
-            <mat-card-actions>
+              <h5>
+                <strong>User: </strong>{{ appUser }} und
+                <strong>Kennwort:</strong> {{ appPassword }}
+              </h5>
+            </div>
+            <div class="course-buttons">
               <button
                 mat-raised-button
                 color="primary"
@@ -91,8 +88,8 @@
               >
                 App starten
               </button>
-            </mat-card-actions>
-          </mat-card>
+            </div>
+          </div>
         </div>
       </mat-expansion-panel>
     </div>

@@ -7,13 +7,20 @@
   text-align: center;
 }
 
-.course-action-buttons {
-  padding-bottom: 20px;
+.course-header {
   margin-top: 20px;
 }
 
-.course-action-buttons button {
+.course-header button,
+.course-buttons button {
+  margin-bottom: 20px;
   margin-right: 10px;
+  width: 140px;
+}
+
+.course-buttons {
+  width: 350px;
+  margin: auto;
 }
 
 .title-highlight {
