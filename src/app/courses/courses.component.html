@@ -8,7 +8,6 @@
         alle zuklappen
       </button>
       <h3>Liste der abgeschlossenen Kurse</h3>
-      <h3 *ngIf="edit">Edit Mode</h3>
     </div>
   </header>
   <mat-accordion class="course-headers-align" multi>
@@ -17,11 +16,19 @@
         (afterExpand)="expanded = true"
         (afterCollapse)="expanded = false"
       >
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header class="">
           <mat-panel-title>
-            <p *ngIf="!expanded">{{ course.title }}</p>
-            <h3 *ngIf="expanded">{{ course.title }}</h3>
+            <p *ngIf="!expanded">
+              {{ course.title }}
+            </p>
+            <h3 *ngIf="expanded">
+              {{ course.title }}
+            </h3>
           </mat-panel-title>
+          <mat-panel-description *ngIf="!expanded">
+            {{ course.confirmationDate?.toDate() | date: 'dd.MM.yyyy' }},
+            {{ course.duration }} h
+          </mat-panel-description>
           <button *ngIf="edit" mat-icon-button (click)="editCourse(course.id)">
             <mat-icon>edit</mat-icon>
           </button>
@@ -62,7 +69,8 @@
             <h3>Source-Code und Testen der App</h3>
             <p>
               Der Source-Code ist in <strong>GitHub</strong> eingecheckt und die
-              App ist bei <strong>{{ course.hosting }}</strong> gehostet.
+              App ist bei
+              <strong>{{ course.hostingProvider }}</strong> gehostet.
             </p>
             <div *ngIf="course.credentials">
               <p>
