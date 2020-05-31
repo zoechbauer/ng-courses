@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value.loginAsAdmin);
+    // console.log(this.loginForm.value.loginAsAdmin);
     let login: AuthData;
     if (
       this.loginForm.value.loginAsAdmin &&

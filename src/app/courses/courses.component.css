@@ -52,12 +52,6 @@
   }
 }
 
-/*
-.course-headers-align .mat-expansion-panel-header-title,
-.course-headers-align .mat-expansion-panel-header-description {
-  flex-basis: 0;
-}
-*/
 .course-headers-align .mat-expansion-panel-header-title {
   flex-basis: 70%;
 }
@@ -66,6 +60,5 @@
 }
 
 .course-headers-align .mat-expansion-panel-header-description {
-  justify-content: space-between;
   align-items: top;
 }

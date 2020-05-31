@@ -13,7 +13,6 @@ export class CourseDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      console.log(params);
       this.courseId = params.id;
     });
   }

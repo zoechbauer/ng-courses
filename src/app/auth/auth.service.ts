@@ -24,7 +24,7 @@ export class AuthService {
     this.afAuth
       .signInWithEmailAndPassword(login.email, login.password)
       .then((user) => {
-        console.log('Login af', user);
+        // console.log('Login af', user);
         this.setUserType(login.email);
         this.router.navigate(['/courses']);
       })
@@ -40,7 +40,7 @@ export class AuthService {
     this.afAuth
       .signOut()
       .then((res) => {
-        console.log('logout af', res);
+        // console.log('logout af', res);
         this.setUserType(null);
         this.router.navigate(['/']);
         this.snackBar.open('Sie wurden abgemeldet', null, {
