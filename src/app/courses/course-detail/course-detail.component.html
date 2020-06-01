@@ -1,1 +1,216 @@
-<p>TODO Kursdaten ändern für id {{ courseId }}</p>
+<section class="course-detail">
+  <header class="header">
+    <h1>Kurs ändern</h1>
+    <h4>{{ courseForm.get('title').value }}</h4>
+    <h5>Id: {{ courseId }}</h5>
+  </header>
+  <form [formGroup]="courseForm" (submit)="onSubmit()">
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
+      <div fxFlex="1 1 100%">
+        <mat-card class="school-data">
+          <mat-card-header fxLayoutAlign="flex-left">
+            <mat-card-title>
+              <h3>Daten des Veranstalters</h3>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field>
+              <mat-label>Schule</mat-label>
+              <input formControlName="school" matInput placeholder="Schule" />
+              <mat-error *ngIf="courseForm.get('school').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Titel</mat-label>
+              <input
+                formControlName="title"
+                matInput
+                placeholder="Kurs Titel"
+              />
+              <mat-error *ngIf="courseForm.get('title').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Kurs-Leiter</mat-label>
+              <input formControlName="teacher" matInput />
+              <mat-error *ngIf="courseForm.get('teacher').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Kurs-Dauer in Std</mat-label>
+              <input formControlName="duration" matInput />
+              <mat-error *ngIf="courseForm.get('duration').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+              <mat-error *ngIf="courseForm.get('duration').hasError('pattern')"
+                >Nur Zahlen zwischen 0 und 99 mit 1 Dezimale sind
+                erlaubt!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Kurs-Bestätigung</mat-label>
+              <input formControlName="certificateName" matInput />
+              <mat-error
+                *ngIf="courseForm.get('certificateName').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Datum Kurs-Bestätigung</mat-label>
+              <input formControlName="confirmationDate" matInput />
+              <mat-error
+                *ngIf="courseForm.get('confirmationDate').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex="1 1 100%">
+        <mat-card class="course-data">
+          <mat-card-header>
+            <mat-card-title>
+              <h3>Daten des Kurses</h3>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field>
+              <mat-label>Kurzfassung</mat-label>
+              <textarea
+                formControlName="summary"
+                matInput
+                placeholder="Kurzfassung"
+                cols="60"
+                rows="5"
+              >
+              </textarea>
+              <mat-error *ngIf="courseForm.get('summary').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Kurs-Beschreibung</mat-label>
+              <textarea
+                formControlName="description"
+                matInput
+                cols="70"
+                rows="20"
+              >
+              </textarea>
+              <mat-error
+                *ngIf="courseForm.get('description').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Web-Kategorie</mat-label>
+              <input formControlName="category" matInput />
+              <mat-error *ngIf="courseForm.get('category').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Topics</mat-label>
+              <input formControlName="topics" matInput />
+              <mat-error *ngIf="courseForm.get('topics').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex="1 1 100%">
+        <mat-card class="app-data">
+          <mat-card-header fxLayoutAlign="left">
+            <mat-card-title>
+              <h3>Daten der App</h3>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field>
+              <mat-label>Link zu Source</mat-label>
+              <input
+                formControlName="githubUrl"
+                matInput
+                placeholder="GitHub Url"
+              />
+              <mat-error
+                *ngIf="courseForm.get('githubUrl').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <button
+              type="button"
+              mat-button
+              color="primary"
+              (click)="runUrl(courseForm.get('githubUrl').value)"
+              [disabled]="!courseForm.get('githubUrl').value"
+            >
+              Link testen
+            </button>
+            <mat-form-field>
+              <mat-label>Link zur App</mat-label>
+              <input
+                formControlName="hostedUrl"
+                matInput
+                placeholder="hosted Url"
+              />
+              <mat-error
+                *ngIf="courseForm.get('hostedUrl').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <button
+              type="button"
+              mat-button
+              color="primary"
+              (click)="runUrl(courseForm.get('hostedUrl').value)"
+              [disabled]="!courseForm.get('hostedUrl').value"
+            >
+              Link testen
+            </button>
+            <mat-form-field>
+              <mat-label>Hosting Provider</mat-label>
+              <input formControlName="hostingProvider" matInput />
+              <mat-error
+                *ngIf="courseForm.get('hostingProvider').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Credentials notwendig?</mat-label>
+              <input formControlName="hasCredentials" matInput />
+              <mat-error
+                *ngIf="courseForm.get('hasCredentials').hasError('required')"
+                >Daten fehlen!</mat-error
+              >
+            </mat-form-field>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="course-buttons">
+              <button
+                type="submit"
+                mat-raised-button
+                color="primary"
+                [disabled]="courseForm.invalid"
+              >
+                Speichern
+              </button>
+              <button
+                type="button"
+                mat-raised-button
+                color="accent"
+                (click)="onCancel()"
+              >
+                Abbrechen
+              </button>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</section>

@@ -44,11 +44,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
     this.edit = this.router.url.includes('/courses/edit') ? true : false;
   }
 
-  // getAppCredentials() {
-  //   this.appUser = environment.course_apps.login;
-  //   this.appPassword = environment.course_apps.password;
-  // }
-
   runUrl(url: string) {
     window.open(url, '_blank');
   }

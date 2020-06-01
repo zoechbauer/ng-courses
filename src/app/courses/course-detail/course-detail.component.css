@@ -1,0 +1,23 @@
+.course-detail {
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+}
+
+.school-data,
+.course-data,
+.app-data {
+  max-width: 550px;
+  margin: auto;
+}
+
+.mat-card-title {
+  text-align: center;
+}
+
+mat-form-field {
+  margin-right: 15px;
+  width: 100%;
+}
