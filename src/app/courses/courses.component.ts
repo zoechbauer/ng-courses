@@ -5,7 +5,7 @@ import { MatAccordion } from '@angular/material/expansion';
 
 import { environment } from 'src/environments/environment';
 import { Course } from './course.model';
-import { CourseService, AppCredentials } from './course.service';
+import { CourseService, IAppCredentials } from './course.service';
 
 @Component({
   selector: 'app-courses',
@@ -20,7 +20,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   edit = false;
   appUser: string;
   appPassword: string;
-  appCredentials: AppCredentials;
+  appCredentials: IAppCredentials;
 
   // TODO store certificate on firestore
   // at the moment certificate images are stored in assets/images folder with name defined in firestore

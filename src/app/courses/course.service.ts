@@ -17,7 +17,7 @@ import {
   topicsSelectOptions,
 } from './course-filter.model';
 
-export interface AppCredentials {
+export interface IAppCredentials {
   appUser: string;
   appPassword: string;
 }
@@ -45,7 +45,7 @@ export class CourseService {
   }
 
   // this credentials are used in all course apps
-  getAppCredentials(): AppCredentials {
+  getAppCredentials(): IAppCredentials {
     return {
       appUser: environment.course_apps.login,
       appPassword: environment.course_apps.password,
