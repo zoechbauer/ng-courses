@@ -16,7 +16,18 @@
           <mat-card-content>
             <mat-form-field>
               <mat-label>Schule</mat-label>
-              <input formControlName="school" matInput placeholder="Schule" />
+              <mat-select
+                formControlName="school"
+                matInput
+                placeholder="Schule"
+              >
+                <mat-option
+                  *ngFor="let opt of courseService.schoolSelectOptions"
+                  [value]="opt.value"
+                >
+                  {{ opt.name }}
+                </mat-option>
+              </mat-select>
               <mat-error *ngIf="courseForm.get('school').hasError('required')"
                 >Daten fehlen!</mat-error
               >
@@ -34,9 +45,19 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Kurs-Leiter</mat-label>
-              <input formControlName="teacher" matInput />
+              <mat-select
+                formControlName="teacher"
+                matInput
+                placeholder="bitte wählen Sie aus ..."
+              >
+                <mat-option
+                  *ngFor="let opt of courseService.teacherSelectOptions"
+                  [value]="opt.value"
+                  >{{ opt.name }}</mat-option
+                >
+              </mat-select>
               <mat-error *ngIf="courseForm.get('teacher').hasError('required')"
-                >Daten fehlen!</mat-error
+                >Bitte wählen Sie aus</mat-error
               >
             </mat-form-field>
             <mat-form-field>
@@ -107,14 +128,28 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Web-Kategorie</mat-label>
-              <input formControlName="category" matInput />
+              <mat-select formControlName="category" matInput>
+                <mat-option
+                  *ngFor="let opt of courseService.categorySelectOptions"
+                  [value]="opt.value"
+                  >{{ opt.name }}</mat-option
+                >
+              </mat-select>
               <mat-error *ngIf="courseForm.get('category').hasError('required')"
                 >Daten fehlen!</mat-error
               >
             </mat-form-field>
             <mat-form-field>
               <mat-label>Topics</mat-label>
-              <input formControlName="topics" matInput />
+              <mat-select formControlName="topics" matInput multiple>
+                <mat-option
+                  *ngFor="let opt of courseService.topicsSelectOptons"
+                  [value]="opt.value"
+                >
+                  {{ opt.name }}
+                </mat-option>
+              </mat-select>
+              <mat-hint>Mehrachauswahl</mat-hint>
               <mat-error *ngIf="courseForm.get('topics').hasError('required')"
                 >Daten fehlen!</mat-error
               >
@@ -180,14 +215,9 @@
                 >Daten fehlen!</mat-error
               >
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Credentials notwendig?</mat-label>
-              <input formControlName="hasCredentials" matInput />
-              <mat-error
-                *ngIf="courseForm.get('hasCredentials').hasError('required')"
-                >Daten fehlen!</mat-error
-              >
-            </mat-form-field>
+            <mat-checkbox formControlName="hasCredentials"
+              >Credentials notwendig?</mat-checkbox
+            >
           </mat-card-content>
           <mat-card-actions>
             <div class="course-buttons">

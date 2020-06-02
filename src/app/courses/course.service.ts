@@ -9,6 +9,13 @@ import { Router } from '@angular/router';
 
 import { Course } from './course.model';
 import { environment } from 'src/environments/environment';
+import {
+  ISelectOptions,
+  schoolSelectOptions,
+  teacherSelectOptions,
+  categorySelectOptions,
+  topicsSelectOptions,
+} from './course-filter.model';
 
 export interface AppCredentials {
   appUser: string;
@@ -23,7 +30,19 @@ export class CourseService {
   private courseDoc: AngularFirestoreDocument<any>;
   private course: Observable<any>;
 
+  schoolSelectOptions: ISelectOptions[];
+  teacherSelectOptions: ISelectOptions[];
+  categorySelectOptions: ISelectOptions[];
+  topicsSelectOptons: ISelectOptions[];
+
   constructor(private afs: AngularFirestore, private router: Router) {}
+
+  getAllFilterOptions() {
+    this.schoolSelectOptions = schoolSelectOptions;
+    this.teacherSelectOptions = teacherSelectOptions;
+    this.categorySelectOptions = categorySelectOptions;
+    this.topicsSelectOptons = topicsSelectOptions;
+  }
 
   // this credentials are used in all course apps
   getAppCredentials(): AppCredentials {

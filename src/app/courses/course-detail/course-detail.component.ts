@@ -20,10 +20,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private courseService: CourseService
+    public courseService: CourseService
   ) {}
 
   ngOnInit(): void {
+    this.courseService.getAllFilterOptions();
     this.route.params.subscribe((params) => {
       this.courseId = params.id;
     });
@@ -61,9 +62,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         hostingProvider: new FormControl(this.course.hostingProvider, [
           Validators.required,
         ]),
-        hasCredentials: new FormControl(this.course.hasCredentials, [
-          Validators.required,
-        ]),
+        hasCredentials: new FormControl(this.course.hasCredentials),
       });
     });
   }

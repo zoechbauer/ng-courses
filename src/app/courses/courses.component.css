@@ -37,6 +37,10 @@
   text-align: justify;
 }
 
+.course-card h3 {
+  font-weight: 550;
+}
+
 .certificate {
   background-size: cover;
 }
