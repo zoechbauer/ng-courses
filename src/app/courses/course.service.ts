@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { Course } from './course.model';
 import { environment } from 'src/environments/environment';
@@ -15,8 +19,11 @@ export interface AppCredentials {
 export class CourseService {
   firebaseData: Observable<any>;
   coursesChanged = new Subject<Course[]>();
+  courseRead = new Subject<Course>();
+  private courseDoc: AngularFirestoreDocument<any>;
+  private course: Observable<any>;
 
-  constructor(private afs: AngularFirestore) {}
+  constructor(private afs: AngularFirestore, private router: Router) {}
 
   // this credentials are used in all course apps
   getAppCredentials(): AppCredentials {
@@ -24,6 +31,41 @@ export class CourseService {
       appUser: environment.course_apps.login,
       appPassword: environment.course_apps.password,
     };
+  }
+
+  // read course data for editing
+  getCourse(id: string) {
+    this.courseDoc = this.afs.doc('courses/' + id);
+    this.course = this.courseDoc.valueChanges();
+    this.course
+      .pipe(
+        map((doc) => {
+          return {
+            ...doc,
+            confirmationDate: doc['confirmationDate'].toDate(),
+          };
+        }),
+        take(1)
+      )
+      .subscribe((course) => {
+        console.log('getCourse', course);
+        this.courseRead.next(course);
+      });
+  }
+
+  // store changed course data
+  // TODO snackbar notification
+  updateCourse(course: Course) {
+    // course.confirmationDate = new Date();
+    console.log('updateCourse', course);
+    this.afs
+      .doc('courses/' + course.id)
+      .update(course)
+      .then((res) => {
+        console.log('Course updated', res);
+        this.router.navigate(['/courses/edit']);
+      })
+      .catch((err) => console.log('Error Update Course', err));
   }
 
   getCourses(isEditMode: boolean) {
