@@ -52,6 +52,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/courses/edit']);
   }
 
+  onNewCourse() {
+    this.router.navigate(['/courses/new']);
+  }
+
   ngOnDestroy() {
     this.authSub.unsubscribe();
   }

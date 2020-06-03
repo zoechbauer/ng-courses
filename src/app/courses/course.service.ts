@@ -67,7 +67,6 @@ export class CourseService {
         take(1)
       )
       .subscribe((course) => {
-        console.log('getCourse', course);
         this.courseRead.next(course);
       });
   }
@@ -75,8 +74,6 @@ export class CourseService {
   // store changed course data
   // TODO snackbar notification
   updateCourse(course: Course) {
-    // course.confirmationDate = new Date();
-    console.log('updateCourse', course);
     this.afs
       .doc('courses/' + course.id)
       .update(course)
@@ -85,6 +82,20 @@ export class CourseService {
         this.router.navigate(['/courses/edit']);
       })
       .catch((err) => console.log('Error Update Course', err));
+  }
+
+  // store new course data
+  // TODO snackbar notification
+  addCourse(course: Course) {
+    course.id = null;
+    this.afs
+      .collection('courses')
+      .add(course)
+      .then((_) => {
+        console.log('Course added');
+        this.router.navigate(['/courses/edit']);
+      })
+      .catch((err) => console.log('Error Adding Course', err));
   }
 
   getCourses(isEditMode: boolean) {
@@ -116,8 +127,8 @@ export class CourseService {
             return docArray.map((doc) => {
               // console.log('doc', doc);
               return {
-                id: doc.payload.doc.id,
                 ...(doc.payload.doc.data() as {}),
+                id: doc.payload.doc.id,
                 confirmationDate: doc.payload.doc
                   .data()
                   ['confirmationDate'].toDate(),

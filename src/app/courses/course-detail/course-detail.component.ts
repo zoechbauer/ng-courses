@@ -16,6 +16,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   course: Course;
   courseSub: Subscription;
   courseForm: FormGroup;
+  isNewCourse = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,44 +27,49 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.courseService.getAllFilterOptions();
     this.route.params.subscribe((params) => {
-      this.courseId = params.id;
+      if (params.id === undefined) {
+        this.isNewCourse = true;
+        this.course = new Course();
+        this.initForm();
+      } else {
+        this.courseId = params.id;
+        this.courseService.getCourse(this.courseId);
+        this.courseSub = this.courseService.courseRead.subscribe((course) => {
+          this.course = course;
+          this.initForm();
+        });
+      }
     });
-    this.courseService.getCourse(this.courseId);
-    this.courseSub = this.courseService.courseRead.subscribe((course) => {
-      this.course = course;
+  }
 
-      this.courseForm = new FormGroup({
-        id: new FormControl(this.course.id),
-        title: new FormControl(this.course.title, [Validators.required]),
-        school: new FormControl(this.course.school, [Validators.required]),
-        duration: new FormControl(this.course.duration, [
-          Validators.required,
-          Validators.pattern(/^\d{1,2}(\.\d)?$/), // 0-99.9
-        ]),
-        teacher: new FormControl(this.course.teacher, [Validators.required]),
-        confirmationDate: new FormControl(this.course.confirmationDate, [
-          Validators.required,
-        ]),
-        certificateName: new FormControl(this.course.certificateName, [
-          Validators.required,
-        ]),
-        summary: new FormControl(this.course.summary, [Validators.required]),
-        description: new FormControl(this.course.description, [
-          Validators.required,
-        ]),
-        category: new FormControl(this.course.category, [Validators.required]),
-        topics: new FormControl(this.course.topics, [Validators.required]),
-        githubUrl: new FormControl(this.course.githubUrl, [
-          Validators.required,
-        ]),
-        hostedUrl: new FormControl(this.course.hostedUrl, [
-          Validators.required,
-        ]),
-        hostingProvider: new FormControl(this.course.hostingProvider, [
-          Validators.required,
-        ]),
-        hasCredentials: new FormControl(this.course.hasCredentials),
-      });
+  initForm() {
+    this.courseForm = new FormGroup({
+      id: new FormControl(this.courseId),
+      title: new FormControl(this.course.title, [Validators.required]),
+      school: new FormControl(this.course.school, [Validators.required]),
+      duration: new FormControl(this.course.duration, [
+        Validators.required,
+        Validators.pattern(/^\d{1,2}(\.\d)?$/), // 0-99.9
+      ]),
+      teacher: new FormControl(this.course.teacher, [Validators.required]),
+      confirmationDate: new FormControl(this.course.confirmationDate, [
+        Validators.required,
+      ]),
+      certificateName: new FormControl(this.course.certificateName, [
+        Validators.required,
+      ]),
+      summary: new FormControl(this.course.summary, [Validators.required]),
+      description: new FormControl(this.course.description, [
+        Validators.required,
+      ]),
+      category: new FormControl(this.course.category, [Validators.required]),
+      topics: new FormControl(this.course.topics, [Validators.required]),
+      githubUrl: new FormControl(this.course.githubUrl, [Validators.required]),
+      hostedUrl: new FormControl(this.course.hostedUrl, [Validators.required]),
+      hostingProvider: new FormControl(this.course.hostingProvider, [
+        Validators.required,
+      ]),
+      hasCredentials: new FormControl(this.course.hasCredentials),
     });
   }
 
@@ -77,10 +83,16 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.course = { ...this.courseForm.value, id: this.courseId };
-    this.courseService.updateCourse(this.course);
+    if (this.isNewCourse) {
+      this.courseService.addCourse(this.course);
+    } else {
+      this.courseService.updateCourse(this.course);
+    }
   }
 
   ngOnDestroy() {
-    this.courseSub.unsubscribe();
+    if (this.courseSub) {
+      this.courseSub.unsubscribe();
+    }
   }
 }

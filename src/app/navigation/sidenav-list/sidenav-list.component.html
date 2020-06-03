@@ -26,7 +26,19 @@
     (click)="onClose()"
   >
     <mat-icon [class.disabled]="!isAdmin">thumb_up</mat-icon>
-    <span class="nav-caption" [class.disabled]="!isAdmin">Kurse verwalten</span>
+    <span class="nav-caption" [class.disabled]="!isAdmin"
+      >Kurse bearbeiten</span
+    >
+  </a>
+
+  <a
+    mat-list-item
+    routerLink="/courses/new"
+    [disabled]="!isAdmin"
+    (click)="onClose()"
+  >
+    <mat-icon [class.disabled]="!isAdmin">thumb_up</mat-icon>
+    <span class="nav-caption" [class.disabled]="!isAdmin">Neuer Kurs</span>
   </a>
 
   <a mat-list-item routerLink="/todos" (click)="onClose()">
