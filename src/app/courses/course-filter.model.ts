@@ -54,3 +54,10 @@ export const topicsSelectOptions: ISelectOptions[] = [
   { name: 'C#', value: 'csharp' },
   { name: '.NET Core', value: 'dotnetcore' },
 ].sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
+
+export const providerSelectOptions: ISelectOptions[] = [
+  { name: 'Azure', value: 'azure' },
+  { name: 'Firebase', value: 'firebase' },
+  { name: 'Heroku', value: 'heroku' },
+  { name: 'Netlify', value: 'netlify' },
+].sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));

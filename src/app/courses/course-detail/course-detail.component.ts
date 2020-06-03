@@ -17,6 +17,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   courseSub: Subscription;
   courseForm: FormGroup;
   isNewCourse = false;
+  actionHeader: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,9 +31,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       if (params.id === undefined) {
         this.isNewCourse = true;
         this.course = new Course();
+        this.actionHeader = 'Neuen Kurs erfassen';
         this.initForm();
       } else {
         this.courseId = params.id;
+        this.actionHeader = 'Kurs ändern';
         this.courseService.getCourse(this.courseId);
         this.courseSub = this.courseService.courseRead.subscribe((course) => {
           this.course = course;

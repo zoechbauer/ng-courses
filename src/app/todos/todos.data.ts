@@ -205,4 +205,11 @@ export const todoList: Todos[] = [
     type: 'neu',
     status: 'offen',
   },
+  {
+    id: 30,
+    todo: 'User/Password je App in DB speichern, da Abweichung',
+    category: 'Kurse verwalten',
+    type: 'neu',
+    status: 'offen',
+  },
 ];

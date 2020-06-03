@@ -26,7 +26,7 @@ table.mat-table {
 }
 
 .mat-column-todo {
-  word-break: break-word !important;
+  word-break: break-word;
 }
 
 @media only screen and (max-width: 600px) {

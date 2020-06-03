@@ -15,6 +15,7 @@ import {
   teacherSelectOptions,
   categorySelectOptions,
   topicsSelectOptions,
+  providerSelectOptions,
 } from './course-filter.model';
 
 export interface IAppCredentials {
@@ -34,6 +35,7 @@ export class CourseService {
   teacherSelectOptions: ISelectOptions[];
   categorySelectOptions: ISelectOptions[];
   topicsSelectOptons: ISelectOptions[];
+  providerSelectOptions: ISelectOptions[];
 
   constructor(private afs: AngularFirestore, private router: Router) {}
 
@@ -42,6 +44,7 @@ export class CourseService {
     this.teacherSelectOptions = teacherSelectOptions;
     this.categorySelectOptions = categorySelectOptions;
     this.topicsSelectOptons = topicsSelectOptions;
+    this.providerSelectOptions = providerSelectOptions;
   }
 
   // this credentials are used in all course apps

@@ -1,8 +1,8 @@
 <section class="course-detail" *ngIf="course">
   <header class="header">
-    <h1>Kurs ändern</h1>
+    <h1>{{ actionHeader }}</h1>
     <h4>{{ courseForm.get('title').value }}</h4>
-    <h5>Id: {{ courseId }}</h5>
+    <h5 *ngIf="!isNewCourse">Id: {{ courseId }}</h5>
   </header>
   <form [formGroup]="courseForm" (submit)="onSubmit()">
     <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px">
@@ -209,7 +209,14 @@
             </button>
             <mat-form-field>
               <mat-label>Hosting Provider</mat-label>
-              <input formControlName="hostingProvider" matInput />
+              <mat-select formControlName="hostingProvider" matInput>
+                <mat-option
+                  *ngFor="let opt of courseService.providerSelectOptions"
+                  [value]="opt.value"
+                >
+                  {{ opt.name }}
+                </mat-option>
+              </mat-select>
               <mat-error
                 *ngIf="courseForm.get('hostingProvider').hasError('required')"
                 >Daten fehlen!</mat-error
