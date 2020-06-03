@@ -19,6 +19,7 @@ import { environment } from 'src/environments/environment';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { TodosComponent } from './todos/todos.component';
+import { CourseDeleteDialogComponent } from './courses/course-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { TodosComponent } from './todos/todos.component';
     HeaderComponent,
     SidenavListComponent,
     TodosComponent,
+    CourseDeleteDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -101,6 +101,19 @@ export class CourseService {
       .catch((err) => console.log('Error Adding Course', err));
   }
 
+  // store changed course data
+  // TODO snackbar notification
+  deleteCourse(id: string) {
+    this.afs
+      .doc('courses/' + id)
+      .delete()
+      .then((res) => {
+        console.log('Course deleted', res);
+        this.router.navigate(['/courses/edit']);
+      })
+      .catch((err) => console.log('Error on deleting Course', err));
+  }
+
   getCourses(isEditMode: boolean) {
     if (!isEditMode) {
       // read valueChanges - no metadata

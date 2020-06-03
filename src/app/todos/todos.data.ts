@@ -76,7 +76,7 @@ export const todoList: Todos[] = [
     todo: 'Datenmodell in app und firebase erstellen',
     category: 'Kurse',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 12,
@@ -174,14 +174,14 @@ export const todoList: Todos[] = [
     todo: 'Temp.Solution: hardcodierte Filterarrays - später Speichern in DB',
     category: 'Kurse verwalten',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 26,
     todo: 'Kurs löschen',
     category: 'Kurse verwalten',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 27,
@@ -211,5 +211,19 @@ export const todoList: Todos[] = [
     category: 'Kurse verwalten',
     type: 'neu',
     status: 'offen',
+  },
+  {
+    id: 31,
+    todo: 'Datumscontrol verwenden ',
+    category: 'Kurse verwalten',
+    type: 'neu',
+    status: 'aktiv',
+  },
+  {
+    id: 32,
+    todo: 'Status-Informationen mittels Snackbar anzeigen',
+    category: 'Kurse verwalten',
+    type: 'neu',
+    status: 'aktiv',
   },
 ];

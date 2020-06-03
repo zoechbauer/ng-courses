@@ -236,13 +236,16 @@
               >
                 Speichern
               </button>
+              <button type="button" mat-raised-button (click)="onCancel()">
+                Abbrechen
+              </button>
               <button
                 type="button"
                 mat-raised-button
                 color="accent"
-                (click)="onCancel()"
+                (click)="onDelete()"
               >
-                Abbrechen
+                Löschen
               </button>
             </div>
           </mat-card-actions>

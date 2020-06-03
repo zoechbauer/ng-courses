@@ -2,9 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 import { CourseService } from '../course.service';
 import { Course } from '../course.model';
+import { CourseDeleteDialogComponent } from '../course-delete-dialog.component';
 
 @Component({
   selector: 'app-course-detail',
@@ -22,7 +24,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public courseService: CourseService
+    public courseService: CourseService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +94,15 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     } else {
       this.courseService.updateCourse(this.course);
     }
+  }
+
+  onDelete() {
+    const dialogRef = this.dialog.open(CourseDeleteDialogComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.courseService.deleteCourse(this.courseId);
+      }
+    });
   }
 
   ngOnDestroy() {
