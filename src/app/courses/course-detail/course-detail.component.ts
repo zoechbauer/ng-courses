@@ -88,7 +88,12 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.course = { ...this.courseForm.value, id: this.courseId };
+    console.log('form', this.courseForm.value);
+    this.course = {
+      ...this.courseForm.value,
+      id: this.courseId,
+      confirmationDate: this.courseForm.value.confirmationDate.toDate(),
+    };
     if (this.isNewCourse) {
       this.courseService.addCourse(this.course);
     } else {

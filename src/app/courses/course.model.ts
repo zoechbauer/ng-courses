@@ -20,13 +20,12 @@ export class Course {
 
   constructor() {
     this.id = 'new';
-    this.confirmationDate = new Date();
-
     this.title = '';
     this.school = '';
     this.duration = 0;
     this.teacher = '';
     this.certificateName = '';
+    this.confirmationDate = null;
     this.summary = '';
     this.description = '';
     this.category = '';

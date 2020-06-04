@@ -226,4 +226,11 @@ export const todoList: Todos[] = [
     type: 'neu',
     status: 'aktiv',
   },
+  {
+    id: 33,
+    todo: 'Header: sticky und 2zeilig',
+    category: 'Framework',
+    type: 'neu',
+    status: 'offen',
+  },
 ];
