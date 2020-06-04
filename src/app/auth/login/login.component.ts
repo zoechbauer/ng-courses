@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       password: new FormControl('display#courses', {
         validators: [Validators.required, Validators.minLength(7)],
       }),
-      loginAsAdmin: new FormControl(),
+      loginAsAdmin: new FormControl('checked'),
     });
 
     // show checkbox for automatic admin login if defined in settings
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.loginForm.value.loginAsAdmin);
+    // console.log(this.loginForm.value.loginAsAdmin);
     let login: AuthData;
     if (
       this.loginForm.value.loginAsAdmin &&

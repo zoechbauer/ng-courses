@@ -15,6 +15,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 const MaterialModules = [
   MatButtonModule,
@@ -33,6 +37,10 @@ const MaterialModules = [
   MatCheckboxModule,
   MatExpansionModule,
   MatCardModule,
+  MatSelectModule,
+  MatDialogModule,
+  MatDatepickerModule,
+  MatMomentDateModule,
 ];
 
 @NgModule({

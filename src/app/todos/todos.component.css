@@ -2,6 +2,10 @@ table {
   width: 100%;
 }
 
+table.mat-table {
+  border-spacing: 2px;
+}
+
 .todos-page {
   max-width: 800px;
   margin: 20px auto;
@@ -19,6 +23,10 @@ table {
 .status {
   max-width: 350px;
   margin: auto;
+}
+
+.mat-column-todo {
+  word-break: break-word;
 }
 
 @media only screen and (max-width: 600px) {

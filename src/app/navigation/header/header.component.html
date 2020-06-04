@@ -28,7 +28,10 @@
             [disabled]="!isAdmin"
             (click)="onManageCourses()"
           >
-            Kurse verwalten
+            Kurse bearbeiten
+          </button>
+          <button mat-menu-item [disabled]="!isAdmin" (click)="onNewCourse()">
+            neuer Kurs
           </button>
         </mat-menu>
       </li>

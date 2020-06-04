@@ -7,6 +7,16 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+// import {
+//   MAT_MOMENT_DATE_FORMATS,
+//   MomentDateAdapter,
+//   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+// } from '@angular/material-moment-adapter';
+import {
+  // DateAdapter,
+  // MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +29,7 @@ import { environment } from 'src/environments/environment';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { TodosComponent } from './todos/todos.component';
+import { CourseDeleteDialogComponent } from './courses/course-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +41,7 @@ import { TodosComponent } from './todos/todos.component';
     HeaderComponent,
     SidenavListComponent,
     TodosComponent,
+    CourseDeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +55,15 @@ import { TodosComponent } from './todos/todos.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'de-AT' },
+    // {
+    //   provide: DateAdapter,
+    //   useClass: MomentDateAdapter,
+    //   deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    // },
+    // { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
