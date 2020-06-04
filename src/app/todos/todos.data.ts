@@ -217,7 +217,7 @@ export const todoList: Todos[] = [
     todo: 'Datumscontrol verwenden ',
     category: 'Kurse verwalten',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 32,

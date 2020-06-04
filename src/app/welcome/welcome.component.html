@@ -23,9 +23,9 @@
           Angular/Fire)
         </li>
         <li>
-          Abrufen der Kursdaten und anzeigen als angemeldeteter User mit
+          Abrufen und Anzeigen der Kursdaten als angemeldeteter User mit
           öffentlichen Credentials. Dadurch kann durch PW-Änderung das Abrufen
-          gesperrt werden
+          gesperrt werden.
           <ul>
             <li>Darstellung als mat-table mit Filter- und Suchfunktion</li>
             <li>Detail-Informationen des ausgewählten Kurses anzeigen</li>
@@ -36,6 +36,12 @@
         <li>
           Anzeigen allgemeiner Infos ohne Login, zB. Todo-Liste mit statischen,
           d.h. hardcodierten Aktvitäten
+        </li>
+        <li>
+          Anmelden als Test-Admin, damit auch das Verwalten der Kursdaten
+          gezeigt werden kann.<br />
+          Bei Test-Admin arbeitet man in einer eigenen Test-Collection von
+          Firebase, damit die echten Kursdaten nicht geändert werden.
         </li>
       </ul>
     </section>
@@ -61,6 +67,9 @@
               Wie wurden die Projekte technisch umgesetzt ==> Verzweigen zum
               GitHub Repository
             </li>
+            <li>
+              Wie wurde das Schulungswissen umgesetzt ==> diese App.
+            </li>
           </ul>
         </li>
       </ol>
@@ -68,20 +77,14 @@
     <section fxFlex>
       <h2 class="welcome">Design Überlegungen</h2>
       <p>Tabellen-Form mit Filter und Sortier-Funktion nur bei Todo-Liste.</p>
-      <div>
-        Die Projekte werden mittels mat-card angezeigt, da man hier als Bild
-        einen Screenshot der App anzeigen kann. Alle Projekte durchscrollen (<
-        10).
-        <ul>
-          <li>Bilder-Gallery</li>
-          <li>je Bild eine kurze Bescheibung</li>
-          <li>
-            Vorteil: man erhält einen Überblick was die App macht. <br />Kurze
-            Anleitung wird für die Benutzung der App benötigt, sonst wird sie
-            nicht aufgerufen.
-          </li>
-        </ul>
-      </div>
+      <p>
+        Die Projekte werden mittels Expansion-Panel und Card angezeigt
+      </p>
+      <p>
+        Alle möglichen Funktionen sind mittels Button und Menü auswählbar und
+        werden angezeigt, wobei die Admin-Funktionen bei der Anmeldung als User
+        disabled sind.
+      </p>
     </section>
   </div>
   <footer class="footer">
