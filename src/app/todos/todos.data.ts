@@ -261,4 +261,27 @@ export const todoList: Todos[] = [
     type: 'neu',
     status: 'aktiv',
   },
+  {
+    id: 38,
+    todo:
+      'Alle Repos von zoe anzeigen mit wichtigsten Infos, zB $ curl -i https://api.github.com/users/zoechbauer/repos',
+    category: 'Github-api',
+    type: 'neu',
+    status: 'offen',
+  },
+  {
+    id: 39,
+    todo:
+      'Github Detailinfos zu best. Repo anzeigen zB. Zeitraum von-bis, zB. curl -i https://api.github.com/repos/zoechbauer/ng-courses',
+    category: 'Github-api',
+    type: 'neu',
+    status: 'offen',
+  },
+  {
+    id: 40,
+    todo: 'Eigener Menüpunkt mit Untermenüs für autom. Github-Auswertungen',
+    category: 'Github-api',
+    type: 'neu',
+    status: 'offen',
+  },
 ];
