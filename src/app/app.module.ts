@@ -17,6 +17,7 @@ import {
   // MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,6 +55,7 @@ import { CourseDeleteDialogComponent } from './courses/course-delete-dialog.comp
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
+    NgxDropzoneModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'de-AT' },

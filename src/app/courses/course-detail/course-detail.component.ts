@@ -20,6 +20,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   courseForm: FormGroup;
   isNewCourse = false;
   actionHeader: string;
+  files: File[] = [];
+  selectedFileName: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,9 +63,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       confirmationDate: new FormControl(this.course.confirmationDate, [
         Validators.required,
       ]),
-      certificateName: new FormControl(this.course.certificateName, [
-        Validators.required,
-      ]),
+      certificateName: new FormControl(
+        { value: this.course.certificateName, disabled: true },
+        [Validators.required]
+      ),
       summary: new FormControl(this.course.summary, [Validators.required]),
       description: new FormControl(this.course.description, [
         Validators.required,
@@ -89,11 +92,23 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log('form', this.courseForm.value);
+    console.log(
+      'certificateName',
+      this.courseForm.get('certificateName').value
+    );
+    console.log(
+      'confirmationDate',
+      this.courseForm.get('confirmationDate').value
+    );
     this.course = {
       ...this.courseForm.value,
       id: this.courseId,
-      confirmationDate: this.courseForm.value.confirmationDate.toDate(),
+      // field is disabled and therefore not in courseForm
+      certificateName: this.courseForm.get('certificateName').value,
+      // courseForm contains moment date for date
+      confirmationDate: this.courseForm.get('confirmationDate').value,
     };
+    console.log('course', this.course);
     if (this.isNewCourse) {
       this.courseService.addCourse(this.course);
     } else {
@@ -108,6 +123,27 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         this.courseService.deleteCourse(this.courseId);
       }
     });
+  }
+
+  onSelect(event) {
+    // store only 1 image, so clear array
+    this.files = [];
+    console.log(event);
+    this.files.push(...event.addedFiles);
+    this.selectedFileName = event.addedFiles[0].name;
+    this.courseForm.get('certificateName').setValue(this.selectedFileName);
+    const formData = new FormData();
+
+    for (var i = 0; i < this.files.length; i++) {
+      formData.append('file[]', this.files[i]);
+    }
+  }
+
+  onRemove(event) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+    this.selectedFileName = '';
+    this.courseForm.get('certificateName').setValue(this.selectedFileName);
   }
 
   ngOnDestroy() {
