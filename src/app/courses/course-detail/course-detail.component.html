@@ -73,16 +73,17 @@
             </mat-form-field>
             <mat-form-field>
               <mat-label>Kurs-Bestätigung</mat-label>
-              <input
-                formControlName="certificateName"
-                matInput
-                [disabled]="true"
-              />
-              <mat-error
-                *ngIf="courseForm.get('certificateName').hasError('required')"
-                >Daten fehlen!</mat-error
-              >
+              <input formControlName="certificateName" matInput />
             </mat-form-field>
+            <div class="container" *ngIf="downloadUrl; let url">
+              <div *ngIf="!downloadUrl">Bild wird geladen ...</div>
+              <img
+                mat-card-image
+                [src]="url"
+                alt="Kursbestätigungs-Image von AngularFireStorage"
+              />
+            </div>
+            `
             <ngx-dropzone (change)="onSelect($event)">
               <ngx-dropzone-label
                 >Bild reinziehen oder Click für Bildauswahl</ngx-dropzone-label
@@ -101,7 +102,8 @@
                 *ngFor="let f of files"
                 [file]="f"
               >
-                <!-- <ngx-dropzone-label
+                <!-- do not show label in image
+                  <ngx-dropzone-label
                   >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
                 > -->
               </ngx-dropzone-image-preview>

@@ -3,6 +3,10 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
+import {
+  AngularFireStorage,
+  AngularFireUploadTask,
+} from '@angular/fire/storage';
 import { Observable, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -28,8 +32,10 @@ export class CourseService {
   firebaseData: Observable<any>;
   coursesChanged = new Subject<Course[]>();
   courseRead = new Subject<Course>();
+  downloadUrl = new Subject<string>();
   private courseDoc: AngularFirestoreDocument<any>;
   private course: Observable<any>;
+  private task: AngularFireUploadTask;
 
   schoolSelectOptions: ISelectOptions[];
   teacherSelectOptions: ISelectOptions[];
@@ -37,7 +43,11 @@ export class CourseService {
   topicsSelectOptons: ISelectOptions[];
   providerSelectOptions: ISelectOptions[];
 
-  constructor(private afs: AngularFirestore, private router: Router) {}
+  constructor(
+    private afs: AngularFirestore,
+    private afStorage: AngularFireStorage,
+    private router: Router
+  ) {}
 
   getAllFilterOptions() {
     this.schoolSelectOptions = schoolSelectOptions;
@@ -71,10 +81,29 @@ export class CourseService {
       )
       .subscribe((course) => {
         this.courseRead.next(course);
+        // get image of course confirmation
+        const imgPath = 'CourseImages/' + course.certificateName;
+        console.log('getCourse imgPath', imgPath);
+        this.afStorage
+          .ref(imgPath)
+          .getDownloadURL()
+          .subscribe((url) => {
+            this.downloadUrl.next(url);
+          });
       });
   }
 
-  // store changed course data
+  // TODO
+  // change display courses: use same algo as used for admin-form, e.g. do not use images from assets
+
+  uploadCourseImages(files: File[]) {
+    const path = 'CourseImages/' + files[0].name;
+    console.log('path', path);
+    this.task = this.afStorage.upload(path, files[0]);
+    console.log('upload task', this.task);
+  }
+
+  // store changed course datas
   // TODO snackbar notification
   updateCourse(course: Course) {
     this.afs

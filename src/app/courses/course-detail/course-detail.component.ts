@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 
 import { CourseService } from '../course.service';
 import { Course } from '../course.model';
 import { CourseDeleteDialogComponent } from '../course-delete-dialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-course-detail',
@@ -21,7 +22,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   isNewCourse = false;
   actionHeader: string;
   files: File[] = [];
-  selectedFileName: string;
+  downloadUrl: string;
+  downloadUrlSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +33,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.downloadUrlSub = this.courseService.downloadUrl.subscribe((url) => {
+      this.downloadUrl = url;
+      console.log('ImgUrl', url);
+    });
     this.courseService.getAllFilterOptions();
     this.route.params.subscribe((params) => {
       if (params.id === undefined) {
@@ -60,7 +66,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         Validators.pattern(/^\d{1,2}(\.\d)?$/), // 0-99.9
       ]),
       teacher: new FormControl(this.course.teacher, [Validators.required]),
-      confirmationDate: new FormControl(this.course.confirmationDate, [
+      confirmationDate: new FormControl(moment(this.course.confirmationDate), [
         Validators.required,
       ]),
       certificateName: new FormControl(
@@ -92,27 +98,21 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log('form', this.courseForm.value);
-    console.log(
-      'certificateName',
-      this.courseForm.get('certificateName').value
-    );
-    console.log(
-      'confirmationDate',
-      this.courseForm.get('confirmationDate').value
-    );
     this.course = {
       ...this.courseForm.value,
       id: this.courseId,
       // field is disabled and therefore not in courseForm
       certificateName: this.courseForm.get('certificateName').value,
-      // courseForm contains moment date for date
-      confirmationDate: this.courseForm.get('confirmationDate').value,
+      // courseForm contains moment date => convert to date
+      confirmationDate: this.courseForm.get('confirmationDate').value.toDate(),
     };
     console.log('course', this.course);
     if (this.isNewCourse) {
       this.courseService.addCourse(this.course);
+      this.courseService.uploadCourseImages(this.files);
     } else {
       this.courseService.updateCourse(this.course);
+      this.courseService.uploadCourseImages(this.files);
     }
   }
 
@@ -130,10 +130,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.files = [];
     console.log(event);
     this.files.push(...event.addedFiles);
-    this.selectedFileName = event.addedFiles[0].name;
-    this.courseForm.get('certificateName').setValue(this.selectedFileName);
+    // show selected filename in disabled field
+    const selectedFileName = event.addedFiles[0].name;
+    this.courseForm.get('certificateName').setValue(selectedFileName);
+    // show selected file in ngx-dropzone
     const formData = new FormData();
-
     for (var i = 0; i < this.files.length; i++) {
       formData.append('file[]', this.files[i]);
     }
@@ -142,13 +143,16 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   onRemove(event) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
-    this.selectedFileName = '';
-    this.courseForm.get('certificateName').setValue(this.selectedFileName);
+    this.courseForm.get('certificateName').setValue('');
   }
 
   ngOnDestroy() {
     if (this.courseSub) {
       this.courseSub.unsubscribe();
+    }
+
+    if (this.downloadUrlSub) {
+      this.downloadUrlSub.unsubscribe();
     }
   }
 }
