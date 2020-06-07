@@ -13,7 +13,7 @@
   <mat-accordion class="course-headers-align" multi>
     <div *ngFor="let course of courses">
       <mat-expansion-panel
-        (afterExpand)="expanded = true"
+        (afterExpand)="afterPanelOpened(course)"
         (afterCollapse)="expanded = false"
       >
         <mat-expansion-panel-header>
@@ -46,12 +46,15 @@
                 >Kursleiter: {{ course.teacher }}
               </mat-card-subtitle>
             </mat-card-header>
-            <img
-              mat-card-image
-              class="certificate"
-              src="../../assets/images/{{ course.certificateName }}"
-              alt="Kursbestaetigung"
-            />
+            <div *ngIf="!downloadUrl">Bild wird geladen ...</div>
+            <div *ngIf="downloadUrl; let url">
+              <img
+                mat-card-image
+                class="certificate"
+                [src]="url"
+                alt="Kursbestätigungs-Image von AngularFireStorage"
+              />
+            </div>
           </mat-card>
 
           <div class="course-card" fxFlex="1 1 100%">

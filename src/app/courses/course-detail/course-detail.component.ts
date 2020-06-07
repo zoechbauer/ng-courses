@@ -135,8 +135,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.courseForm.get('certificateName').setValue(selectedFileName);
     // show selected file in ngx-dropzone
     const formData = new FormData();
-    for (var i = 0; i < this.files.length; i++) {
-      formData.append('file[]', this.files[i]);
+    for (const file of this.files) {
+      formData.append('file[]', file);
     }
   }
 

@@ -114,16 +114,19 @@ export class CourseService {
       )
       .subscribe((course) => {
         this.courseRead.next(course);
-        // get image of course confirmation
-        const imgPath =
-          this.storageCourseConfirmation + '/' + course.certificateName;
-        console.log('getCourse imgPath', imgPath);
-        this.afStorage
-          .ref(imgPath)
-          .getDownloadURL()
-          .subscribe((url) => {
-            this.downloadUrl.next(url);
-          });
+        this.getImageCourseConfirmation(course);
+      });
+  }
+
+  getImageCourseConfirmation(course: Course) {
+    const imgPath =
+      this.storageCourseConfirmation + '/' + course.certificateName;
+    console.log('imgPath', imgPath);
+    this.afStorage
+      .ref(imgPath)
+      .getDownloadURL()
+      .subscribe((url) => {
+        this.downloadUrl.next(url);
       });
   }
 

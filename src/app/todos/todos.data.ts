@@ -118,7 +118,7 @@ export const todoList: Todos[] = [
     todo: 'Kursbestätigungs-Image auswählen/anzeigen und speichern',
     category: 'Kurs-Bestätigung',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 18,
@@ -222,9 +222,9 @@ export const todoList: Todos[] = [
   {
     id: 32,
     todo: 'Status-Informationen mittels Snackbar anzeigen',
-    category: 'Optimierungen',
+    category: 'Kurse',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 33,
@@ -238,28 +238,28 @@ export const todoList: Todos[] = [
     todo: 'Kursbestätigungs-Image aus FileSystem auswählen',
     category: 'Kurs-Bestätigung',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 35,
     todo: 'Kursbestätigungs-Image in Formular anzeigen',
     category: 'Kurs-Bestätigung',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 36,
     todo: 'Kursbestätigungs-Image in Firebase speichern',
     category: 'Kurs-Bestätigung',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 37,
     todo: 'Kursbestätigungs-Image aus Firebase abrufen',
     category: 'Kurs-Bestätigung',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 38,
@@ -283,5 +283,20 @@ export const todoList: Todos[] = [
     category: 'Github-api',
     type: 'neu',
     status: 'offen',
+  },
+  {
+    id: 41,
+    todo:
+      'Kurs-Liste Kurs-Datum & Dauer verschwinden bei allen Kursen, wenn 1 Kurs geöffnet wird',
+    category: 'Kurse',
+    type: 'Bug',
+    status: 'aktiv',
+  },
+  {
+    id: 42,
+    todo: 'Progress-Spinner bei Laden Image anzeigen',
+    category: 'Kurse',
+    type: 'neu',
+    status: 'aktiv',
   },
 ];
