@@ -32,6 +32,7 @@ export const topicsSelectOptions: ISelectOptions[] = [
   { name: 'Angular 8', value: 'angular8' },
   { name: 'Angular Material', value: 'angular-material' },
   { name: 'AngularFire', value: 'angularfire' },
+  { name: 'AngularFireStore', value: 'angularfirestore' },
   { name: 'Firebase Firestore', value: 'firebase-firestore' },
   { name: 'Firebase', value: 'firebase' },
   { name: 'Firebase Hosting', value: 'firebase-hosting' },

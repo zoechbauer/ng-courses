@@ -27,6 +27,12 @@ export const environment = {
     appId: 'your values',
     measurementId: 'your values',
   },
+  firebaseDb: {
+    collectionCourses: 'collection name for courses',
+  },
+  firebaseStorage: {
+    pathCourseConfirmation: 'image path for course confirmation',
+  },
   snackbar: {
     // displayed in milliseconds
     duration: 3000,
@@ -45,3 +51,7 @@ export const environment = {
   },
 };
 </pre>
+
+If you copy this code segment into your environment.ts file you can compile and run the app, but you can only test the Todo-List because this feature does not need authentication.
+
+To test all features change the firebase credentials and other data of this code segment.

@@ -21,9 +21,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
   appUser: string;
   appPassword: string;
   appCredentials: IAppCredentials;
-
-  // TODO store certificate on firestore
-  // at the moment certificate images are stored in assets/images folder with name defined in firestore
+  downloadUrl: string;
+  downloadUrlSub: Subscription;
 
   constructor(
     private router: Router,
@@ -32,12 +31,20 @@ export class CoursesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.downloadUrlSub = this.courseService.downloadUrl.subscribe((url) => {
+      this.downloadUrl = url;
+    });
     this.setDisplayMode();
     this.appCredentials = this.courseService.getAppCredentials();
     this.courseService.getCourses(this.edit);
     this.courseSub = this.courseService.coursesChanged.subscribe(
       (courses: Course[]) => (this.courses = courses)
     );
+  }
+
+  afterPanelOpened(course: Course) {
+    this.expanded = true;
+    this.courseService.getImageCourseConfirmation(course);
   }
 
   setDisplayMode() {
@@ -53,6 +60,12 @@ export class CoursesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.courseSub.unsubscribe();
+    if (this.courseSub) {
+      this.courseSub.unsubscribe();
+    }
+
+    if (this.downloadUrlSub) {
+      this.downloadUrlSub.unsubscribe();
+    }
   }
 }

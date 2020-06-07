@@ -74,11 +74,43 @@
             <mat-form-field>
               <mat-label>Kurs-Bestätigung</mat-label>
               <input formControlName="certificateName" matInput />
-              <mat-error
-                *ngIf="courseForm.get('certificateName').hasError('required')"
-                >Daten fehlen!</mat-error
-              >
             </mat-form-field>
+            <div *ngIf="!downloadUrl">Bild wird geladen ...</div>
+            <div class="container" *ngIf="downloadUrl; let url">
+              <img
+                mat-card-image
+                [src]="url"
+                alt="Kursbestätigungs-Image von AngularFireStorage"
+              />
+            </div>
+            <ngx-dropzone (change)="onSelect($event)">
+              <ngx-dropzone-label
+                >Bild reinziehen oder <br />Click für
+                Bildauswahl</ngx-dropzone-label
+              >
+              <ngx-dropzone-preview
+                *ngFor="let f of files"
+                [removable]="true"
+                (removed)="onRemove(f)"
+              >
+                <ngx-dropzone-label
+                  >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+                >
+              </ngx-dropzone-preview>
+              <ngx-dropzone-image-preview
+                ngProjectAs="ngx-dropzone-preview"
+                *ngFor="let f of files"
+                [file]="f"
+              >
+                <!-- do not show label in image
+                  <ngx-dropzone-label
+                  >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+                > -->
+              </ngx-dropzone-image-preview>
+            </ngx-dropzone>
+            <mat-error *ngIf="files.length > 1">
+              Bitte nur 1 Bild auswählen, andere Bilder löschen!
+            </mat-error>
             <mat-form-field>
               <mat-label>Datum Kurs-Bestätigung</mat-label>
               <input
@@ -242,7 +274,9 @@
                 type="submit"
                 mat-raised-button
                 color="primary"
-                [disabled]="courseForm.invalid"
+                [disabled]="
+                  courseForm.invalid || !courseForm.get('certificateName').value
+                "
               >
                 Speichern
               </button>
