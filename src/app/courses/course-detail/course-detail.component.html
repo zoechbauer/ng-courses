@@ -75,8 +75,8 @@
               <mat-label>Kurs-Bestätigung</mat-label>
               <input formControlName="certificateName" matInput />
             </mat-form-field>
+            <div *ngIf="!downloadUrl">Bild wird geladen ...</div>
             <div class="container" *ngIf="downloadUrl; let url">
-              <div *ngIf="!downloadUrl">Bild wird geladen ...</div>
               <img
                 mat-card-image
                 [src]="url"
@@ -86,7 +86,8 @@
             `
             <ngx-dropzone (change)="onSelect($event)">
               <ngx-dropzone-label
-                >Bild reinziehen oder Click für Bildauswahl</ngx-dropzone-label
+                >Bild reinziehen oder <br />Click für
+                Bildauswahl</ngx-dropzone-label
               >
               <ngx-dropzone-preview
                 *ngFor="let f of files"

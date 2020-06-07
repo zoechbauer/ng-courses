@@ -27,6 +27,12 @@ export const environment = {
     appId: 'your values',
     measurementId: 'your values',
   },
+  firebaseDb: {
+    collectionCourses: 'collection name for courses',
+  },
+  firebaseStorage: {
+    pathCourseConfirmation: 'image path for course confirmation',
+  },
   snackbar: {
     // displayed in milliseconds
     duration: 3000,

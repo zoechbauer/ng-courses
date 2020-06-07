@@ -27,6 +27,14 @@ export interface IAppCredentials {
   appPassword: string;
 }
 
+export enum FirebaseCollection {
+  courses,
+}
+
+export enum FirebaseStorage {
+  courseConfirmation,
+}
+
 @Injectable({ providedIn: 'root' })
 export class CourseService {
   firebaseData: Observable<any>;
@@ -43,11 +51,21 @@ export class CourseService {
   topicsSelectOptons: ISelectOptions[];
   providerSelectOptions: ISelectOptions[];
 
+  collectionCourses: string;
+  storageCourseConfirmation: string;
+
   constructor(
     private afs: AngularFirestore,
     private afStorage: AngularFireStorage,
     private router: Router
-  ) {}
+  ) {
+    this.collectionCourses = this.getFirebaseCollection(
+      FirebaseCollection.courses
+    );
+    this.storageCourseConfirmation = this.getFirebaseStorage(
+      FirebaseStorage.courseConfirmation
+    );
+  }
 
   getAllFilterOptions() {
     this.schoolSelectOptions = schoolSelectOptions;
@@ -65,9 +83,24 @@ export class CourseService {
     };
   }
 
+  // Firebase Database
+  getFirebaseCollection(collection: FirebaseCollection): string {
+    if (collection === FirebaseCollection.courses) {
+      return environment.firebaseDb.collectionCourses;
+    }
+    return null;
+  }
+  // Firebase Storage for storing images
+  getFirebaseStorage(storage: FirebaseStorage): string {
+    if (storage === FirebaseStorage.courseConfirmation) {
+      return environment.firebaseStorage.pathCourseConfirmation;
+    }
+    return null;
+  }
+
   // read course data for editing
   getCourse(id: string) {
-    this.courseDoc = this.afs.doc('courses/' + id);
+    this.courseDoc = this.afs.doc(this.collectionCourses + '/' + id);
     this.course = this.courseDoc.valueChanges();
     this.course
       .pipe(
@@ -82,7 +115,8 @@ export class CourseService {
       .subscribe((course) => {
         this.courseRead.next(course);
         // get image of course confirmation
-        const imgPath = 'CourseImages/' + course.certificateName;
+        const imgPath =
+          this.storageCourseConfirmation + '/' + course.certificateName;
         console.log('getCourse imgPath', imgPath);
         this.afStorage
           .ref(imgPath)
@@ -94,20 +128,22 @@ export class CourseService {
   }
 
   // TODO
-  // change display courses: use same algo as used for admin-form, e.g. do not use images from assets
+  // 2. change display courses: use same algo as used for admin-form, e.g. do not use images from assets
 
   uploadCourseImages(files: File[]) {
-    const path = 'CourseImages/' + files[0].name;
-    console.log('path', path);
-    this.task = this.afStorage.upload(path, files[0]);
-    console.log('upload task', this.task);
+    if (files.length > 0) {
+      const path = this.storageCourseConfirmation + '/' + files[0].name;
+      console.log('path', path);
+      this.task = this.afStorage.upload(path, files[0]);
+      console.log('upload task', this.task);
+    }
   }
 
   // store changed course datas
   // TODO snackbar notification
   updateCourse(course: Course) {
     this.afs
-      .doc('courses/' + course.id)
+      .doc(this.collectionCourses + '/' + course.id)
       .update(course)
       .then((res) => {
         console.log('Course updated', res);
@@ -121,7 +157,7 @@ export class CourseService {
   addCourse(course: Course) {
     course.id = null;
     this.afs
-      .collection('courses')
+      .collection(this.collectionCourses)
       .add(course)
       .then((_) => {
         console.log('Course added');
@@ -134,7 +170,7 @@ export class CourseService {
   // TODO snackbar notification
   deleteCourse(id: string) {
     this.afs
-      .doc('courses/' + id)
+      .doc(this.collectionCourses + '/' + id)
       .delete()
       .then((res) => {
         console.log('Course deleted', res);
@@ -148,7 +184,7 @@ export class CourseService {
       // read valueChanges - no metadata
       // convert milliseconds into date as Firebase delivers seconds as Date
       this.firebaseData = this.afs
-        .collection('courses')
+        .collection(this.collectionCourses)
         .valueChanges()
         .pipe(
           map((docArray) => {
@@ -165,7 +201,7 @@ export class CourseService {
       // read snapshotChanges - id for update
       // convert seconds into date and add id to course
       this.firebaseData = this.afs
-        .collection('courses')
+        .collection(this.collectionCourses)
         .snapshotChanges()
         .pipe(
           map((docArray) => {
