@@ -299,4 +299,18 @@ export const todoList: Todos[] = [
     type: 'neu',
     status: 'aktiv',
   },
+  {
+    id: 44,
+    todo: 'login in localStorage speichern - refresh',
+    category: 'login',
+    type: 'Optimierung',
+    status: 'erledigt',
+  },
+  {
+    id: 43,
+    todo: 'ui.service.ts - vgl. fitness-tracker vor ngrx',
+    category: 'login',
+    type: 'Optimierung',
+    status: 'aktiv',
+  },
 ];

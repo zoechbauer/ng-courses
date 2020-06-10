@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,18 +7,24 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthData } from './auth-data.model';
 import { AuthUser } from './auth-data.model';
 import { environment } from '../../environments/environment';
+
+const AUTH_KEY = 'Authentication';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  authChanged = new Subject<AuthUser>();
+  authChanged = new BehaviorSubject<AuthUser>(AuthUser.null);
   private authUser: AuthUser;
 
   constructor(
     private router: Router,
     private afAuth: AngularFireAuth,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.authUser = JSON.parse(localStorage.getItem(AUTH_KEY));
+    this.authChanged.next(this.authUser);
+    console.log('auth.service constructor', this.authUser);
+  }
 
   login(login: AuthData) {
     this.afAuth
@@ -46,6 +52,7 @@ export class AuthService {
         this.snackBar.open('Sie wurden abgemeldet', null, {
           duration: environment.snackbar.duration,
         });
+        localStorage.removeItem(AUTH_KEY);
       })
       .catch((err) => {
         this.snackBar.open(err, null, {
@@ -62,6 +69,7 @@ export class AuthService {
         email === environment.admin.login ? AuthUser.admin : AuthUser.user;
     }
     this.authChanged.next(this.authUser);
+    localStorage.setItem(AUTH_KEY, JSON.stringify(this.authUser));
   }
 
   isAuth() {

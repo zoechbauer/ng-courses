@@ -130,9 +130,6 @@ export class CourseService {
       });
   }
 
-  // TODO
-  // 2. change display courses: use same algo as used for admin-form, e.g. do not use images from assets
-
   uploadCourseImages(files: File[]) {
     if (files.length > 0) {
       const path = this.storageCourseConfirmation + '/' + files[0].name;

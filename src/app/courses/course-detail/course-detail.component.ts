@@ -109,11 +109,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     console.log('course', this.course);
     if (this.isNewCourse) {
       this.courseService.addCourse(this.course);
-      this.courseService.uploadCourseImages(this.files);
     } else {
       this.courseService.updateCourse(this.course);
-      this.courseService.uploadCourseImages(this.files);
     }
+    this.courseService.uploadCourseImages(this.files);
   }
 
   onDelete() {
