@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthData } from './auth-data.model';
 import { AuthUser } from './auth-data.model';
 import { environment } from '../../environments/environment';
+import { NotificationService } from '../shared/notification.service';
 
 const AUTH_KEY = 'Authentication';
 @Injectable({
@@ -19,11 +20,12 @@ export class AuthService {
   constructor(
     private router: Router,
     private afAuth: AngularFireAuth,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private notify: NotificationService
   ) {
     this.authUser = JSON.parse(localStorage.getItem(AUTH_KEY));
     this.authChanged.next(this.authUser);
-    console.log('auth.service constructor', this.authUser);
+    console.log('auth service created', this.authUser);
   }
 
   login(login: AuthData) {
@@ -35,10 +37,11 @@ export class AuthService {
         this.router.navigate(['/courses']);
       })
       .catch((err) => {
-        console.log('ERR on Login af', err);
-        this.snackBar.open('Benutzer und/oder Kennwort sind ungültig', null, {
-          duration: environment.snackbar.duration,
-        });
+        this.notify.showErrorMessage(
+          err,
+          'Benutzer und/oder Kennwort sind ungültig'
+        );
+        // this.notify.showErrorMessage('fehler', 'als', 'array');
       });
   }
 
@@ -49,15 +52,14 @@ export class AuthService {
         // console.log('logout af', res);
         this.setUserType(null);
         this.router.navigate(['/']);
-        this.snackBar.open('Sie wurden abgemeldet', null, {
-          duration: environment.snackbar.duration,
-        });
+        this.notify.showInfoMessage('Sie wurden abgemeldet');
         localStorage.removeItem(AUTH_KEY);
       })
       .catch((err) => {
-        this.snackBar.open(err, null, {
-          duration: environment.snackbar.duration,
-        });
+        this.notify.showErrorMessage(
+          err,
+          'Benutzer konnte nicht abgemeldet werden'
+        );
       });
   }
 

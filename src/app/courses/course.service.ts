@@ -22,6 +22,7 @@ import {
   providerSelectOptions,
 } from './course-filter.model';
 import { LoadingService } from '../shared/loading/loading.service';
+import { NotificationService } from '../shared/notification.service';
 
 export interface IAppCredentials {
   appUser: string;
@@ -59,7 +60,8 @@ export class CourseService {
     private afs: AngularFirestore,
     private afStorage: AngularFireStorage,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private notify: NotificationService
   ) {
     this.collectionCourses = this.getFirebaseCollection(
       FirebaseCollection.courses
@@ -145,7 +147,6 @@ export class CourseService {
   }
 
   // store changed course datas
-  // TODO snackbar notification
   updateCourse(course: Course) {
     this.afs
       .doc(this.collectionCourses + '/' + course.id)
@@ -154,11 +155,15 @@ export class CourseService {
         console.log('Course updated', res);
         this.router.navigate(['/courses/edit']);
       })
-      .catch((err) => console.log('Error Update Course', err));
+      .catch((err) =>
+        this.notify.showErrorMessage(
+          err,
+          'Kurs konnte nicht in Firebase gespeichert werden'
+        )
+      );
   }
 
   // store new course data
-  // TODO snackbar notification
   addCourse(course: Course) {
     course.id = null;
     this.afs
@@ -168,11 +173,15 @@ export class CourseService {
         console.log('Course added');
         this.router.navigate(['/courses/edit']);
       })
-      .catch((err) => console.log('Error Adding Course', err));
+      .catch((err) =>
+        this.notify.showErrorMessage(
+          err,
+          'Kurs konnte nicht in Firebase gespeichert werden'
+        )
+      );
   }
 
   // store changed course data
-  // TODO snackbar notification
   deleteCourse(id: string) {
     this.afs
       .doc(this.collectionCourses + '/' + id)
@@ -181,7 +190,12 @@ export class CourseService {
         console.log('Course deleted', res);
         this.router.navigate(['/courses/edit']);
       })
-      .catch((err) => console.log('Error on deleting Course', err));
+      .catch((err) =>
+        this.notify.showErrorMessage(
+          err,
+          'Kurs konnte nicht in Firebase gelöscht werden'
+        )
+      );
   }
 
   getCourses(isEditMode: boolean) {
