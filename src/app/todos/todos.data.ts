@@ -224,7 +224,7 @@ export const todoList: Todos[] = [
     todo: 'Status-Informationen mittels Snackbar anzeigen',
     category: 'Kurse',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 33,
@@ -297,6 +297,35 @@ export const todoList: Todos[] = [
     todo: 'Progress-Spinner bei Laden Image anzeigen',
     category: 'Kurse',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
+  },
+  {
+    id: 44,
+    todo: 'login in localStorage speichern - refresh',
+    category: 'login',
+    type: 'Optimierung',
+    status: 'erledigt',
+  },
+  {
+    id: 43,
+    todo:
+      'ui.service.ts - vgl. fitness-tracker vor ngrx => wurde anders gelöst',
+    category: 'login',
+    type: 'Optimierung',
+    status: 'erledigt',
+  },
+  {
+    id: 44,
+    todo: 'Progress-Spinner bei DB-read anzeigen',
+    category: 'Kurse',
+    type: 'neu',
+    status: 'erledigt',
+  },
+  {
+    id: 45,
+    todo: 'Fehlermeldungen anzeigen',
+    category: 'Kurse',
+    type: 'Optimierung',
+    status: 'erledigt',
   },
 ];

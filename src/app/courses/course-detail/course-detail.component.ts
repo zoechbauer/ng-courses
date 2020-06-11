@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
 
 import { CourseService } from '../course.service';
 import { Course } from '../course.model';
 import { CourseDeleteDialogComponent } from '../course-delete-dialog.component';
-import * as moment from 'moment';
+import { LoadingService } from 'src/app/shared/loading/loading.service';
 
 @Component({
   selector: 'app-course-detail',
@@ -29,7 +30,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     public courseService: CourseService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
@@ -109,11 +111,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     console.log('course', this.course);
     if (this.isNewCourse) {
       this.courseService.addCourse(this.course);
-      this.courseService.uploadCourseImages(this.files);
     } else {
       this.courseService.updateCourse(this.course);
-      this.courseService.uploadCourseImages(this.files);
     }
+    this.courseService.uploadCourseImages(this.files);
   }
 
   onDelete() {

@@ -21,6 +21,8 @@ import {
   topicsSelectOptions,
   providerSelectOptions,
 } from './course-filter.model';
+import { LoadingService } from '../shared/loading/loading.service';
+import { NotificationService } from '../shared/notification.service';
 
 export interface IAppCredentials {
   appUser: string;
@@ -57,7 +59,9 @@ export class CourseService {
   constructor(
     private afs: AngularFirestore,
     private afStorage: AngularFireStorage,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService,
+    private notify: NotificationService
   ) {
     this.collectionCourses = this.getFirebaseCollection(
       FirebaseCollection.courses
@@ -100,6 +104,7 @@ export class CourseService {
 
   // read course data for editing
   getCourse(id: string) {
+    this.loadingService.loadingOn();
     this.courseDoc = this.afs.doc(this.collectionCourses + '/' + id);
     this.course = this.courseDoc.valueChanges();
     this.course
@@ -119,6 +124,7 @@ export class CourseService {
   }
 
   getImageCourseConfirmation(course: Course) {
+    this.loadingService.loadingOn();
     const imgPath =
       this.storageCourseConfirmation + '/' + course.certificateName;
     console.log('imgPath', imgPath);
@@ -126,12 +132,10 @@ export class CourseService {
       .ref(imgPath)
       .getDownloadURL()
       .subscribe((url) => {
+        this.loadingService.loadingOff();
         this.downloadUrl.next(url);
       });
   }
-
-  // TODO
-  // 2. change display courses: use same algo as used for admin-form, e.g. do not use images from assets
 
   uploadCourseImages(files: File[]) {
     if (files.length > 0) {
@@ -143,7 +147,6 @@ export class CourseService {
   }
 
   // store changed course datas
-  // TODO snackbar notification
   updateCourse(course: Course) {
     this.afs
       .doc(this.collectionCourses + '/' + course.id)
@@ -152,11 +155,15 @@ export class CourseService {
         console.log('Course updated', res);
         this.router.navigate(['/courses/edit']);
       })
-      .catch((err) => console.log('Error Update Course', err));
+      .catch((err) =>
+        this.notify.showErrorMessage(
+          err,
+          'Kurs konnte nicht in Firebase gespeichert werden'
+        )
+      );
   }
 
   // store new course data
-  // TODO snackbar notification
   addCourse(course: Course) {
     course.id = null;
     this.afs
@@ -166,11 +173,15 @@ export class CourseService {
         console.log('Course added');
         this.router.navigate(['/courses/edit']);
       })
-      .catch((err) => console.log('Error Adding Course', err));
+      .catch((err) =>
+        this.notify.showErrorMessage(
+          err,
+          'Kurs konnte nicht in Firebase gespeichert werden'
+        )
+      );
   }
 
   // store changed course data
-  // TODO snackbar notification
   deleteCourse(id: string) {
     this.afs
       .doc(this.collectionCourses + '/' + id)
@@ -179,10 +190,16 @@ export class CourseService {
         console.log('Course deleted', res);
         this.router.navigate(['/courses/edit']);
       })
-      .catch((err) => console.log('Error on deleting Course', err));
+      .catch((err) =>
+        this.notify.showErrorMessage(
+          err,
+          'Kurs konnte nicht in Firebase gelöscht werden'
+        )
+      );
   }
 
   getCourses(isEditMode: boolean) {
+    this.loadingService.loadingOn();
     if (!isEditMode) {
       // read valueChanges - no metadata
       // convert milliseconds into date as Firebase delivers seconds as Date
@@ -223,6 +240,7 @@ export class CourseService {
     }
     this.firebaseData.subscribe((courses) => {
       this.coursesChanged.next(courses);
+      this.loadingService.loadingOff();
     });
   }
 }

@@ -31,6 +31,7 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { TodosComponent } from './todos/todos.component';
 import { CourseDeleteDialogComponent } from './courses/course-delete-dialog.component';
+import { LoadingComponent } from './shared/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CourseDeleteDialogComponent } from './courses/course-delete-dialog.comp
     SidenavListComponent,
     TodosComponent,
     CourseDeleteDialogComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,

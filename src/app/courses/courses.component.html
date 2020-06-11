@@ -10,6 +10,7 @@
       <h3>Liste der abgeschlossenen Kurse</h3>
     </div>
   </header>
+  <app-loading></app-loading>
   <mat-accordion class="course-headers-align" multi>
     <div *ngFor="let course of courses">
       <mat-expansion-panel
@@ -46,8 +47,8 @@
                 >Kursleiter: {{ course.teacher }}
               </mat-card-subtitle>
             </mat-card-header>
-            <div *ngIf="!downloadUrl">Bild wird geladen ...</div>
-            <div *ngIf="downloadUrl; let url">
+
+            <div *ngIf="courseService.downloadUrl | async; let url">
               <img
                 mat-card-image
                 class="certificate"
@@ -56,7 +57,7 @@
               />
             </div>
           </mat-card>
-
+          <app-loading></app-loading>
           <div class="course-card" fxFlex="1 1 100%">
             <h1 *ngIf="edit">Id</h1>
             <p *ngIf="edit">{{ course.id }}</p>
