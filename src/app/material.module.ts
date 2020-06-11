@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const MaterialModules = [
   MatButtonModule,
@@ -41,6 +42,7 @@ const MaterialModules = [
   MatDialogModule,
   MatDatepickerModule,
   MatMomentDateModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({

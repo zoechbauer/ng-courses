@@ -21,6 +21,7 @@ import {
   topicsSelectOptions,
   providerSelectOptions,
 } from './course-filter.model';
+import { LoadingService } from '../shared/loading/loading.service';
 
 export interface IAppCredentials {
   appUser: string;
@@ -57,7 +58,8 @@ export class CourseService {
   constructor(
     private afs: AngularFirestore,
     private afStorage: AngularFireStorage,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {
     this.collectionCourses = this.getFirebaseCollection(
       FirebaseCollection.courses
@@ -100,6 +102,7 @@ export class CourseService {
 
   // read course data for editing
   getCourse(id: string) {
+    this.loadingService.loadingOn();
     this.courseDoc = this.afs.doc(this.collectionCourses + '/' + id);
     this.course = this.courseDoc.valueChanges();
     this.course
@@ -119,6 +122,7 @@ export class CourseService {
   }
 
   getImageCourseConfirmation(course: Course) {
+    this.loadingService.loadingOn();
     const imgPath =
       this.storageCourseConfirmation + '/' + course.certificateName;
     console.log('imgPath', imgPath);
@@ -126,6 +130,7 @@ export class CourseService {
       .ref(imgPath)
       .getDownloadURL()
       .subscribe((url) => {
+        this.loadingService.loadingOff();
         this.downloadUrl.next(url);
       });
   }
@@ -180,6 +185,7 @@ export class CourseService {
   }
 
   getCourses(isEditMode: boolean) {
+    this.loadingService.loadingOn();
     if (!isEditMode) {
       // read valueChanges - no metadata
       // convert milliseconds into date as Firebase delivers seconds as Date
@@ -220,6 +226,7 @@ export class CourseService {
     }
     this.firebaseData.subscribe((courses) => {
       this.coursesChanged.next(courses);
+      this.loadingService.loadingOff();
     });
   }
 }

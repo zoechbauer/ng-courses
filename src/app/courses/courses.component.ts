@@ -21,19 +21,14 @@ export class CoursesComponent implements OnInit, OnDestroy {
   appUser: string;
   appPassword: string;
   appCredentials: IAppCredentials;
-  downloadUrl: string;
-  downloadUrlSub: Subscription;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private courseService: CourseService
+    public courseService: CourseService
   ) {}
 
   ngOnInit(): void {
-    this.downloadUrlSub = this.courseService.downloadUrl.subscribe((url) => {
-      this.downloadUrl = url;
-    });
     this.setDisplayMode();
     this.appCredentials = this.courseService.getAppCredentials();
     this.courseService.getCourses(this.edit);
@@ -62,10 +57,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.courseSub) {
       this.courseSub.unsubscribe();
-    }
-
-    if (this.downloadUrlSub) {
-      this.downloadUrlSub.unsubscribe();
     }
   }
 }

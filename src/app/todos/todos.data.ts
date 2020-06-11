@@ -297,7 +297,7 @@ export const todoList: Todos[] = [
     todo: 'Progress-Spinner bei Laden Image anzeigen',
     category: 'Kurse',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 44,
@@ -312,5 +312,12 @@ export const todoList: Todos[] = [
     category: 'login',
     type: 'Optimierung',
     status: 'aktiv',
+  },
+  {
+    id: 44,
+    todo: 'Progress-Spinner bei DB-read anzeigen',
+    category: 'Kurse',
+    type: 'neu',
+    status: 'erledigt',
   },
 ];

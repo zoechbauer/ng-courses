@@ -75,7 +75,7 @@
               <mat-label>Kurs-Bestätigung</mat-label>
               <input formControlName="certificateName" matInput />
             </mat-form-field>
-            <div *ngIf="!downloadUrl">Bild wird geladen ...</div>
+            <app-loading></app-loading>
             <div class="container" *ngIf="downloadUrl; let url">
               <img
                 mat-card-image
