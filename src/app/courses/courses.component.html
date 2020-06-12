@@ -14,19 +14,20 @@
   <mat-accordion class="course-headers-align" multi>
     <div *ngFor="let course of courses">
       <mat-expansion-panel
+        (opened)="handleOpened(course)"
+        (closed)="handleClosed(course)"
         (afterExpand)="afterPanelOpened(course)"
-        (afterCollapse)="expanded = false"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <p *ngIf="!expanded">
+            <p *ngIf="currentOpenedCourseId !== course.id">
               {{ course.title }}
             </p>
-            <h3 *ngIf="expanded">
+            <h3 *ngIf="currentOpenedCourseId === course.id">
               {{ course.title }}
             </h3>
           </mat-panel-title>
-          <mat-panel-description *ngIf="!expanded">
+          <mat-panel-description *ngIf="currentOpenedCourseId !== course.id">
             {{ course.confirmationDate | date: 'dd.MM.yyyy' }},
             {{ course.duration }} Std.
           </mat-panel-description>
@@ -59,7 +60,7 @@
           </mat-card>
           <app-loading></app-loading>
           <div class="course-card" fxFlex="1 1 100%">
-            <h1 *ngIf="edit">Id</h1>
+            <h3 *ngIf="edit">Id</h3>
             <p *ngIf="edit">{{ course.id }}</p>
             <h3>Kurzfassung</h3>
             <p>{{ course.summary }}</p>

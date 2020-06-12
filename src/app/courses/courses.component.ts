@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatAccordion } from '@angular/material/expansion';
@@ -14,7 +14,7 @@ import { CourseService, IAppCredentials } from './course.service';
 })
 export class CoursesComponent implements OnInit, OnDestroy {
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  expanded: boolean;
+  currentOpenedCourseId: string = null;
   courseSub: Subscription;
   courses: Course[];
   edit = false;
@@ -38,8 +38,15 @@ export class CoursesComponent implements OnInit, OnDestroy {
   }
 
   afterPanelOpened(course: Course) {
-    this.expanded = true;
     this.courseService.getImageCourseConfirmation(course);
+  }
+
+  handleOpened(course: Course) {
+    this.currentOpenedCourseId = course.id;
+  }
+
+  handleClosed(course: Course) {
+    this.currentOpenedCourseId = null;
   }
 
   setDisplayMode() {

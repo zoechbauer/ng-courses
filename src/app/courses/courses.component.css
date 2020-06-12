@@ -63,6 +63,6 @@
   flex-basis: 30%;
 }
 
-.course-headers-align .mat-expansion-panel-header-description {
-  align-items: top;
+.course-headers-align {
+  line-height: 26px;
 }

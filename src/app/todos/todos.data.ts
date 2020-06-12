@@ -290,7 +290,7 @@ export const todoList: Todos[] = [
       'Kurs-Liste Kurs-Datum & Dauer verschwinden bei allen Kursen, wenn 1 Kurs geöffnet wird',
     category: 'Kurse',
     type: 'Bug',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 42,
@@ -327,5 +327,12 @@ export const todoList: Todos[] = [
     category: 'Kurse',
     type: 'Optimierung',
     status: 'erledigt',
+  },
+  {
+    id: 46,
+    todo: 'Umstellen auf Reactive Design',
+    category: 'RxJS',
+    type: 'Optimierung',
+    status: 'aktiv',
   },
 ];
