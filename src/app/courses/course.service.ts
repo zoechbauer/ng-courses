@@ -8,7 +8,7 @@ import {
   AngularFireUploadTask,
 } from '@angular/fire/storage';
 import { Observable, Subject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Course } from './course.model';
@@ -39,8 +39,6 @@ export enum FirebaseStorage {
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
-  firebaseData: Observable<any>;
-  coursesChanged = new Subject<Course[]>();
   courseRead = new Subject<Course>();
   downloadUrl = new Subject<string>();
   private courseDoc: AngularFirestoreDocument<any>;
@@ -198,12 +196,12 @@ export class CourseService {
       );
   }
 
-  getCourses(isEditMode: boolean) {
+  getCourses(isEditMode: boolean): Observable<Course[]> {
     this.loadingService.loadingOn();
     if (!isEditMode) {
       // read valueChanges - no metadata
       // convert milliseconds into date as Firebase delivers seconds as Date
-      this.firebaseData = this.afs
+      return this.afs
         .collection(this.collectionCourses)
         .valueChanges()
         .pipe(
@@ -213,14 +211,15 @@ export class CourseService {
               return {
                 ...doc,
                 confirmationDate: doc['confirmationDate'].toDate(),
-              };
+              } as Course;
             });
-          })
+          }),
+          tap(() => this.loadingService.loadingOff())
         );
     } else {
       // read snapshotChanges - id for update
       // convert seconds into date and add id to course
-      this.firebaseData = this.afs
+      return this.afs
         .collection(this.collectionCourses)
         .snapshotChanges()
         .pipe(
@@ -233,14 +232,11 @@ export class CourseService {
                 confirmationDate: doc.payload.doc
                   .data()
                   ['confirmationDate'].toDate(),
-              };
+              } as Course;
             });
-          })
+          }),
+          tap(() => this.loadingService.loadingOff())
         );
     }
-    this.firebaseData.subscribe((courses) => {
-      this.coursesChanged.next(courses);
-      this.loadingService.loadingOff();
-    });
   }
 }

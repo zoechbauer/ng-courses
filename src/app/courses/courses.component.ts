@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatAccordion } from '@angular/material/expansion';
 
-import { environment } from 'src/environments/environment';
 import { Course } from './course.model';
 import { CourseService, IAppCredentials } from './course.service';
 
@@ -12,11 +11,10 @@ import { CourseService, IAppCredentials } from './course.service';
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.css'],
 })
-export class CoursesComponent implements OnInit, OnDestroy {
+export class CoursesComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   currentOpenedCourseId: string = null;
-  courseSub: Subscription;
-  courses: Course[];
+  courses$: Observable<Course[]>;
   edit = false;
   appUser: string;
   appPassword: string;
@@ -31,10 +29,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setDisplayMode();
     this.appCredentials = this.courseService.getAppCredentials();
-    this.courseService.getCourses(this.edit);
-    this.courseSub = this.courseService.coursesChanged.subscribe(
-      (courses: Course[]) => (this.courses = courses)
-    );
+    this.courses$ = this.courseService.getCourses(this.edit);
   }
 
   afterPanelOpened(course: Course) {
@@ -59,11 +54,5 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
   editCourse(id: string) {
     this.router.navigate([id], { relativeTo: this.route });
-  }
-
-  ngOnDestroy() {
-    if (this.courseSub) {
-      this.courseSub.unsubscribe();
-    }
   }
 }
