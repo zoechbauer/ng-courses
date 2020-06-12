@@ -109,12 +109,13 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       confirmationDate: this.courseForm.get('confirmationDate').value.toDate(),
     };
     console.log('course', this.course);
+    // TODO refactory
     if (this.isNewCourse) {
       this.courseService.addCourse(this.course);
     } else {
       this.courseService.updateCourse(this.course);
     }
-    this.courseService.uploadCourseImages(this.files);
+    this.courseService.uploadCourseImages(this.files).subscribe();
   }
 
   onDelete() {

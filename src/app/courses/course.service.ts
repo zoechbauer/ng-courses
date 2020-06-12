@@ -7,8 +7,8 @@ import {
   AngularFireStorage,
   AngularFireUploadTask,
 } from '@angular/fire/storage';
-import { Observable, Subject } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { map, take, tap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Course } from './course.model';
@@ -43,7 +43,6 @@ export class CourseService {
   downloadUrl = new Subject<string>();
   private courseDoc: AngularFirestoreDocument<any>;
   private course: Observable<any>;
-  private task: AngularFireUploadTask;
 
   schoolSelectOptions: ISelectOptions[];
   teacherSelectOptions: ISelectOptions[];
@@ -113,7 +112,16 @@ export class CourseService {
             confirmationDate: doc['confirmationDate'].toDate(),
           };
         }),
-        take(1)
+        take(1),
+        catchError((err) => {
+          console.log('loadingOff');
+          this.loadingService.loadingOff();
+          this.notify.showErrorMessage(
+            err,
+            'Der Kurs konnte nicht aus Firebase geladen werden'
+          );
+          return throwError(err);
+        })
       )
       .subscribe((course) => {
         this.courseRead.next(course);
@@ -129,18 +137,43 @@ export class CourseService {
     this.afStorage
       .ref(imgPath)
       .getDownloadURL()
+      .pipe(
+        catchError((err) => {
+          console.log('loadingOff');
+          this.loadingService.loadingOff();
+          this.notify.showErrorMessage(
+            err,
+            'Kursbestätigung  konnte nicht aus Firebase geladen werden'
+          );
+          return throwError(err);
+        })
+      )
       .subscribe((url) => {
         this.loadingService.loadingOff();
         this.downloadUrl.next(url);
       });
   }
 
-  uploadCourseImages(files: File[]) {
+  uploadCourseImages(files: File[]): Observable<any> {
     if (files.length > 0) {
-      const path = this.storageCourseConfirmation + '/' + files[0].name;
-      console.log('path', path);
-      this.task = this.afStorage.upload(path, files[0]);
-      console.log('upload task', this.task);
+      console.log('loadingOn');
+      this.loadingService.loadingOn();
+      const fileName = files[0].name;
+      const file = files[0];
+      const path = this.storageCourseConfirmation + '/' + fileName;
+      console.log('path', path, fileName, file);
+      const task: AngularFireUploadTask = this.afStorage.upload(path, file);
+      return task.snapshotChanges().pipe(
+        catchError((err) => {
+          console.log('loadingOff');
+          this.loadingService.loadingOff();
+          this.notify.showErrorMessage(
+            err,
+            'Die Kursbestätigung konnte nicht in FireStore gespeichert werden'
+          );
+          return throwError(err);
+        })
+      );
     }
   }
 
@@ -206,13 +239,22 @@ export class CourseService {
         .valueChanges()
         .pipe(
           map((docArray) => {
-            // console.log('map docArray', docArray);
+            console.log('map docArray', docArray);
             return docArray.map((doc: {}) => {
               return {
                 ...doc,
                 confirmationDate: doc['confirmationDate'].toDate(),
               } as Course;
             });
+          }),
+          catchError((err) => {
+            console.log('loadingOff');
+            this.loadingService.loadingOff();
+            this.notify.showErrorMessage(
+              err,
+              'Kurse konnten nicht aus Firebase geladen werden'
+            );
+            return throwError(err);
           }),
           tap(() => this.loadingService.loadingOff())
         );
@@ -234,6 +276,15 @@ export class CourseService {
                   ['confirmationDate'].toDate(),
               } as Course;
             });
+          }),
+          catchError((err) => {
+            console.log('loadingOff');
+            this.loadingService.loadingOff();
+            this.notify.showErrorMessage(
+              err,
+              'Kurse konnten nicht aus Firebase geladen werden'
+            );
+            return throwError(err);
           }),
           tap(() => this.loadingService.loadingOff())
         );
