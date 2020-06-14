@@ -9,6 +9,7 @@ import { CourseService } from '../course.service';
 import { Course } from '../course.model';
 import { CourseDeleteDialogComponent } from '../course-delete-dialog.component';
 import { LoadingService } from 'src/app/shared/loading/loading.service';
+import * as filter from '../course-filter.model';
 
 @Component({
   selector: 'app-course-detail',
@@ -25,6 +26,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   files: File[] = [];
   downloadUrl: string;
   downloadUrlSub: Subscription;
+  schoolSelectOptions = filter.schoolSelectOptions;
+  teacherSelectOptions = filter.teacherSelectOptions;
+  categorySelectOptions = filter.categorySelectOptions;
+  topicsSelectOptons = filter.topicsSelectOptions;
+  providerSelectOptions = filter.providerSelectOptions;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +45,6 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       this.downloadUrl = url;
       console.log('ImgUrl', url);
     });
-    this.courseService.getAllFilterOptions();
     this.route.params.subscribe((params) => {
       if (params.id === undefined) {
         this.isNewCourse = true;

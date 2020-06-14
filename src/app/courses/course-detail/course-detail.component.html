@@ -22,7 +22,7 @@
                 placeholder="Schule"
               >
                 <mat-option
-                  *ngFor="let opt of courseService.schoolSelectOptions"
+                  *ngFor="let opt of schoolSelectOptions"
                   [value]="opt.value"
                 >
                   {{ opt.name }}
@@ -51,7 +51,7 @@
                 placeholder="bitte wählen Sie aus ..."
               >
                 <mat-option
-                  *ngFor="let opt of courseService.teacherSelectOptions"
+                  *ngFor="let opt of teacherSelectOptions"
                   [value]="opt.value"
                   >{{ opt.name }}</mat-option
                 >
@@ -172,7 +172,7 @@
               <mat-label>Web-Kategorie</mat-label>
               <mat-select formControlName="category" matInput>
                 <mat-option
-                  *ngFor="let opt of courseService.categorySelectOptions"
+                  *ngFor="let opt of categorySelectOptions"
                   [value]="opt.value"
                   >{{ opt.name }}</mat-option
                 >
@@ -185,7 +185,7 @@
               <mat-label>Topics</mat-label>
               <mat-select formControlName="topics" matInput multiple>
                 <mat-option
-                  *ngFor="let opt of courseService.topicsSelectOptons"
+                  *ngFor="let opt of topicsSelectOptons"
                   [value]="opt.value"
                 >
                   {{ opt.name }}
@@ -253,7 +253,7 @@
               <mat-label>Hosting Provider</mat-label>
               <mat-select formControlName="hostingProvider" matInput>
                 <mat-option
-                  *ngFor="let opt of courseService.providerSelectOptions"
+                  *ngFor="let opt of providerSelectOptions"
                   [value]="opt.value"
                 >
                   {{ opt.name }}

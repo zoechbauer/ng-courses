@@ -13,14 +13,6 @@ import { Router } from '@angular/router';
 
 import { Course } from './course.model';
 import { environment } from 'src/environments/environment';
-import {
-  ISelectOptions,
-  schoolSelectOptions,
-  teacherSelectOptions,
-  categorySelectOptions,
-  topicsSelectOptions,
-  providerSelectOptions,
-} from './course-filter.model';
 import { LoadingService } from '../shared/loading/loading.service';
 import { NotificationService } from '../shared/notification.service';
 
@@ -44,12 +36,6 @@ export class CourseService {
   private courseDoc: AngularFirestoreDocument<any>;
   private course: Observable<any>;
 
-  schoolSelectOptions: ISelectOptions[];
-  teacherSelectOptions: ISelectOptions[];
-  categorySelectOptions: ISelectOptions[];
-  topicsSelectOptons: ISelectOptions[];
-  providerSelectOptions: ISelectOptions[];
-
   collectionCourses: string;
   storageCourseConfirmation: string;
 
@@ -66,14 +52,6 @@ export class CourseService {
     this.storageCourseConfirmation = this.getFirebaseStorage(
       FirebaseStorage.courseConfirmation
     );
-  }
-
-  getAllFilterOptions() {
-    this.schoolSelectOptions = schoolSelectOptions;
-    this.teacherSelectOptions = teacherSelectOptions;
-    this.categorySelectOptions = categorySelectOptions;
-    this.topicsSelectOptons = topicsSelectOptions;
-    this.providerSelectOptions = providerSelectOptions;
   }
 
   // this credentials are used in all course apps
