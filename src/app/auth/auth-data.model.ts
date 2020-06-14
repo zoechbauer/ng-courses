@@ -4,7 +4,12 @@ export interface AuthData {
 }
 
 export enum AuthUser {
-  null,
   user,
   admin,
+}
+
+export interface User {
+  email: string;
+  userType: AuthUser;
+  photoUrl: string;
 }

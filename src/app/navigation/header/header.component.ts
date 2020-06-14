@@ -8,8 +8,7 @@ import {
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { AuthService } from 'src/app/auth/auth.service';
-import { AuthUser } from 'src/app/auth/auth-data.model';
+import { AuthStore } from 'src/app/auth/auth.store';
 
 @Component({
   selector: 'app-header',
@@ -18,30 +17,20 @@ import { AuthUser } from 'src/app/auth/auth-data.model';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   @Output() sidenavToggle = new EventEmitter<void>();
-  authSub: Subscription;
-  loggedIn = false;
-  isAdmin = false;
-  authUser = AuthUser.null;
+  authStoreSub: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(public authStore: AuthStore, private router: Router) {}
 
-  ngOnInit(): void {
-    this.authSub = this.authService.authChanged.subscribe(
-      (authUser: AuthUser) => {
-        console.log('header: authUser', authUser);
-        this.loggedIn = authUser === AuthUser.null ? false : true;
-        this.isAdmin = authUser === AuthUser.admin ? true : false;
-        this.authUser = authUser;
-      }
-    );
-  }
+  ngOnInit(): void {}
 
   onToggleSidenav() {
     this.sidenavToggle.emit();
   }
 
   onLogout() {
-    this.authService.logout();
+    this.authStoreSub = this.authStore
+      .logout()
+      .subscribe(() => this.router.navigate(['/']));
   }
 
   onDisplayCourses() {
@@ -57,6 +46,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authSub.unsubscribe();
+    this.authStoreSub.unsubscribe();
   }
 }

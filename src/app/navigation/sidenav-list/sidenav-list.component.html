@@ -12,21 +12,27 @@
   <a
     mat-list-item
     routerLink="/courses"
-    [disabled]="!loggedIn"
+    [disabled]="authStore.isLoggedOut$ | async"
     (click)="onClose()"
   >
-    <mat-icon [class.disabled]="!loggedIn">thumb_up</mat-icon>
-    <span class="nav-caption" [class.disabled]="!loggedIn">Kurse anzeigen</span>
+    <mat-icon [class.disabled]="authStore.isLoggedOut$ | async"
+      >thumb_up</mat-icon
+    >
+    <span class="nav-caption" [class.disabled]="authStore.isLoggedOut$ | async"
+      >Kurse anzeigen</span
+    >
   </a>
 
   <a
     mat-list-item
     routerLink="/courses/edit"
-    [disabled]="!isAdmin"
+    [disabled]="!(authStore.isAdmin$ | async)"
     (click)="onClose()"
   >
-    <mat-icon [class.disabled]="!isAdmin">thumb_up</mat-icon>
-    <span class="nav-caption" [class.disabled]="!isAdmin"
+    <mat-icon [class.disabled]="!(authStore.isAdmin$ | async)"
+      >thumb_up</mat-icon
+    >
+    <span class="nav-caption" [class.disabled]="!(authStore.isAdmin$ | async)"
       >Kurse bearbeiten</span
     >
   </a>
@@ -34,11 +40,15 @@
   <a
     mat-list-item
     routerLink="/courses/new"
-    [disabled]="!isAdmin"
+    [disabled]="!(authStore.isAdmin$ | async)"
     (click)="onClose()"
   >
-    <mat-icon [class.disabled]="!isAdmin">thumb_up</mat-icon>
-    <span class="nav-caption" [class.disabled]="!isAdmin">Neuer Kurs</span>
+    <mat-icon [class.disabled]="!(authStore.isAdmin$ | async)"
+      >thumb_up</mat-icon
+    >
+    <span class="nav-caption" [class.disabled]="!(authStore.isAdmin$ | async)"
+      >Neuer Kurs</span
+    >
   </a>
 
   <a mat-list-item routerLink="/todos" (click)="onClose()">
@@ -46,7 +56,12 @@
     <span class="nav-caption">Todos</span>
   </a>
 
-  <a mat-list-item routerLink="/login" *ngIf="!loggedIn" (click)="onClose()">
+  <a
+    mat-list-item
+    routerLink="/login"
+    *ngIf="authStore.isLoggedOut$ | async"
+    (click)="onClose()"
+  >
     <mat-icon>input</mat-icon>
     <span class="nav-caption">Login</span>
   </a>
@@ -55,7 +70,7 @@
     <button
       mat-icon-button
       (click)="onLogout()"
-      *ngIf="loggedIn"
+      *ngIf="authStore.isLoggedIn$ | async"
       (click)="onClose()"
     >
       <mat-icon>eject</mat-icon>

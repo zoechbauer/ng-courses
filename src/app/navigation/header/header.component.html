@@ -7,7 +7,7 @@
   <div class="logo">
     <a fxHide.xs routerLink="/"><mat-icon class="logo-img">home</mat-icon></a>
     <a routerLink="/" class="logo-text">Hans Zöchbauer's Kurse</a>
-    <span class="admin" *ngIf="isAdmin">Admin</span>
+    <span class="admin" *ngIf="authStore.isAdmin$ | async">Admin</span>
   </div>
   <div fxFlex fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout="row" fxLayoutGap="20px" class="navigation-items">
@@ -18,29 +18,35 @@
         <mat-menu #menu="matMenu">
           <button
             mat-menu-item
-            [disabled]="!loggedIn"
+            [disabled]="authStore.isLoggedOut$ | async"
             (click)="onDisplayCourses()"
           >
             Kurse anzeigen
           </button>
           <button
             mat-menu-item
-            [disabled]="!isAdmin"
+            [disabled]="!(authStore.isAdmin$ | async)"
             (click)="onManageCourses()"
           >
             Kurse bearbeiten
           </button>
-          <button mat-menu-item [disabled]="!isAdmin" (click)="onNewCourse()">
+          <button
+            mat-menu-item
+            [disabled]="!(authStore.isAdmin$ | async)"
+            (click)="onNewCourse()"
+          >
             neuer Kurs
           </button>
         </mat-menu>
       </li>
       <li routerLink="/todos"><a>Todos</a></li>
-      <li *ngIf="!loggedIn"><a routerLink="/login">Login</a></li>
-      <li *ngIf="loggedIn">
+      <li *ngIf="authStore.isLoggedOut$ | async">
+        <a routerLink="/login">Login</a>
+      </li>
+      <li *ngIf="authStore.isLoggedIn$ | async">
         <a routerLink="/welcome"><mat-icon>help</mat-icon></a>
       </li>
-      <li *ngIf="loggedIn" (click)="onLogout()">Logout</li>
+      <li *ngIf="authStore.isLoggedIn$ | async" (click)="onLogout()">Logout</li>
     </ul>
   </div>
 </mat-toolbar>
