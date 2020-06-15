@@ -7,8 +7,8 @@ import {
   AngularFireStorage,
   AngularFireUploadTask,
 } from '@angular/fire/storage';
-import { Observable, Subject, throwError } from 'rxjs';
-import { map, take, tap, catchError } from 'rxjs/operators';
+import { Observable, Subject, throwError, from, of } from 'rxjs';
+import { map, take, tap, catchError, first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Course } from './course.model';
@@ -152,59 +152,73 @@ export class CourseService {
           return throwError(err);
         })
       );
+    } else {
+      return of(null);
     }
   }
 
   // store changed course datas
-  updateCourse(course: Course) {
-    this.afs
-      .doc(this.collectionCourses + '/' + course.id)
-      .update(course)
-      .then((res) => {
+  updateCourse(course: Course): Observable<any> {
+    const updateCourse$ = from(
+      this.afs.doc(this.collectionCourses + '/' + course.id).update(course)
+    );
+
+    return updateCourse$.pipe(
+      tap((res) => {
         console.log('Course updated', res);
         this.router.navigate(['/courses/edit']);
-      })
-      .catch((err) =>
+      }),
+      catchError((err) => {
         this.notify.showErrorMessage(
           err,
           'Kurs konnte nicht in Firebase gespeichert werden'
-        )
-      );
+        );
+        return throwError(err);
+      })
+    );
   }
 
   // store new course data
-  addCourse(course: Course) {
+  addCourse(course: Course): Observable<any> {
     course.id = null;
-    this.afs
-      .collection(this.collectionCourses)
-      .add(course)
-      .then((_) => {
+    const addCourse$ = from(
+      this.afs.collection(this.collectionCourses).add(course)
+    );
+
+    return addCourse$.pipe(
+      tap(() => {
         console.log('Course added');
         this.router.navigate(['/courses/edit']);
-      })
-      .catch((err) =>
+      }),
+      catchError((err) => {
         this.notify.showErrorMessage(
           err,
           'Kurs konnte nicht in Firebase gespeichert werden'
-        )
-      );
+        );
+        return throwError(err);
+      })
+    );
   }
 
   // store changed course data
-  deleteCourse(id: string) {
-    this.afs
-      .doc(this.collectionCourses + '/' + id)
-      .delete()
-      .then((res) => {
+  deleteCourse(id: string): Observable<any> {
+    const deleteCourse$ = from(
+      this.afs.doc(this.collectionCourses + '/' + id).delete()
+    );
+
+    return deleteCourse$.pipe(
+      tap((res) => {
         console.log('Course deleted', res);
         this.router.navigate(['/courses/edit']);
-      })
-      .catch((err) =>
+      }),
+      catchError((err) => {
         this.notify.showErrorMessage(
           err,
           'Kurs konnte nicht in Firebase gelöscht werden'
-        )
-      );
+        );
+        return throwError(err);
+      })
+    );
   }
 
   getCourses(isEditMode: boolean): Observable<Course[]> {
@@ -225,6 +239,7 @@ export class CourseService {
               } as Course;
             });
           }),
+          first(),
           catchError((err) => {
             console.log('loadingOff');
             this.loadingService.loadingOff();
@@ -255,6 +270,7 @@ export class CourseService {
               } as Course;
             });
           }),
+          first(),
           catchError((err) => {
             console.log('loadingOff');
             this.loadingService.loadingOff();
