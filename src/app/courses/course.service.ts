@@ -7,20 +7,12 @@ import {
   AngularFireStorage,
   AngularFireUploadTask,
 } from '@angular/fire/storage';
-import { Observable, Subject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, Subject, throwError, from, of } from 'rxjs';
+import { map, take, tap, catchError, first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { Course } from './course.model';
 import { environment } from 'src/environments/environment';
-import {
-  ISelectOptions,
-  schoolSelectOptions,
-  teacherSelectOptions,
-  categorySelectOptions,
-  topicsSelectOptions,
-  providerSelectOptions,
-} from './course-filter.model';
 import { LoadingService } from '../shared/loading/loading.service';
 import { NotificationService } from '../shared/notification.service';
 
@@ -39,20 +31,8 @@ export enum FirebaseStorage {
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
-  firebaseData: Observable<any>;
-  coursesChanged = new Subject<Course[]>();
   courseRead = new Subject<Course>();
   downloadUrl = new Subject<string>();
-  private courseDoc: AngularFirestoreDocument<any>;
-  private course: Observable<any>;
-  private task: AngularFireUploadTask;
-
-  schoolSelectOptions: ISelectOptions[];
-  teacherSelectOptions: ISelectOptions[];
-  categorySelectOptions: ISelectOptions[];
-  topicsSelectOptons: ISelectOptions[];
-  providerSelectOptions: ISelectOptions[];
-
   collectionCourses: string;
   storageCourseConfirmation: string;
 
@@ -69,14 +49,6 @@ export class CourseService {
     this.storageCourseConfirmation = this.getFirebaseStorage(
       FirebaseStorage.courseConfirmation
     );
-  }
-
-  getAllFilterOptions() {
-    this.schoolSelectOptions = schoolSelectOptions;
-    this.teacherSelectOptions = teacherSelectOptions;
-    this.categorySelectOptions = categorySelectOptions;
-    this.topicsSelectOptons = topicsSelectOptions;
-    this.providerSelectOptions = providerSelectOptions;
   }
 
   // this credentials are used in all course apps
@@ -103,124 +75,183 @@ export class CourseService {
   }
 
   // read course data for editing
-  getCourse(id: string) {
+  getCourse(id: string): Observable<Course> {
     this.loadingService.loadingOn();
-    this.courseDoc = this.afs.doc(this.collectionCourses + '/' + id);
-    this.course = this.courseDoc.valueChanges();
-    this.course
-      .pipe(
-        map((doc) => {
-          return {
-            ...doc,
-            confirmationDate: doc['confirmationDate'].toDate(),
-          };
-        }),
-        take(1)
-      )
-      .subscribe((course) => {
-        this.courseRead.next(course);
-        this.getImageCourseConfirmation(course);
-      });
+    const courseDoc: AngularFirestoreDocument<any> = this.afs.doc(
+      this.collectionCourses + '/' + id
+    );
+    const afCourse: Observable<any> = courseDoc.valueChanges();
+    return afCourse.pipe(
+      map((doc) => {
+        return {
+          ...doc,
+          confirmationDate: doc['confirmationDate'].toDate(),
+        };
+      }),
+      take(1),
+      tap((course) => {
+        this.getImageCourseConfirmation(course).subscribe();
+      }),
+      catchError((err) => {
+        console.log('loadingOff');
+        this.loadingService.loadingOff();
+        this.notify.showErrorMessage(
+          err,
+          'Der Kurs konnte nicht aus Firebase geladen werden'
+        );
+        return throwError(err);
+      })
+    );
   }
 
-  getImageCourseConfirmation(course: Course) {
+  getImageCourseConfirmation(course: Course): Observable<void> {
     this.loadingService.loadingOn();
     const imgPath =
       this.storageCourseConfirmation + '/' + course.certificateName;
     console.log('imgPath', imgPath);
-    this.afStorage
+    return this.afStorage
       .ref(imgPath)
       .getDownloadURL()
-      .subscribe((url) => {
-        this.loadingService.loadingOff();
-        this.downloadUrl.next(url);
-      });
+      .pipe(
+        tap((url) => {
+          this.downloadUrl.next(url);
+          this.loadingService.loadingOff();
+          console.log('url', url);
+        }),
+        catchError((err) => {
+          console.log('loadingOff');
+          this.loadingService.loadingOff();
+          this.notify.showErrorMessage(
+            err,
+            'Kursbestätigung  konnte nicht aus Firebase geladen werden'
+          );
+          return throwError(err);
+        })
+      );
   }
 
-  uploadCourseImages(files: File[]) {
+  uploadCourseImages(files: File[]): Observable<any> {
     if (files.length > 0) {
-      const path = this.storageCourseConfirmation + '/' + files[0].name;
-      console.log('path', path);
-      this.task = this.afStorage.upload(path, files[0]);
-      console.log('upload task', this.task);
+      console.log('loadingOn');
+      this.loadingService.loadingOn();
+      const file = files[0];
+      const path = this.storageCourseConfirmation + '/' + file.name;
+      console.log('path', path, file);
+      const task: AngularFireUploadTask = this.afStorage.upload(path, file);
+      return task.snapshotChanges().pipe(
+        catchError((err) => {
+          console.log('loadingOff');
+          this.loadingService.loadingOff();
+          this.notify.showErrorMessage(
+            err,
+            'Die Kursbestätigung konnte nicht in FireStore gespeichert werden'
+          );
+          return throwError(err);
+        })
+      );
+    } else {
+      return of(null);
     }
   }
 
   // store changed course datas
-  updateCourse(course: Course) {
-    this.afs
-      .doc(this.collectionCourses + '/' + course.id)
-      .update(course)
-      .then((res) => {
+  updateCourse(course: Course): Observable<any> {
+    const updateCourse$ = from(
+      this.afs.doc(this.collectionCourses + '/' + course.id).update(course)
+    );
+
+    return updateCourse$.pipe(
+      tap((res) => {
         console.log('Course updated', res);
         this.router.navigate(['/courses/edit']);
-      })
-      .catch((err) =>
+      }),
+      catchError((err) => {
         this.notify.showErrorMessage(
           err,
           'Kurs konnte nicht in Firebase gespeichert werden'
-        )
-      );
+        );
+        return throwError(err);
+      })
+    );
   }
 
   // store new course data
-  addCourse(course: Course) {
+  addCourse(course: Course): Observable<any> {
     course.id = null;
-    this.afs
-      .collection(this.collectionCourses)
-      .add(course)
-      .then((_) => {
+    const addCourse$ = from(
+      this.afs.collection(this.collectionCourses).add(course)
+    );
+
+    return addCourse$.pipe(
+      tap(() => {
         console.log('Course added');
         this.router.navigate(['/courses/edit']);
-      })
-      .catch((err) =>
+      }),
+      catchError((err) => {
         this.notify.showErrorMessage(
           err,
           'Kurs konnte nicht in Firebase gespeichert werden'
-        )
-      );
+        );
+        return throwError(err);
+      })
+    );
   }
 
   // store changed course data
-  deleteCourse(id: string) {
-    this.afs
-      .doc(this.collectionCourses + '/' + id)
-      .delete()
-      .then((res) => {
+  deleteCourse(id: string): Observable<any> {
+    const deleteCourse$ = from(
+      this.afs.doc(this.collectionCourses + '/' + id).delete()
+    );
+
+    return deleteCourse$.pipe(
+      tap((res) => {
         console.log('Course deleted', res);
         this.router.navigate(['/courses/edit']);
-      })
-      .catch((err) =>
+      }),
+      catchError((err) => {
         this.notify.showErrorMessage(
           err,
           'Kurs konnte nicht in Firebase gelöscht werden'
-        )
-      );
+        );
+        return throwError(err);
+      })
+    );
   }
 
-  getCourses(isEditMode: boolean) {
+  getCourses(isEditMode: boolean): Observable<Course[]> {
     this.loadingService.loadingOn();
     if (!isEditMode) {
       // read valueChanges - no metadata
       // convert milliseconds into date as Firebase delivers seconds as Date
-      this.firebaseData = this.afs
+      return this.afs
         .collection(this.collectionCourses)
         .valueChanges()
         .pipe(
           map((docArray) => {
-            // console.log('map docArray', docArray);
+            console.log('map docArray', docArray);
             return docArray.map((doc: {}) => {
               return {
                 ...doc,
                 confirmationDate: doc['confirmationDate'].toDate(),
-              };
+              } as Course;
             });
-          })
+          }),
+          first(),
+          catchError((err) => {
+            console.log('loadingOff');
+            this.loadingService.loadingOff();
+            this.notify.showErrorMessage(
+              err,
+              'Kurse konnten nicht aus Firebase geladen werden'
+            );
+            return throwError(err);
+          }),
+          tap(() => this.loadingService.loadingOff())
         );
     } else {
       // read snapshotChanges - id for update
       // convert seconds into date and add id to course
-      this.firebaseData = this.afs
+      return this.afs
         .collection(this.collectionCourses)
         .snapshotChanges()
         .pipe(
@@ -233,14 +264,21 @@ export class CourseService {
                 confirmationDate: doc.payload.doc
                   .data()
                   ['confirmationDate'].toDate(),
-              };
+              } as Course;
             });
-          })
+          }),
+          first(),
+          catchError((err) => {
+            console.log('loadingOff');
+            this.loadingService.loadingOff();
+            this.notify.showErrorMessage(
+              err,
+              'Kurse konnten nicht aus Firebase geladen werden'
+            );
+            return throwError(err);
+          }),
+          tap(() => this.loadingService.loadingOff())
         );
     }
-    this.firebaseData.subscribe((courses) => {
-      this.coursesChanged.next(courses);
-      this.loadingService.loadingOff();
-    });
   }
 }

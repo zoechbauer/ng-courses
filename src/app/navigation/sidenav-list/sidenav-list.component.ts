@@ -1,32 +1,39 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  OnDestroy,
+} from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
-import { AuthService } from 'src/app/auth/auth.service';
-import { AuthUser } from 'src/app/auth/auth-data.model';
+import { AuthStore } from 'src/app/auth/auth.store';
 
 @Component({
   selector: 'app-sidenav-list',
   templateUrl: './sidenav-list.component.html',
   styleUrls: ['./sidenav-list.component.css'],
 })
-export class SidenavListComponent implements OnInit {
+export class SidenavListComponent implements OnInit, OnDestroy {
   @Output() closeSidenav = new EventEmitter<void>();
-  loggedIn = false;
-  isAdmin = false;
+  authStoreSub: Subscription;
 
-  constructor(private authService: AuthService) {}
+  constructor(public authStore: AuthStore, private router: Router) {}
 
-  ngOnInit(): void {
-    this.authService.authChanged.subscribe((auth: AuthUser) => {
-      this.loggedIn = auth === AuthUser.null ? false : true;
-      this.isAdmin = auth === AuthUser.admin ? true : false;
-    });
-  }
+  ngOnInit(): void {}
 
   onLogout() {
-    this.authService.logout();
+    this.authStoreSub = this.authStore
+      .logout()
+      .subscribe(() => this.router.navigate(['/']));
   }
 
   onClose() {
     this.closeSidenav.emit();
+  }
+
+  ngOnDestroy() {
+    this.authStoreSub.unsubscribe();
   }
 }

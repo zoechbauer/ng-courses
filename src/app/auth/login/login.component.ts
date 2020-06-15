@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { AuthService } from '../auth.service';
-import { AuthData } from '../auth-data.model';
+import { AuthData, User } from '../auth-data.model';
 import { environment } from 'src/environments/environment';
+import { AuthStore } from '../auth.store';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   automaticAdminLogin = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authStore: AuthStore, private router: Router) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -48,6 +49,10 @@ export class LoginComponent implements OnInit {
         password: this.loginForm.value.password,
       };
     }
-    this.authService.login(login);
+
+    this.authStore.login(login).subscribe((res: User) => {
+      console.log(`${res.email} logged in`);
+      this.router.navigate(['/courses']);
+    });
   }
 }
