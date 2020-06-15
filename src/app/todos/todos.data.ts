@@ -328,9 +328,15 @@ export const todoList: Todos[] = [
     type: 'Optimierung',
     status: 'erledigt',
   },
-
   {
     id: 46,
+    todo: 'Umstellen auf Reactive Design',
+    category: 'RxJs',
+    type: 'Optimierung',
+    status: 'erledigt',
+  },
+  {
+    id: 47,
     todo: 'Image hochladen Control nur anzeigen wenn Click auf neuen Button',
     category: 'Kurs verwalten',
     type: 'Layout',
