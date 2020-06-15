@@ -33,7 +33,7 @@ export class CoursesComponent implements OnInit {
   }
 
   afterPanelOpened(course: Course) {
-    this.courseService.getImageCourseConfirmation(course);
+    this.courseService.getImageCourseConfirmation(course).subscribe();
   }
 
   handleOpened(course: Course) {

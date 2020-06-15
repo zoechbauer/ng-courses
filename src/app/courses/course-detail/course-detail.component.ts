@@ -47,7 +47,6 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.downloadUrlSub = this.courseService.downloadUrl.subscribe((url) => {
       this.downloadUrl = url;
-      console.log('ImgUrl', url);
     });
     this.route.params.subscribe((params) => {
       if (params.id === undefined) {
@@ -58,13 +57,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       } else {
         this.courseId = params.id;
         this.actionHeader = 'Kurs ändern';
-        this.courseService.getCourse(this.courseId);
-        this.readCourseSub = this.courseService.courseRead.subscribe(
-          (course) => {
-            this.course = course;
-            this.initForm();
-          }
-        );
+        this.courseService.getCourse(this.courseId).subscribe((course) => {
+          this.course = course;
+          this.initForm();
+        });
       }
     });
   }
