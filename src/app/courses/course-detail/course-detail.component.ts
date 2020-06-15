@@ -19,22 +19,17 @@ import * as filter from '../course-filter.model';
 export class CourseDetailComponent implements OnInit, OnDestroy {
   courseId: string;
   course: Course;
-  readCourseSub: Subscription;
-  updateCourseSub: Subscription;
-  addCourseSub: Subscription;
-  deleteCourseSub: Subscription;
   courseForm: FormGroup;
   isNewCourse = false;
   actionHeader: string;
   files: File[] = [];
   downloadUrl: string;
-  downloadUrlSub: Subscription;
-  uploadImageSub: Subscription;
   schoolSelectOptions = filter.schoolSelectOptions;
   teacherSelectOptions = filter.teacherSelectOptions;
   categorySelectOptions = filter.categorySelectOptions;
   topicsSelectOptons = filter.topicsSelectOptions;
   providerSelectOptions = filter.providerSelectOptions;
+  private subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -45,9 +40,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.downloadUrlSub = this.courseService.downloadUrl.subscribe((url) => {
-      this.downloadUrl = url;
-    });
+    this.subscription.add(
+      this.courseService.downloadUrl.subscribe((url) => {
+        this.downloadUrl = url;
+      })
+    );
     this.route.params.subscribe((params) => {
       if (params.id === undefined) {
         this.isNewCourse = true;
@@ -117,26 +114,30 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     };
     console.log('course', this.course);
     if (this.isNewCourse) {
-      this.addCourseSub = this.courseService.addCourse(this.course).subscribe();
+      this.subscription.add(
+        this.courseService.addCourse(this.course).subscribe()
+      );
     } else {
-      this.updateCourseSub = this.courseService
-        .updateCourse(this.course)
-        .subscribe();
+      this.subscription.add(
+        this.courseService.updateCourse(this.course).subscribe()
+      );
     }
-    this.uploadImageSub = this.courseService
-      .uploadCourseImages(this.files)
-      .subscribe();
+    this.subscription.add(
+      this.courseService.uploadCourseImages(this.files).subscribe()
+    );
   }
 
   onDelete() {
     const dialogRef = this.dialog.open(CourseDeleteDialogComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteCourseSub = this.courseService
-          .deleteCourse(this.courseId)
-          .subscribe();
-      }
-    });
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.subscription.add(
+            this.courseService.deleteCourse(this.courseId).subscribe()
+          );
+        }
+      })
+    );
   }
 
   onSelect(event) {
@@ -161,28 +162,6 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.readCourseSub) {
-      this.readCourseSub.unsubscribe();
-    }
-
-    if (this.addCourseSub) {
-      this.addCourseSub.unsubscribe();
-    }
-
-    if (this.updateCourseSub) {
-      this.updateCourseSub.unsubscribe();
-    }
-
-    if (this.deleteCourseSub) {
-      this.deleteCourseSub.unsubscribe();
-    }
-
-    if (this.downloadUrlSub) {
-      this.downloadUrlSub.unsubscribe();
-    }
-
-    if (this.uploadImageSub) {
-      this.uploadImageSub.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 }
