@@ -5,8 +5,10 @@
     </button>
   </div>
   <div class="logo">
-    <a fxHide.xs routerLink="/"><mat-icon class="logo-img">home</mat-icon></a>
-    <a routerLink="/" class="logo-text">Hans Zöchbauer's Kurse</a>
+    <a fxHide.xs routerLink="/"
+      ><mat-icon class="logo-img">{{ logoIcon }}</mat-icon></a
+    >
+    <a routerLink="/" class="logo-text">{{ logoText }}</a>
     <span class="admin" *ngIf="authStore.isAdmin$ | async">Admin</span>
   </div>
   <div fxFlex fxLayoutAlign="end" fxHide.xs>

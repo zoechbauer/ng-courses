@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { AuthStore } from 'src/app/auth/auth.store';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -18,10 +19,15 @@ import { AuthStore } from 'src/app/auth/auth.store';
 export class HeaderComponent implements OnInit, OnDestroy {
   @Output() sidenavToggle = new EventEmitter<void>();
   authStoreSub: Subscription;
+  logoText: string;
+  logoIcon: string;
 
   constructor(public authStore: AuthStore, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.logoText = environment.logo.text;
+    this.logoIcon = environment.logo.maticon;
+  }
 
   onToggleSidenav() {
     this.sidenavToggle.emit();
