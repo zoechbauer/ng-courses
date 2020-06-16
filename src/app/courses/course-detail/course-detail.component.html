@@ -72,18 +72,31 @@
               >
             </mat-form-field>
             <mat-form-field>
-              <mat-label>Kurs-Bestätigung</mat-label>
-              <input formControlName="certificateName" matInput />
+              <div class="confirmation-text">
+                <mat-label>Kurs-Bestätigung</mat-label>
+                <input
+                  class="confirmation-input"
+                  formControlName="certificateName"
+                  matInput
+                />
+              </div>
+              <div class="confirmation-button">
+                <button
+                  *ngIf="!isNewCourse"
+                  type="button"
+                  mat-mini-fab
+                  color="primary"
+                  (click)="toggleImageUpload = !toggleImageUpload"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
             </mat-form-field>
             <app-loading></app-loading>
-            <div class="container" *ngIf="downloadUrl; let url">
-              <img
-                mat-card-image
-                [src]="url"
-                alt="Kursbestätigungs-Image von AngularFireStorage"
-              />
-            </div>
-            <ngx-dropzone (change)="onSelect($event)">
+            <ngx-dropzone
+              (change)="onSelect($event)"
+              *ngIf="toggleImageUpload || isNewCourse"
+            >
               <ngx-dropzone-label
                 >Bild reinziehen oder <br />Click für
                 Bildauswahl</ngx-dropzone-label
@@ -111,6 +124,13 @@
             <mat-error *ngIf="files.length > 1">
               Bitte nur 1 Bild auswählen, andere Bilder löschen!
             </mat-error>
+            <div class="confirmation-container" *ngIf="downloadUrl; let url">
+              <img
+                mat-card-image
+                [src]="url"
+                alt="Kursbestätigungs-Image von AngularFireStorage"
+              />
+            </div>
             <mat-form-field>
               <mat-label>Datum Kurs-Bestätigung</mat-label>
               <input

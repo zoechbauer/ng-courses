@@ -29,6 +29,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   categorySelectOptions = filter.categorySelectOptions;
   topicsSelectOptons = filter.topicsSelectOptions;
   providerSelectOptions = filter.providerSelectOptions;
+  toggleImageUpload = false;
   private subscription = new Subscription();
 
   constructor(

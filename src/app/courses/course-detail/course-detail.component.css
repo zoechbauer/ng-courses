@@ -21,3 +21,22 @@ mat-form-field {
   margin-right: 15px;
   width: 100%;
 }
+
+.confirmation-text {
+  width: 85%;
+  display: inline-block;
+}
+
+.confirmation-button {
+  width: 15%;
+  display: inline-block;
+}
+
+.confirmation-input {
+  margin-top: 10px;
+  margin-bottom: -13px;
+}
+
+.confirmation-container {
+  margin-top: 17px;
+}

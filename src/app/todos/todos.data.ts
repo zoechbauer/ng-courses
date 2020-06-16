@@ -189,21 +189,21 @@ export const todoList: Todos[] = [
       'eigenen Testuser erstellen, damit auch Kursverwaltung freigeschaltet wird',
     category: 'Admin-Funktion freigeben',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 28,
     todo: 'eigene Collection für Kurse durch Testuser erstellen',
     category: 'Admin-Funktion freigeben',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 29,
     todo: 'Switchen zwischen Zoe-Kursen und user-defierten Kursen',
     category: 'Admin-Funktion freigeben',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 30,
@@ -340,6 +340,6 @@ export const todoList: Todos[] = [
     todo: 'Image hochladen Control nur anzeigen wenn Click auf neuen Button',
     category: 'Kurs verwalten',
     type: 'Layout',
-    status: 'aktiv',
+    status: 'erledigt',
   },
 ];
