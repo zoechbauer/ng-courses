@@ -347,7 +347,7 @@ export const todoList: Todos[] = [
     todo: 'Menu Item und Formular implementieren',
     category: 'Kurs filtern',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 49,

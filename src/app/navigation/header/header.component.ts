@@ -43,6 +43,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/courses']);
   }
 
+  onSearchCourses() {
+    this.router.navigate(['/courses/search']);
+  }
+
   onManageCourses() {
     this.router.navigate(['/courses/edit']);
   }

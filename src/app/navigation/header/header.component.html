@@ -27,6 +27,13 @@
           </button>
           <button
             mat-menu-item
+            [disabled]="authStore.isLoggedOut$ | async"
+            (click)="onSearchCourses()"
+          >
+            Kurse suchen
+          </button>
+          <button
+            mat-menu-item
             [disabled]="!(authStore.isAdmin$ | async)"
             (click)="onManageCourses()"
           >

@@ -1,0 +1,81 @@
+<div class="container">
+  <h3 class="title">Kurse suchen</h3>
+  <Form [formGroup]="searchForm" (submit)="onSearch()">
+    <div
+      class="search-container"
+      fxLayout="row"
+      fxLayout.lt-md="column"
+      fxLayoutAlign="space-between"
+      fxLayoutGap="15px"
+    >
+      <mat-form-field fxFlex>
+        <mat-label>Kategorie</mat-label>
+        <mat-select multiple formControlName="searchCategory">
+          <mat-option
+            *ngFor="let opt of categorySelectOptions"
+            [value]="opt.value"
+            >{{ opt.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex>
+        <mat-label>Skills</mat-label>
+        <mat-select multiple formControlName="searchSkills">
+          <mat-option
+            *ngFor="let opt of topicsSelectOptions"
+            [value]="opt.value"
+            >{{ opt.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex>
+        <mat-label>Text</mat-label>
+        <input matInput autocomplete="no" formControlName="searchText" />
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary">
+        <mat-icon>search</mat-icon>
+        Suchen
+      </button>
+    </div>
+  </Form>
+  <div class="search-results">
+    <table mat-table matSort [dataSource]="datasource" class="mat-elevation-z8">
+      <ng-container matColumnDef="title">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="no-padding-left"
+        >
+          Titel
+        </th>
+        <td mat-cell *matCellDef="let element" class="no-padding-left">
+          {{ element.titel }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="confirmationDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Bestätigung</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.confirmationDate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dauer</th>
+        <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [pageSize]="10"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

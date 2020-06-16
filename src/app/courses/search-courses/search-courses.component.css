@@ -1,0 +1,12 @@
+.container {
+  max-width: 850px;
+  margin: 20px auto;
+}
+
+.title {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+}
