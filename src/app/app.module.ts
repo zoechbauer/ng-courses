@@ -33,6 +33,7 @@ import { TodosComponent } from './todos/todos.component';
 import { CourseDeleteDialogComponent } from './courses/course-delete-dialog.component';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { SearchCoursesComponent } from './courses/search-courses/search-courses.component';
+import { CourseDetailUserComponent } from './courses/course-detail-user/course-detail-user.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { SearchCoursesComponent } from './courses/search-courses/search-courses.
     CourseDeleteDialogComponent,
     LoadingComponent,
     SearchCoursesComponent,
+    CourseDetailUserComponent,
   ],
   imports: [
     BrowserModule,

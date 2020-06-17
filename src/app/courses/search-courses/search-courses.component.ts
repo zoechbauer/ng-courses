@@ -3,10 +3,10 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 
 import * as filter from '../course-filter.model';
 import { CourseService } from '../course.service';
-import { Subscription } from 'rxjs';
 import { Course } from '../course.model';
 
 @Component({
@@ -24,6 +24,7 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   coursesSub: Subscription;
   courses: Course[];
+  activeCourse: Course;
 
   constructor(private courseService: CourseService) {}
 
@@ -40,6 +41,15 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
 
   onClearFields() {
     this.searchForm.reset();
+  }
+
+  getCourse(course: Course) {
+    console.log('table row', course, course.title);
+    this.activeCourse = course;
+  }
+
+  onBackToSearch() {
+    this.activeCourse = null;
   }
 
   onSearch() {

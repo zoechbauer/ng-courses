@@ -16,9 +16,6 @@ export class CoursesComponent implements OnInit {
   currentOpenedCourseId: string = null;
   courses$: Observable<Course[]>;
   edit = false;
-  appUser: string;
-  appPassword: string;
-  appCredentials: IAppCredentials;
 
   constructor(
     private router: Router,
@@ -28,12 +25,7 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.setDisplayMode();
-    this.appCredentials = this.courseService.getAppCredentials();
     this.courses$ = this.courseService.getCourses(this.edit);
-  }
-
-  afterPanelOpened(course: Course) {
-    this.courseService.getImageCourseConfirmation(course).subscribe();
   }
 
   handleOpened(course: Course) {
@@ -46,10 +38,6 @@ export class CoursesComponent implements OnInit {
 
   setDisplayMode() {
     this.edit = this.router.url.includes('/courses/edit') ? true : false;
-  }
-
-  runUrl(url: string) {
-    window.open(url, '_blank');
   }
 
   editCourse(id: string) {
