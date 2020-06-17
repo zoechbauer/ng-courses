@@ -15,15 +15,22 @@ import { Course } from '../course.model';
   styleUrls: ['./search-courses.component.css'],
 })
 export class SearchCoursesComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  datasource = new MatTableDataSource();
-  displayedColumns: string[] = ['title', 'confirmationDate', 'duration'];
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  courses: Course[];
+  datasource = new MatTableDataSource(this.courses);
+  displayedColumns: string[] = [
+    'title',
+    'school',
+    'teacher',
+    'category',
+    'confirmationDate',
+    'duration',
+  ];
   categorySelectOptions = filter.categorySelectOptions;
   topicsSelectOptions = filter.topicsSelectOptions;
   searchForm: FormGroup;
   coursesSub: Subscription;
-  courses: Course[];
   activeCourse: Course;
 
   constructor(private courseService: CourseService) {}
@@ -35,8 +42,7 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
       searchText: new FormControl(),
     });
 
-    this.datasource.sort = this.sort;
-    this.datasource.paginator = this.paginator;
+    this.onSearch();
   }
 
   onClearFields() {
@@ -66,6 +72,8 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
           this.filterCourses();
         }
         this.datasource.data = this.courses;
+        this.datasource.sort = this.sort;
+        this.datasource.paginator = this.paginator;
       });
   }
 

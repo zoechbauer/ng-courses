@@ -351,22 +351,30 @@ export const todoList: Todos[] = [
   },
   {
     id: 49,
-    todo: 'Firebase Filter Service implementieren',
+    todo:
+      'Alle Kurse aus Firebase lesen u im Speicher nach div. Kriterien filtern',
     category: 'Kurs filtern',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 50,
     todo: 'Master-Detail Design Pattern verwenden',
     category: 'Kurs filtern',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 51,
     todo: 'Logo Bezeichnung und Icon in Config speichern',
     category: 'Optimierung',
+    type: 'neu',
+    status: 'erledigt',
+  },
+  {
+    id: 52,
+    todo: 'Tabellenspalten responsive definieren',
+    category: 'Kurs filtern',
     type: 'neu',
     status: 'erledigt',
   },

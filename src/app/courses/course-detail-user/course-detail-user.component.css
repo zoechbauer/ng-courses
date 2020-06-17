@@ -1,0 +1,33 @@
+.course-header button,
+.course-buttons button {
+  margin-bottom: 20px;
+  margin-right: 10px;
+  width: 140px;
+}
+
+.course-buttons {
+  width: 350px;
+  margin: auto;
+}
+
+.title-highlight {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.course-card {
+  text-align: justify;
+}
+
+.course-card h3 {
+  font-weight: 550;
+}
+
+.certificate {
+  background-size: cover;
+}
+
+.udemy {
+  height: 34px;
+  border-radius: 0;
+}

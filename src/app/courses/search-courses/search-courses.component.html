@@ -34,13 +34,13 @@
         <mat-label>Titel, Beschreibung, Schule, Lehrer</mat-label>
         <input matInput autocomplete="no" formControlName="searchText" />
       </mat-form-field>
-      <div fxShow [fxShow.gt-sm]="false" fxflex fxLayoutGap="10%">
-        <button type="submit" mat-raised-button color="primary" fxFlex="45%">
+      <div fxShow [fxShow.gt-sm]="false" fxFlex fxLayout="row">
+        <button type="submit" mat-raised-button color="primary" fxFlex>
           <mat-icon>search</mat-icon>
           suchen
         </button>
         <button
-          fxFlex="45%"
+          fxFlex
           type="button"
           mat-raised-button
           color="accent"
@@ -51,7 +51,13 @@
         </button>
       </div>
       <div fxHide [fxHide.gt-sm]="false">
-        <button type="submit" mat-mini-fab color="primary">
+        <button
+          type="submit"
+          mat-mini-fab
+          color="primary"
+          fxFlex
+          style="margin-right: 10px;"
+        >
           <mat-icon>search</mat-icon>
         </button>
         <button
@@ -59,6 +65,7 @@
           mat-mini-fab
           color="accent"
           (click)="onClearFields()"
+          fxFlex
         >
           <mat-icon>clear</mat-icon>
         </button>
@@ -67,7 +74,8 @@
   </Form>
   <app-loading></app-loading>
   <ng-container *ngIf="!activeCourse; else detail">
-    <div class="search-results">
+    <div class="search-results" *ngIf="courses && courses.length">
+      <h3 class="title">Kurs ankicken für Detailinformationen</h3>
       <table
         mat-table
         matSort
@@ -79,29 +87,88 @@
             mat-header-cell
             *matHeaderCellDef
             mat-sort-header
-            class="no-padding-left tbl-title"
+            class="no-padding-left"
           >
             Titel
           </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            class="no-padding-left tbl-title"
-          >
+          <td mat-cell *matCellDef="let element" class="no-padding-left">
             {{ element.title }}
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="school">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            fxHide
+            [fxHide.gt-sm]="false"
+          >
+            Kursanbieter
+          </th>
+          <td mat-cell *matCellDef="let element" fxHide [fxHide.gt-sm]="false">
+            {{ element.school }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="teacher">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            fxHide
+            [fxHide.gt-md]="false"
+          >
+            Kursleiter
+          </th>
+          <td mat-cell *matCellDef="let element" fxHide [fxHide.gt-md]="false">
+            {{ element.teacher }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            fxHide
+            [fxHide.gt-md]="false"
+          >
+            Kategorie
+          </th>
+          <td mat-cell *matCellDef="let element" fxHide [fxHide.gt-md]="false">
+            {{ element.category }}
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="confirmationDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Bestätigung</th>
-          <td mat-cell *matCellDef="let element">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            fxHide
+            [fxHide.gt-xs]="false"
+          >
+            Bestätigung
+          </th>
+          <td mat-cell *matCellDef="let element" fxHide [fxHide.gt-xs]="false">
             {{ element.confirmationDate | date: 'dd.MM.yyyy' }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="duration">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Dauer</th>
-          <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            fxHide
+            [fxHide.gt-sm]="false"
+          >
+            Dauer
+          </th>
+          <td mat-cell *matCellDef="let element" fxHide [fxHide.gt-sm]="false">
+            {{ element.duration }}
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
