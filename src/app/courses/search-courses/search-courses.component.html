@@ -103,10 +103,20 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      [pageSize]="10"
-      showFirstLastButtons
-    ></mat-paginator>
+    <div fxHide [fxHide.gt-sm]="false">
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="10"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+
+    <div fxShow [fxShow.gt-sm]="false">
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        [pageSize]="5"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
   </div>
 </div>
