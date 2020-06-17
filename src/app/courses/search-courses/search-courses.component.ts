@@ -38,6 +38,10 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
     this.datasource.paginator = this.paginator;
   }
 
+  onClearFields() {
+    this.searchForm.reset();
+  }
+
   onSearch() {
     console.log('search', this.searchForm.value);
     this.coursesSub = this.courseService

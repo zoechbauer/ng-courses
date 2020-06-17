@@ -34,10 +34,40 @@
         <mat-label>Titel, Beschreibung, Schule, Lehrer</mat-label>
         <input matInput autocomplete="no" formControlName="searchText" />
       </mat-form-field>
-      <button type="submit" mat-raised-button color="primary">
-        <mat-icon>search</mat-icon>
-        Suchen
-      </button>
+      <div
+        fxShow
+        [fxShow.gt-sm]="false"
+        fxflex
+        fxLayout="column"
+        fxLayoutGap="10px"
+      >
+        <button type="submit" mat-raised-button color="primary">
+          <mat-icon>search</mat-icon>
+          suchen
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          color="accent"
+          (click)="onClearFields()"
+        >
+          <mat-icon>clear</mat-icon>
+          löschen
+        </button>
+      </div>
+      <div fxHide [fxHide.gt-sm]="false">
+        <button type="submit" mat-mini-fab color="primary">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button
+          type="button"
+          mat-mini-fab
+          color="accent"
+          (click)="onClearFields()"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      </div>
     </div>
   </Form>
   <app-loading></app-loading>
