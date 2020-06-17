@@ -1,25 +1,31 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 import * as filter from '../course-filter.model';
+import { CourseService } from '../course.service';
+import { Subscription } from 'rxjs';
+import { Course } from '../course.model';
 
 @Component({
   selector: 'app-search-courses',
   templateUrl: './search-courses.component.html',
   styleUrls: ['./search-courses.component.css'],
 })
-export class SearchCoursesComponent implements OnInit {
+export class SearchCoursesComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  datasource;
+  datasource = new MatTableDataSource();
   displayedColumns: string[] = ['title', 'confirmationDate', 'duration'];
   categorySelectOptions = filter.categorySelectOptions;
   topicsSelectOptions = filter.topicsSelectOptions;
   searchForm: FormGroup;
+  coursesSub: Subscription;
+  courses: Course[];
 
-  constructor() {}
+  constructor(private courseService: CourseService) {}
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({
@@ -27,9 +33,107 @@ export class SearchCoursesComponent implements OnInit {
       searchSkills: new FormControl(),
       searchText: new FormControl(),
     });
+
+    this.datasource.sort = this.sort;
+    this.datasource.paginator = this.paginator;
   }
 
   onSearch() {
     console.log('search', this.searchForm.value);
+    this.coursesSub = this.courseService
+      .getCourses(false)
+      .subscribe((courses) => {
+        this.courses = [...courses];
+        if (
+          this.searchForm.value.searchText ||
+          this.searchForm.value.searchCategory ||
+          this.searchForm.value.searchSkills
+        ) {
+          this.filterCourses();
+        }
+        this.datasource.data = this.courses;
+      });
+  }
+
+  filterCourses() {
+    const filteredCoursesText: Course[] = this.filterCoursesByText();
+    const filteredCoursesCategory: Course[] = this.filterCoursesByCategory();
+    const filteredCoursesSkills: Course[] = this.filterCoursesByTopics();
+    // merge results
+    this.courses = [
+      ...filteredCoursesText,
+      ...filteredCoursesCategory,
+      ...filteredCoursesSkills,
+    ];
+    this.courses = [...new Set(this.courses)];
+  }
+
+  filterCoursesByText(): Course[] {
+    const filterString = this.searchForm.value.searchText;
+    let filteredCourses: Course[] = [];
+    if (filterString) {
+      filteredCourses = this.courses.filter((course: Course) => {
+        const re = new RegExp(filterString.toLowerCase());
+        if (course.title.toLowerCase().match(re)) {
+          return true;
+        }
+        if (course.description.toLowerCase().match(re)) {
+          return true;
+        }
+        if (course.summary.toLowerCase().match(re)) {
+          return true;
+        }
+        if (course.school.toLowerCase().match(re)) {
+          return true;
+        }
+        if (course.teacher.toLowerCase().match(re)) {
+          return true;
+        }
+        return false;
+      });
+    }
+    return filteredCourses;
+  }
+
+  filterCoursesByCategory(): Course[] {
+    const filterString = this.searchForm.value.searchCategory;
+    let filteredCourses: Course[] = [];
+    if (filterString) {
+      filteredCourses = this.courses.filter((course: Course) => {
+        let match = false;
+        filterString.forEach((filterEl: string) => {
+          if (filterEl === course.category) {
+            match = true;
+          }
+        });
+        return match;
+      });
+    }
+    return filteredCourses;
+  }
+
+  filterCoursesByTopics(): Course[] {
+    const filterString = this.searchForm.value.searchSkills;
+    let filteredCourses: Course[] = [];
+    if (filterString) {
+      filteredCourses = this.courses.filter((course: Course) => {
+        let match = false;
+        const skills = course.topics.toString();
+        filterString.forEach((filterEl: string) => {
+          const reSkill = new RegExp(filterEl.toLowerCase());
+          if (skills.toLowerCase().match(reSkill)) {
+            match = true;
+          }
+        });
+        return match;
+      });
+    }
+    return filteredCourses;
+  }
+
+  ngOnDestroy() {
+    if (this.coursesSub) {
+      this.coursesSub.unsubscribe();
+    }
   }
 }
