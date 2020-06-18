@@ -33,6 +33,11 @@ export const environment = {
   firebaseStorage: {
     pathCourseConfirmation: 'image path for course confirmation',
   },
+  logo: {
+    text: "Hans Zöchbauer's Kurse",
+    // angular-material-icon
+    maticon: 'supervisor_account',
+  },
   snackbar: {
     // displayed in milliseconds
     duration: 3000,

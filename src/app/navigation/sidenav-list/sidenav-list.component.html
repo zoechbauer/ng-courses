@@ -15,11 +15,23 @@
     [disabled]="authStore.isLoggedOut$ | async"
     (click)="onClose()"
   >
-    <mat-icon [class.disabled]="authStore.isLoggedOut$ | async"
-      >thumb_up</mat-icon
-    >
+    <mat-icon [class.disabled]="authStore.isLoggedOut$ | async">list</mat-icon>
     <span class="nav-caption" [class.disabled]="authStore.isLoggedOut$ | async"
       >Kurse anzeigen</span
+    >
+  </a>
+
+  <a
+    mat-list-item
+    routerLink="/courses/search"
+    [disabled]="authStore.isLoggedOut$ | async"
+    (click)="onClose()"
+  >
+    <mat-icon [class.disabled]="authStore.isLoggedOut$ | async"
+      >search</mat-icon
+    >
+    <span class="nav-caption" [class.disabled]="authStore.isLoggedOut$ | async"
+      >Kurse suchen</span
     >
   </a>
 
@@ -29,9 +41,7 @@
     [disabled]="!(authStore.isAdmin$ | async)"
     (click)="onClose()"
   >
-    <mat-icon [class.disabled]="!(authStore.isAdmin$ | async)"
-      >thumb_up</mat-icon
-    >
+    <mat-icon [class.disabled]="!(authStore.isAdmin$ | async)">edit</mat-icon>
     <span class="nav-caption" [class.disabled]="!(authStore.isAdmin$ | async)"
       >Kurse bearbeiten</span
     >
@@ -43,9 +53,7 @@
     [disabled]="!(authStore.isAdmin$ | async)"
     (click)="onClose()"
   >
-    <mat-icon [class.disabled]="!(authStore.isAdmin$ | async)"
-      >thumb_up</mat-icon
-    >
+    <mat-icon [class.disabled]="!(authStore.isAdmin$ | async)">add</mat-icon>
     <span class="nav-caption" [class.disabled]="!(authStore.isAdmin$ | async)"
       >Neuer Kurs</span
     >

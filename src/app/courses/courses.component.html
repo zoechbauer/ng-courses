@@ -16,7 +16,6 @@
       <mat-expansion-panel
         (opened)="handleOpened(course)"
         (closed)="handleClosed(course)"
-        (afterExpand)="afterPanelOpened(course)"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -35,78 +34,7 @@
             <mat-icon>edit</mat-icon>
           </button>
         </mat-expansion-panel-header>
-        <div fxLayout fxLayout.lt-md="column" fxLayoutGap="20px">
-          <mat-card class="course-card" fxFlex="1 1 100%">
-            <mat-card-header>
-              <div
-                mat-card-avatar
-                class="course-header-image"
-                [ngClass]="course.school | lowercase"
-              ></div>
-              <mat-card-title> {{ course.school }} </mat-card-title>
-              <mat-card-subtitle
-                >Kursleiter: {{ course.teacher }}
-              </mat-card-subtitle>
-            </mat-card-header>
-
-            <div *ngIf="courseService.downloadUrl | async; let url">
-              <img
-                mat-card-image
-                class="certificate"
-                [src]="url"
-                alt="Kursbestätigungs-Image von AngularFireStorage"
-              />
-            </div>
-          </mat-card>
-          <app-loading></app-loading>
-          <div class="course-card" fxFlex="1 1 100%">
-            <h3 *ngIf="edit">Id</h3>
-            <p *ngIf="edit">{{ course.id }}</p>
-            <h3>Kurzfassung</h3>
-            <p>{{ course.summary }}</p>
-            <h3>Kurs-Beschreibung</h3>
-            <p>{{ course.description }}</p>
-          </div>
-          <div class="course-card" fxFlex="1 1 100%">
-            <h3>Kategorie und Topics</h3>
-            <p>{{ course.category }}</p>
-            <p>{{ course.topics }}</p>
-            <h3>Source-Code und Testen der App</h3>
-            <p>
-              Der Source-Code ist in <strong>GitHub</strong> eingecheckt und die
-              App ist bei
-              <strong>{{ course.hostingProvider }}</strong> gehostet.
-            </p>
-            <div *ngIf="course.hasCredentials">
-              <p>
-                Bei GitHub brauchen Sie sich nicht anmelden. Bei der App
-                verwenden Sie bitte folgende Credentials:
-              </p>
-              <h5>
-                <strong>User: </strong>{{ appCredentials.appUser }} und
-                <strong>Kennwort:</strong> {{ appCredentials.appPassword }}
-              </h5>
-            </div>
-            <div class="course-buttons">
-              <button
-                mat-raised-button
-                color="primary"
-                (click)="runUrl(course.githubUrl)"
-                [disabled]="!course.githubUrl"
-              >
-                Source in GitHub
-              </button>
-              <button
-                mat-raised-button
-                color="accent"
-                (click)="runUrl(course.hostedUrl)"
-                [disabled]="!course.hostedUrl"
-              >
-                App starten
-              </button>
-            </div>
-          </div>
-        </div>
+        <app-course-detail-user [course]="course"></app-course-detail-user>
       </mat-expansion-panel>
     </div>
   </mat-accordion>

@@ -7,11 +7,17 @@ import { CourseDetailComponent } from './courses/course-detail/course-detail.com
 import { LoginComponent } from './auth/login/login.component';
 import { TodosComponent } from './todos/todos.component';
 import { AuthGuard } from './auth/auth.guard';
+import { SearchCoursesComponent } from './courses/search-courses/search-courses.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   { path: 'welcome', component: WelcomeComponent },
   { path: 'courses', component: CoursesComponent, canActivate: [AuthGuard] },
+  {
+    path: 'courses/search',
+    component: SearchCoursesComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'courses/edit',
     component: CoursesComponent,
