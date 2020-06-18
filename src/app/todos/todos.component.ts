@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { todoList } from './todos.data';
-import { MatPaginator } from '@angular/material/paginator';
 import { TodosService } from './todos.service';
 
 @Component({
@@ -17,13 +20,27 @@ export class TodosComponent implements OnInit {
   datasource = new MatTableDataSource(todoList);
   displayedColumns: string[] = ['id', 'status', 'type', 'category', 'todo'];
   status: number;
+  mobile$: Observable<boolean>;
 
-  constructor(private todoService: TodosService) {}
+  constructor(
+    private todoService: TodosService,
+    private media: MediaObserver
+  ) {}
 
   ngOnInit(): void {
     this.datasource.sort = this.sort;
     this.datasource.paginator = this.paginator;
     this.status = this.todoService.getStatus();
+
+    this.mobile$ = this.media.asObservable().pipe(
+      map((mediaChanges: MediaChange[]) => {
+        console.log('mediaChange', mediaChanges);
+        const result = mediaChanges.filter(
+          (mediaChange) => mediaChange.mqAlias === 'lt-md'
+        )[0];
+        return result && result.matches;
+      })
+    );
   }
 
   applyFilter(event: Event) {

@@ -10,14 +10,14 @@
     <table mat-table matSort [dataSource]="datasource" class="mat-elevation-z8">
       <ng-container matColumnDef="id">
         <th
+          [hidden]="mobile$ | async"
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
-          class="no-padding-left"
         >
           Nr
         </th>
-        <td mat-cell *matCellDef="let element" class="no-padding-left">
+        <td mat-cell *matCellDef="let element" [hidden]="mobile$ | async">
           {{ element.id }}
         </td>
       </ng-container>
@@ -28,8 +28,17 @@
       </ng-container>
 
       <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Typ</th>
-        <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          [hidden]="mobile$ | async"
+        >
+          Typ
+        </th>
+        <td mat-cell *matCellDef="let element" [hidden]="mobile$ | async">
+          {{ element.type }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="status">

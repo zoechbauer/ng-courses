@@ -3,7 +3,7 @@ table {
 }
 
 table.mat-table {
-  border-spacing: 2px;
+  border-spacing: 10px;
 }
 
 .todos-page {
@@ -27,10 +27,4 @@ table.mat-table {
 
 .mat-column-todo {
   word-break: break-word;
-}
-
-@media only screen and (max-width: 600px) {
-  .no-padding-left {
-    padding-left: 0px !important;
-  }
 }

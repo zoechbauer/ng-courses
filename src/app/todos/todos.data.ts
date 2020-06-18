@@ -378,4 +378,11 @@ export const todoList: Todos[] = [
     type: 'neu',
     status: 'erledigt',
   },
+  {
+    id: 53,
+    todo: 'Responsive Layout bei TODO-Liste',
+    category: 'Todos',
+    type: 'neu',
+    status: 'erledigt',
+  },
 ];
