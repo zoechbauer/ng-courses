@@ -11,6 +11,12 @@
   margin-top: 20px;
 }
 
+.course-header button {
+  margin-bottom: 20px;
+  margin-right: 10px;
+  width: 140px;
+}
+
 .course-header-image {
   background-image: url('https://seeklogo.com/images/U/udemy-logo-C3D3F5AC0C-seeklogo.com.png');
   background-size: contain;
