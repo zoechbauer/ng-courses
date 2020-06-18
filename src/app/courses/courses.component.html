@@ -17,18 +17,29 @@
         (opened)="handleOpened(course)"
         (closed)="handleClosed(course)"
       >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <p *ngIf="currentOpenedCourseId !== course.id">
-              {{ course.title }}
-            </p>
+        <mat-expansion-panel-header fxLayoutAlign="space-between" fxFlexFill>
+          <mat-panel-title fxFlex="90%" fxFlex.gt-sm="40%">
+            <ng-container *ngIf="currentOpenedCourseId !== course.id">
+              <div>
+                {{ course.title }}
+              </div>
+            </ng-container>
             <h3 *ngIf="currentOpenedCourseId === course.id">
               {{ course.title }}
             </h3>
           </mat-panel-title>
-          <mat-panel-description *ngIf="currentOpenedCourseId !== course.id">
-            {{ course.confirmationDate | date: 'dd.MM.yyyy' }},
-            {{ course.duration }} Std.
+          <mat-panel-description
+            *ngIf="currentOpenedCourseId !== course.id"
+            fxFlex
+            fxLayoutAlign="space-between"
+            fxFlexFill
+          >
+            <div fxHide [fxShow.gt-sm]="true" fxFlex="90%">
+              {{ course.summary }}
+            </div>
+            <div fxHide [fxShow.gt-xs]="true" fxFlex="10%">
+              {{ course.confirmationDate | date: 'dd.MM.yyyy' }}
+            </div>
           </mat-panel-description>
           <button *ngIf="edit" mat-icon-button (click)="editCourse(course.id)">
             <mat-icon>edit</mat-icon>

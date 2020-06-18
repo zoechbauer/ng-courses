@@ -22,19 +22,6 @@
   background-size: contain;
 }
 
-@media only screen and (max-width: 600px) {
-  mat-expansion-panel-header {
-    height: 111px !important;
-  }
-}
-
-.course-headers-align .mat-expansion-panel-header-title {
-  flex-basis: 70%;
-}
-.course-headers-align .mat-expansion-panel-header-description {
-  flex-basis: 30%;
-}
-
 .course-headers-align {
   line-height: 26px;
 }
