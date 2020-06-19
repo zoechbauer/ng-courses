@@ -116,7 +116,6 @@ export class CourseService {
         tap((url) => {
           this.downloadUrl.next(url);
           this.loadingService.loadingOff();
-          console.log('url', url);
         }),
         catchError((err) => {
           console.log('loadingOff');

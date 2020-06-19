@@ -11,6 +11,30 @@
     </div>
   </header>
   <app-loading></app-loading>
+  <!-- header-->
+  <mat-expansion-panel disabled>
+    <mat-expansion-panel-header fxLayoutAlign="space-between" fxFlexFill>
+      <mat-panel-title fxFlex="77%" fxFlex.gt-sm="40%">
+        <h3>
+          Kurs
+        </h3>
+      </mat-panel-title>
+      <mat-panel-description
+        fxFlex
+        fxLayoutAlign="space-between"
+        fxLayoutGap="5px"
+        fxFlexFill
+      >
+        <div fxHide [fxShow.gt-sm]="true" fxFlex="89%">
+          Kurs-Beschreibung
+        </div>
+        <div fxHide [fxShow.gt-xs]="true" fxFlex="25%">
+          Kurs-Bestätigung
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+  <!-- corse data-->
   <mat-accordion class="course-headers-align" multi>
     <div *ngFor="let course of courses$ | async as courses">
       <mat-expansion-panel
@@ -18,7 +42,7 @@
         (closed)="handleClosed(course)"
       >
         <mat-expansion-panel-header fxLayoutAlign="space-between" fxFlexFill>
-          <mat-panel-title fxFlex="90%" fxFlex.gt-sm="40%">
+          <mat-panel-title fxFlex="85%" fxFlex.gt-sm="40%">
             <ng-container *ngIf="currentOpenedCourseId !== course.id">
               <div>
                 {{ course.title }}
@@ -32,16 +56,22 @@
             *ngIf="currentOpenedCourseId !== course.id"
             fxFlex
             fxLayoutAlign="space-between"
+            fxLayoutGap="5px"
             fxFlexFill
           >
-            <div fxHide [fxShow.gt-sm]="true" fxFlex="90%">
+            <div fxHide [fxShow.gt-sm]="true" fxFlex="89%">
               {{ course.summary }}
             </div>
-            <div fxHide [fxShow.gt-xs]="true" fxFlex="10%">
+            <div fxHide [fxShow.gt-xs]="true" fxFlex="15%">
               {{ course.confirmationDate | date: 'dd.MM.yyyy' }}
             </div>
           </mat-panel-description>
-          <button *ngIf="edit" mat-icon-button (click)="editCourse(course.id)">
+          <button
+            class="edit-btn"
+            *ngIf="edit"
+            mat-icon-button
+            (click)="editCourse(course.id)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
         </mat-expansion-panel-header>
