@@ -392,6 +392,13 @@ export const todoList: Todos[] = [
     todo: 'System-Doku mittels Compodoc erstellen',
     category: 'Dokumentation',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
+  },
+  {
+    id: 55,
+    todo: 'Flackern bei Kursliste',
+    category: 'Optimierung',
+    type: 'Bug',
+    status: 'erledigt',
   },
 ];

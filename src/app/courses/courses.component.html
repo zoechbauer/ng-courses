@@ -12,7 +12,7 @@
   </header>
   <app-loading></app-loading>
   <!-- header-->
-  <mat-expansion-panel disabled>
+  <mat-expansion-panel disabled *ngIf="!loadingService.loading$">
     <mat-expansion-panel-header fxLayoutAlign="space-between" fxFlexFill>
       <mat-panel-title fxFlex="77%" fxFlex.gt-sm="40%">
         <h3>
@@ -75,7 +75,10 @@
             <mat-icon>edit</mat-icon>
           </button>
         </mat-expansion-panel-header>
-        <app-course-detail-user [course]="course"></app-course-detail-user>
+        <app-course-detail-user
+          [course]="course"
+          *ngIf="!loadingService.loading$"
+        ></app-course-detail-user>
       </mat-expansion-panel>
     </div>
   </mat-accordion>

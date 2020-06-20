@@ -5,6 +5,7 @@ import { MatAccordion } from '@angular/material/expansion';
 
 import { Course } from './course.model';
 import { CourseService } from './course.service';
+import { LoadingService } from '../shared/loading/loading.service';
 
 /**
  * This component is used for displaying Courses List on User & Admin mode.
@@ -23,7 +24,8 @@ export class CoursesComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    public courseService: CourseService
+    public courseService: CourseService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
