@@ -3,6 +3,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Course } from '../course.model';
 import { IAppCredentials, CourseService } from '../course.service';
 
+/**
+ * This component is used for displaying course data in user mode.
+ */
 @Component({
   selector: 'app-course-detail-user',
   templateUrl: './course-detail-user.component.html',

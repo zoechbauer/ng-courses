@@ -21,6 +21,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+/**
+ * This Module contains all used Angular Material Modules.
+ */
 const MaterialModules = [
   MatButtonModule,
   MatFormFieldModule,

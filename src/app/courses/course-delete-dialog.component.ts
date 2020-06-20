@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+/**
+ * This Component is used for confirming a Delete Course Request
+ */
 @Component({
   template: `
     <h2 mat-dialog-title>Kurs löschen</h2>

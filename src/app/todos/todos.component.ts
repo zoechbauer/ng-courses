@@ -9,6 +9,10 @@ import { map } from 'rxjs/operators';
 import { todoList } from './todos.data';
 import { TodosService } from './todos.service';
 
+/**
+ * This Component is used for Filtering the TODO List of this App.
+ * The TODO List is hardcoded defined in todos.data.ts.
+ */
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
@@ -43,6 +47,10 @@ export class TodosComponent implements OnInit {
     );
   }
 
+  /**
+   * Filter TODOs
+   * @param event
+   */
   applyFilter(event: Event) {
     this.datasource.filter = (event.target as HTMLInputElement).value
       .trim()

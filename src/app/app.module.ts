@@ -35,6 +35,9 @@ import { LoadingComponent } from './shared/loading/loading.component';
 import { SearchCoursesComponent } from './courses/search-courses/search-courses.component';
 import { CourseDetailUserComponent } from './courses/course-detail-user/course-detail-user.component';
 
+/**
+ * This is the Main Module of this App.
+ */
 @NgModule({
   declarations: [
     AppComponent,

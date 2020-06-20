@@ -60,3 +60,11 @@ export const environment = {
 If you copy this code segment into your environment.ts file you can compile and run the app, but you can only test the Todo-List because this feature does not need authentication.
 
 To test all features change the firebase credentials and other data of this code segment.
+
+## Compodoc Source Documentation
+
+You can create a very good documentation of this project by calling <strong> npm run compodoc </strong>.
+[Compodoc](https://compodoc.app/) creates the documents in the folder [documentation](documentation).
+At the moment (June, 2020) there are still [some problems](https://github.com/compodoc/compodoc/issues/927) generating documentation with Angular 9. Components are displayed within Modules/AppModule.
+
+This documentation folder is not uploaded to GitHub because you can create it automatically from the source.

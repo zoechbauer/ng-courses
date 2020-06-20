@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingService } from './loading.service';
 
+/**
+ * This Component is used for displaying a Spinner on loading data.
+ */
 @Component({
   selector: 'app-loading',
   templateUrl: './loading.component.html',

@@ -6,6 +6,9 @@ import { AuthData, User } from '../auth-data.model';
 import { environment } from 'src/environments/environment';
 import { AuthStore } from '../auth.store';
 
+/**
+ * This component is used for login user.
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -32,6 +35,10 @@ export class LoginComponent implements OnInit {
     this.automaticAdminLogin = environment.admin.password !== '' ? true : false;
   }
 
+  /**
+   * Login user.
+   * Only in Development: If admin is selected and credentials are stored in config then use config credentials.
+   */
   onSubmit() {
     // console.log(this.loginForm.value.loginAsAdmin);
     let login: AuthData;

@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 
 import { AuthStore } from 'src/app/auth/auth.store';
 
+/**
+ * This Component is used for navigation for mobile devices.
+ */
 @Component({
   selector: 'app-sidenav-list',
   templateUrl: './sidenav-list.component.html',

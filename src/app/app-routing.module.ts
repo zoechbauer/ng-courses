@@ -9,6 +9,9 @@ import { TodosComponent } from './todos/todos.component';
 import { AuthGuard } from './auth/auth.guard';
 import { SearchCoursesComponent } from './courses/search-courses/search-courses.component';
 
+/**
+ * This Module is used for Routing.
+ */
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   { path: 'welcome', component: WelcomeComponent },

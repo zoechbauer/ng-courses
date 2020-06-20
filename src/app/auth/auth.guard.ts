@@ -16,6 +16,11 @@ import { AuthStore } from './auth.store';
 })
 export class AuthGuard implements CanActivate {
   constructor(private authStore: AuthStore, private router: Router) {}
+  /**
+   * Check route before executing. If user is not logged in cancel route and display login.
+   * @param next ActivatedRouteSnapshot
+   * @param state RouterStateSnapshot
+   */
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
