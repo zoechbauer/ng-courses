@@ -1,3 +1,6 @@
+/**
+ * Interface for TODOs
+ */
 export interface Todos {
   id: number;
   category: string;

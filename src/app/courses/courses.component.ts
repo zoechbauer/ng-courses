@@ -4,8 +4,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatAccordion } from '@angular/material/expansion';
 
 import { Course } from './course.model';
-import { CourseService, IAppCredentials } from './course.service';
+import { CourseService } from './course.service';
 
+/**
+ * This component is used for displaying Courses List on User & Admin mode.
+ */
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -28,14 +31,25 @@ export class CoursesComponent implements OnInit {
     this.courses$ = this.courseService.getCourses(this.edit);
   }
 
+  /**
+   * On mat-expansion-panel opened
+   * @param course
+   */
   handleOpened(course: Course) {
     this.currentOpenedCourseId = course.id;
   }
 
+  /**
+   * On mat-expansion-panel closed
+   * @param course
+   */
   handleClosed(course: Course) {
     this.currentOpenedCourseId = null;
   }
 
+  /**
+   * For User or Admin mode
+   */
   setDisplayMode() {
     this.edit = this.router.url.includes('/courses/edit') ? true : false;
   }

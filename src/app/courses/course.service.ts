@@ -16,19 +16,31 @@ import { environment } from 'src/environments/environment';
 import { LoadingService } from '../shared/loading/loading.service';
 import { NotificationService } from '../shared/notification.service';
 
+/**
+ *  Credentials-Interface for hosted apps
+ */
 export interface IAppCredentials {
   appUser: string;
   appPassword: string;
 }
 
+/**
+ * Used Fiorebase Collections for Database access
+ */
 export enum FirebaseCollection {
   courses,
 }
 
+/**
+ * Used Fiorebase Storage for uploading Images
+ */
 export enum FirebaseStorage {
   courseConfirmation,
 }
 
+/**
+ * This Service is used for access to Firebase Firestore Database and File Storage
+ */
 @Injectable({ providedIn: 'root' })
 export class CourseService {
   courseRead = new Subject<Course>();
@@ -51,7 +63,10 @@ export class CourseService {
     );
   }
 
-  // this credentials are used in all course apps
+  /**
+   * Get Credentials for access to hosted apps from Config
+   * This credentials are used in all course apps.
+   */
   getAppCredentials(): IAppCredentials {
     return {
       appUser: environment.course_apps.login,
@@ -59,14 +74,21 @@ export class CourseService {
     };
   }
 
-  // Firebase Database
+  /**
+   * Get Firebase Database
+   * @param collection name of Collection
+   */
   getFirebaseCollection(collection: FirebaseCollection): string {
     if (collection === FirebaseCollection.courses) {
       return environment.firebaseDb.collectionCourses;
     }
     return null;
   }
-  // Firebase Storage for storing images
+
+  /**
+   * Get Firebase Storage for storing images
+   * @param storage naME OF STORAGE
+   */
   getFirebaseStorage(storage: FirebaseStorage): string {
     if (storage === FirebaseStorage.courseConfirmation) {
       return environment.firebaseStorage.pathCourseConfirmation;
@@ -74,7 +96,10 @@ export class CourseService {
     return null;
   }
 
-  // read course data for editing
+  /**
+   * Read Course data & image of confirmation for editing Course
+   * @param id Course id
+   */
   getCourse(id: string): Observable<Course> {
     this.loadingService.loadingOn();
     const courseDoc: AngularFirestoreDocument<any> = this.afs.doc(
@@ -104,6 +129,10 @@ export class CourseService {
     );
   }
 
+  /**
+   * Get Image of Course confirmation
+   * @param course
+   */
   getImageCourseConfirmation(course: Course): Observable<void> {
     this.loadingService.loadingOn();
     const imgPath =
@@ -129,6 +158,10 @@ export class CourseService {
       );
   }
 
+  /**
+   * Upload Course confirmation image to Firebase store
+   * @param files
+   */
   uploadCourseImages(files: File[]): Observable<any> {
     if (files.length > 0) {
       console.log('loadingOn');
@@ -153,7 +186,10 @@ export class CourseService {
     }
   }
 
-  // store changed course datas
+  /**
+   * Store changed Course data in Firebase DB
+   * @param course
+   */
   updateCourse(course: Course): Observable<any> {
     const updateCourse$ = from(
       this.afs.doc(this.collectionCourses + '/' + course.id).update(course)
@@ -174,7 +210,10 @@ export class CourseService {
     );
   }
 
-  // store new course data
+  /**
+   * Store new Course data in Firebase DB and navigate on success to Courses List
+   * @param course
+   */
   addCourse(course: Course): Observable<any> {
     course.id = null;
     const addCourse$ = from(
@@ -196,7 +235,10 @@ export class CourseService {
     );
   }
 
-  // store changed course data
+  /**
+   * Delete Course data in Firebase DB and navigate on success to Courses List
+   * @param course
+   */
   deleteCourse(id: string): Observable<any> {
     const deleteCourse$ = from(
       this.afs.doc(this.collectionCourses + '/' + id).delete()
@@ -217,6 +259,10 @@ export class CourseService {
     );
   }
 
+  /**
+   * Get Course data from Firebase as ValueChanges or snapshotChanges depending on Input Param.
+   * @param isEditMode true only in Admin mode
+   */
   getCourses(isEditMode: boolean): Observable<Course[]> {
     this.loadingService.loadingOn();
     if (!isEditMode) {

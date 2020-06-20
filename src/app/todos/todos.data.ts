@@ -1,5 +1,7 @@
 import { Todos } from './todos.model';
-
+/**
+ * This hardcoded TODO List must be maintained by the programmer duringg Development.
+ */
 export const todoList: Todos[] = [
   {
     id: 1,
@@ -384,5 +386,12 @@ export const todoList: Todos[] = [
     category: 'Todos',
     type: 'neu',
     status: 'erledigt',
+  },
+  {
+    id: 54,
+    todo: 'System-Doku mittels Compodoc erstellen',
+    category: 'Dokumentation',
+    type: 'neu',
+    status: 'aktiv',
   },
 ];

@@ -9,6 +9,9 @@ import * as filter from '../course-filter.model';
 import { CourseService } from '../course.service';
 import { Course } from '../course.model';
 
+/**
+ * This component is used for searching courses.
+ */
 @Component({
   selector: 'app-search-courses',
   templateUrl: './search-courses.component.html',
@@ -49,15 +52,25 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
     this.searchForm.reset();
   }
 
+  /**
+   * Display selected Course
+   * @param course
+   */
   getCourse(course: Course) {
     console.log('table row', course, course.title);
     this.activeCourse = course;
   }
 
+  /**
+   * Display Course list
+   */
   onBackToSearch() {
     this.activeCourse = null;
   }
 
+  /**
+   * Filter Courses as defined in Form fields
+   */
   onSearch() {
     console.log('search', this.searchForm.value);
     this.coursesSub = this.courseService
@@ -77,7 +90,7 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
       });
   }
 
-  filterCourses() {
+  private filterCourses() {
     const filteredCoursesText: Course[] = this.filterCoursesByText();
     const filteredCoursesCategory: Course[] = this.filterCoursesByCategory();
     const filteredCoursesSkills: Course[] = this.filterCoursesByTopics();
@@ -90,7 +103,7 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
     this.courses = [...new Set(this.courses)];
   }
 
-  filterCoursesByText(): Course[] {
+  private filterCoursesByText(): Course[] {
     const filterString = this.searchForm.value.searchText;
     let filteredCourses: Course[] = [];
     if (filterString) {
@@ -117,7 +130,7 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
     return filteredCourses;
   }
 
-  filterCoursesByCategory(): Course[] {
+  private filterCoursesByCategory(): Course[] {
     const filterString = this.searchForm.value.searchCategory;
     let filteredCourses: Course[] = [];
     if (filterString) {
@@ -134,7 +147,7 @@ export class SearchCoursesComponent implements OnInit, OnDestroy {
     return filteredCourses;
   }
 
-  filterCoursesByTopics(): Course[] {
+  private filterCoursesByTopics(): Course[] {
     const filterString = this.searchForm.value.searchSkills;
     let filteredCourses: Course[] = [];
     if (filterString) {

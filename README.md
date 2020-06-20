@@ -65,5 +65,6 @@ To test all features change the firebase credentials and other data of this code
 
 You can create a very good documentation of this project by calling <strong> npm run compodoc </strong>.
 [Compodoc](https://compodoc.app/) creates the documents in the folder [documentation](documentation).
+At the moment (June, 2020) there are still [some problems](https://github.com/compodoc/compodoc/issues/927) generating documentation with Angular 9. Components are displayed within Modules/AppModule.
 
 This documentation folder is not uploaded to GitHub because you can create it automatically from the source.

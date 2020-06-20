@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
+/**
+ * This Service is used for displaying a Spinner on loading data.
+ */
 @Injectable({
   providedIn: 'root',
 })

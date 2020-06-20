@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 import { AuthStore } from 'src/app/auth/auth.store';
 import { environment } from 'src/environments/environment';
 
+/**
+ * This Component is used for navigation for medium & large devices.
+ */
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

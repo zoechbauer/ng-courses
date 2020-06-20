@@ -1,10 +1,15 @@
-// interface for select controls
+/**
+ * Interface for select control in template
+ */
 export interface ISelectOptions {
   name: string;
   value: string;
 }
 
-// temporary hardcoded Select Options - will be replaced by Firebase entities in future
+/**
+ * Temporary hardcoded Select Options
+ * These definitions will be replaced by Firebase entities in future
+ */
 export const schoolSelectOptions: ISelectOptions[] = [
   { name: 'Udemy', value: 'udemy' },
   { name: 'YouTube', value: 'youtube' },

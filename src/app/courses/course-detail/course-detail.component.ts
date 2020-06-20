@@ -10,7 +10,11 @@ import { Course } from '../course.model';
 import { CourseDeleteDialogComponent } from '../course-delete-dialog.component';
 import { LoadingService } from 'src/app/shared/loading/loading.service';
 import * as filter from '../course-filter.model';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 
+/**
+ * This component is used for creating and editing courses.
+ */
 @Component({
   selector: 'app-course-detail',
   templateUrl: './course-detail.component.html',
@@ -65,6 +69,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Init form with course data
+   */
   initForm() {
     this.courseForm = new FormGroup({
       id: new FormControl(this.courseId),
@@ -97,6 +104,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Open github-url or aoo-url in new browser tab
+   * @param url
+   */
   runUrl(url: string) {
     window.open(url, '_blank');
   }
@@ -105,6 +116,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['/courses/edit']);
   }
 
+  /**
+   * Create or edit course
+   */
   onSubmit() {
     console.log('form', this.courseForm.value);
     this.course = {
@@ -130,6 +144,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Delete course
+   */
   onDelete() {
     const dialogRef = this.dialog.open(CourseDeleteDialogComponent);
     this.subscription.add(
@@ -143,7 +160,11 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSelect(event) {
+  /**
+   * Select upload image
+   * @param event NgxDropzoneChangeEvent
+   */
+  onSelect(event: NgxDropzoneChangeEvent) {
     // store only 1 image, so clear array
     this.files = [];
     console.log(event);
@@ -158,9 +179,13 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRemove(event) {
-    console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
+  /**
+   * Remove image from array for uploading to Firebase
+   * @param file image
+   */
+  onRemove(file: File) {
+    console.log(file);
+    this.files.splice(this.files.indexOf(file), 1);
     this.courseForm.get('certificateName').setValue('');
   }
 

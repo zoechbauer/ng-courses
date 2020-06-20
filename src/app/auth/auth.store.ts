@@ -11,6 +11,10 @@ import { NotificationService } from '../shared/notification.service';
 
 const AUTH_KEY = 'auth_user';
 
+/**
+ * Perform login & logout in Firebase with Firestore.
+ * Store State in member observables.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -39,6 +43,10 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Login in Firebase with email & password and set values in Store & localStorage
+   * @param login AuthData
+   */
   login(login: AuthData): Observable<User | any> {
     const login$ = from(
       this.afAuth.signInWithEmailAndPassword(login.email, login.password)
@@ -66,6 +74,9 @@ export class AuthStore {
     );
   }
 
+  /**
+   * Logout user from Firebase & Store & localStorage
+   */
   logout(): Observable<any> {
     const logout$ = from(this.afAuth.signOut());
 

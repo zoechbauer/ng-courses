@@ -1,3 +1,6 @@
+/**
+ * Definition of the Course Model
+ */
 export class Course {
   // school data
   id?: string; // id is created by Firebase and stored separately
