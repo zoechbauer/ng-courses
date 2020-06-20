@@ -1,6 +1,6 @@
 import { Todos } from './todos.model';
 /**
- * This hardcoded TODO List must be maintained by the programmer duringg Development.
+ * This hardcoded TODO List must be maintained by the programmer during Development.
  */
 export const todoList: Todos[] = [
   {

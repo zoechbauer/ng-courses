@@ -48,7 +48,7 @@ export class CoursesComponent implements OnInit {
   }
 
   /**
-   * For User or Admin mode
+   * Set User or Admin mode
    */
   setDisplayMode() {
     this.edit = this.router.url.includes('/courses/edit') ? true : false;

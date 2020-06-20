@@ -105,8 +105,8 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Open github-url or aoo-url in new browser tab
-   * @param url
+   * Open Url of source project in github or url of hosted App
+   * @param url Url of source or hosted App
    */
   runUrl(url: string) {
     window.open(url, '_blank');

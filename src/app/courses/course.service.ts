@@ -25,14 +25,14 @@ export interface IAppCredentials {
 }
 
 /**
- * Used Fiorebase Collections for Database access
+ * Used Firebase Collections for Database access
  */
 export enum FirebaseCollection {
   courses,
 }
 
 /**
- * Used Fiorebase Storage for uploading Images
+ * Used Firebase Storage for uploading Images
  */
 export enum FirebaseStorage {
   courseConfirmation,
@@ -87,7 +87,7 @@ export class CourseService {
 
   /**
    * Get Firebase Storage for storing images
-   * @param storage naME OF STORAGE
+   * @param storage name of storage
    */
   getFirebaseStorage(storage: FirebaseStorage): string {
     if (storage === FirebaseStorage.courseConfirmation) {
@@ -97,7 +97,7 @@ export class CourseService {
   }
 
   /**
-   * Read Course data & image of confirmation for editing Course
+   * Read Course data & image of Course confirmation for editing Course
    * @param id Course id
    */
   getCourse(id: string): Observable<Course> {

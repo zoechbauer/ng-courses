@@ -11,7 +11,7 @@ import { Todos } from './todos.model';
 })
 export class TodosService {
   /**
-   * Calculate ratio of closed to toal TODOs.
+   * Calculate ratio of closed / total TODOs.
    */
   private calcStatus(): number {
     const todos: Todos[] = data.todoList;
@@ -23,7 +23,7 @@ export class TodosService {
   }
 
   /**
-   * Get calculated ratio of closed to toal TODOs.
+   * Get calculated ratio of closed / total TODOs.
    */
   getStatus() {
     return this.calcStatus();
