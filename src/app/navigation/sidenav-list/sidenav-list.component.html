@@ -12,6 +12,7 @@
   <a
     mat-list-item
     routerLink="/courses"
+    *ngIf="!(authStore.isAdmin$ | async)"
     [disabled]="authStore.isLoggedOut$ | async"
     (click)="onClose()"
   >

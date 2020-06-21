@@ -19,6 +19,7 @@
         </button>
         <mat-menu #menu="matMenu">
           <button
+            *ngIf="!(authStore.isAdmin$ | async)"
             mat-menu-item
             [disabled]="authStore.isLoggedOut$ | async"
             (click)="onDisplayCourses()"

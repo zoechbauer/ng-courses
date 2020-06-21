@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable, from, throwError } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthData, User, AuthUser } from './auth-data.model';
 import { environment } from '../../environments/environment';

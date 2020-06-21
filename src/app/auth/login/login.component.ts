@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthData, User } from '../auth-data.model';
+import { AuthData, User, AuthUser } from '../auth-data.model';
 import { environment } from 'src/environments/environment';
 import { AuthStore } from '../auth.store';
 
@@ -58,8 +58,12 @@ export class LoginComponent implements OnInit {
     }
 
     this.authStore.login(login).subscribe((res: User) => {
-      console.log(`${res.email} logged in`);
-      this.router.navigate(['/courses']);
+      console.log(`${res.email} logged in as ${res.userType}`);
+      if (res.userType === AuthUser.admin) {
+        this.router.navigate(['/courses/edit']);
+      } else {
+        this.router.navigate(['/courses']);
+      }
     });
   }
 }
