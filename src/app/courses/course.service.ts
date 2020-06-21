@@ -125,7 +125,8 @@ export class CourseService {
           'Der Kurs konnte nicht aus Firebase geladen werden'
         );
         return throwError(err);
-      })
+      }),
+      tap(() => this.loadingService.loadingOff())
     );
   }
 
@@ -134,7 +135,7 @@ export class CourseService {
    * @param course
    */
   getImageCourseConfirmation(course: Course): Observable<void> {
-    this.loadingService.loadingOn();
+    // this.loadingService.loadingOn();
     const imgPath =
       this.storageCourseConfirmation + '/' + course.certificateName;
     console.log('imgPath', imgPath);
@@ -144,11 +145,11 @@ export class CourseService {
       .pipe(
         tap((url) => {
           this.downloadUrl.next(url);
-          this.loadingService.loadingOff();
+          // this.loadingService.loadingOff();
         }),
         catchError((err) => {
           console.log('loadingOff');
-          this.loadingService.loadingOff();
+          // this.loadingService.loadingOff();
           this.notify.showErrorMessage(
             err,
             'Kursbestätigung  konnte nicht aus Firebase geladen werden'
