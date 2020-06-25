@@ -22,18 +22,13 @@ export class TodosComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   datasource = new MatTableDataSource(this.todoService.Todos);
   displayedColumns: string[] = ['id', 'status', 'type', 'category', 'todo'];
-  status: number;
   mobile$: Observable<boolean>;
 
-  constructor(
-    private todoService: TodosService,
-    private media: MediaObserver
-  ) {}
+  constructor(public todoService: TodosService, private media: MediaObserver) {}
 
   ngOnInit(): void {
     this.datasource.sort = this.sort;
     this.datasource.paginator = this.paginator;
-    this.status = this.todoService.getStatus();
 
     this.mobile$ = this.media.asObservable().pipe(
       map((mediaChanges: MediaChange[]) => {
