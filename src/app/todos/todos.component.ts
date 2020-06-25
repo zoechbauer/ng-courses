@@ -6,7 +6,6 @@ import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { todoList } from './todos.data';
 import { TodosService } from './todos.service';
 
 /**
@@ -21,7 +20,7 @@ import { TodosService } from './todos.service';
 export class TodosComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  datasource = new MatTableDataSource(todoList);
+  datasource = new MatTableDataSource(this.todoService.Todos);
   displayedColumns: string[] = ['id', 'status', 'type', 'category', 'todo'];
   status: number;
   mobile$: Observable<boolean>;
