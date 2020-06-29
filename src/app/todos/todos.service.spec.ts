@@ -1,43 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { TodosService } from './todos.service';
 import { TodosData } from './todos.data';
+import * as testData from '../tests/setup-test-data';
 
 describe('TodosService', () => {
   let todosService: TodosService;
   let todosSpy: any;
+  const testTodos = testData.setupTodos();
 
   beforeEach(() => {
-    todosSpy = jasmine.createSpyObj('TodosData', [], {
-      Todos: [
-        {
-          id: 1,
-          todo: 'Test Todo 1',
-          category: 'Todos',
-          type: 'neu',
-          status: 'erledigt',
-        },
-        {
-          id: 2,
-          todo: 'Test Todo 2',
-          category: 'Todos',
-          type: 'neu',
-          status: 'aktiv',
-        },
-        {
-          id: 3,
-          todo: 'Test Todo 3',
-          category: 'Todos',
-          type: 'neu',
-          status: 'offen',
-        },
-      ],
-    });
+    todosSpy = jasmine.createSpyObj('TodosData', [], { Todos: testTodos });
 
     TestBed.configureTestingModule({
       providers: [TodosService, { provide: TodosData, useValue: todosSpy }],
     });
 
-    todosService = TestBed.get(TodosService);
+    todosService = TestBed.inject(TodosService);
   });
 
   it('should get Todo Status', () => {
