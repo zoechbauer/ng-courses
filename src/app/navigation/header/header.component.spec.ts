@@ -4,7 +4,6 @@ import {
   TestBed,
   fakeAsync,
   flush,
-  tick,
 } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DebugElement } from '@angular/core';
@@ -44,45 +43,100 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show menu item logout if user is logged in', () => {
-    pending();
-  });
-
-  it('should show menu item help if user is logged in', () => {
-    pending();
-  });
-
-  it('should show login button if user is logged out', fakeAsync(() => {
-    component.authStore.isLoggedIn$ = of(false);
-    component.authStore.isLoggedOut$ = of(true);
-    component.authStore.isAdmin$ = of(false);
+  it('should show logout button if user is logged in', fakeAsync(() => {
+    component.authStore.isLoggedIn$ = of(true);
 
     fixture.detectChanges();
     flush();
 
-    const menItems = el.queryAll(By.css('.navigation-items>li'));
+    const navItems = el.queryAll(By.css('.navigation-items>li'));
 
-    expect(menItems.length).toBeGreaterThan(0, 'Could not find menue items');
+    expect(navItems.length).toBeGreaterThan(
+      0,
+      'Could not find navigation items'
+    );
 
-    const login: string[] = menItems
+    const logout: string[] = navItems
+      .map((li) => li.nativeNode.innerText)
+      .filter((txt) => txt.toLowerCase() === 'logout');
+
+    expect(logout[0].toLowerCase()).toEqual(
+      'logout',
+      'Could not find Logout Button'
+    );
+  }));
+
+  it('should show button with help icon if user is logged in', fakeAsync(() => {
+    component.authStore.isLoggedIn$ = of(true);
+
+    fixture.detectChanges();
+    flush();
+
+    const navItems = el.queryAll(By.css('.navigation-items>li mat-icon'));
+
+    expect(navItems.length).toBe(1, 'Could not find help icon');
+
+    const help: string[] = navItems
+      .map((li) => li.nativeNode.innerText)
+      .filter((txt) => txt.toLowerCase() === 'help');
+
+    expect(help[0].toLowerCase()).toEqual(
+      'help',
+      'Could not find Help Button with mat-icon help'
+    );
+  }));
+
+  it('should show login button if user is logged out', fakeAsync(() => {
+    component.authStore.isLoggedOut$ = of(true);
+
+    fixture.detectChanges();
+    flush();
+
+    const navItems = el.queryAll(By.css('.navigation-items>li'));
+
+    expect(navItems.length).toBeGreaterThan(
+      0,
+      'Could not find navigation items'
+    );
+
+    const login: string[] = navItems
       .map((li) => li.nativeNode.innerText)
       .filter((txt) => txt.toLowerCase() === 'login');
 
-    expect(login[0].toLocaleLowerCase()).toEqual(
+    expect(login[0].toLowerCase()).toEqual(
       'login',
       'Could not find Login Button'
     );
   }));
 
-  it('should show menu item Courses if user is logged in', () => {
-    pending();
-  });
+  it('should show Courses button if user is logged in', fakeAsync(() => {
+    component.authStore.isLoggedIn$ = of(true);
+
+    fixture.detectChanges();
+    flush();
+
+    const navItems = el.queryAll(By.css('.navigation-items>li'));
+
+    expect(navItems.length).toBeGreaterThan(
+      0,
+      'Could not find navigation items'
+    );
+
+    const logout: string[] = navItems
+      .map((li) => li.nativeNode.innerText)
+      .filter((txt) => txt.toLowerCase() === 'kurse');
+
+    expect(logout[0].toLowerCase()).toEqual(
+      'kurse',
+      'Could not find Logout Button'
+    );
+  }));
 
   it('should show Text Admin if user is logged in as admin', () => {
     pending();
   });
 
-  it('should deactvate menu item Manage Courses and New Course unless user is admin', () => {
+  it('should deactvate some menu items of Courses menue button unless user is admin', () => {
     pending();
   });
 });
