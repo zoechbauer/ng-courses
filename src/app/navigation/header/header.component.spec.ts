@@ -1,4 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  flush,
+  tick,
+} from '@angular/core/testing';
+import { of } from 'rxjs';
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 import { HeaderComponent } from './header.component';
 import { AuthStore } from 'src/app/auth/auth.store';
@@ -8,10 +18,12 @@ import { MaterialModule } from 'src/app/material.module';
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  let el: DebugElement;
   let authStore: AuthStore;
+  let authStoreSpy: any;
 
   beforeEach(async(() => {
-    const authStoreSpy = jasmine.createSpyObj('AuthStore', ['logout']);
+    authStoreSpy = jasmine.createSpyObj('AuthStore', ['logout']);
 
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
@@ -24,6 +36,7 @@ describe('HeaderComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
         authStore = TestBed.inject(AuthStore);
+        el = fixture.debugElement;
       });
   }));
 
@@ -39,9 +52,27 @@ describe('HeaderComponent', () => {
     pending();
   });
 
-  it('should show menu item login if user is logged out', () => {
-    pending();
-  });
+  it('should show login button if user is logged out', fakeAsync(() => {
+    component.authStore.isLoggedIn$ = of(false);
+    component.authStore.isLoggedOut$ = of(true);
+    component.authStore.isAdmin$ = of(false);
+
+    fixture.detectChanges();
+    flush();
+
+    const menItems = el.queryAll(By.css('.navigation-items>li'));
+
+    expect(menItems.length).toBeGreaterThan(0, 'Could not find menue items');
+
+    const login: string[] = menItems
+      .map((li) => li.nativeNode.innerText)
+      .filter((txt) => txt.toLowerCase() === 'login');
+
+    expect(login[0].toLocaleLowerCase()).toEqual(
+      'login',
+      'Could not find Login Button'
+    );
+  }));
 
   it('should show menu item Courses if user is logged in', () => {
     pending();
