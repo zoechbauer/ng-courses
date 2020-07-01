@@ -16,7 +16,7 @@ import { AuthStore } from 'src/app/auth/auth.store';
 import { MaterialModule } from 'src/app/material.module';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 
-describe('HeaderComponent', () => {
+fdescribe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let el: DebugElement;
@@ -24,6 +24,12 @@ describe('HeaderComponent', () => {
   let authStoreSpy: any;
   let router: Router;
   let navigateSpy: any;
+
+  function getNavItems() {
+    fixture.detectChanges();
+    flush();
+    return el.queryAll(By.css('.navigation-items>li'));
+  }
 
   beforeEach(async(() => {
     // mock logout
@@ -55,12 +61,9 @@ describe('HeaderComponent', () => {
   it('should show logout button if user is logged in', fakeAsync(() => {
     component.authStore.isLoggedIn$ = of(true);
 
-    fixture.detectChanges();
-    flush();
+    const navItems = getNavItems();
 
-    const navItems = el.queryAll(By.css('.navigation-items>li'));
-
-    expect(navItems.length).toBeGreaterThan(
+    expect(getNavItems().length).toBeGreaterThan(
       0,
       'Could not find navigation items'
     );
@@ -98,10 +101,7 @@ describe('HeaderComponent', () => {
   it('should show login button if user is logged out', fakeAsync(() => {
     component.authStore.isLoggedOut$ = of(true);
 
-    fixture.detectChanges();
-    flush();
-
-    const navItems = el.queryAll(By.css('.navigation-items>li'));
+    const navItems = getNavItems();
 
     expect(navItems.length).toBeGreaterThan(
       0,
@@ -121,10 +121,7 @@ describe('HeaderComponent', () => {
   it('should show Courses button if user is logged in', fakeAsync(() => {
     component.authStore.isLoggedIn$ = of(true);
 
-    fixture.detectChanges();
-    flush();
-
-    const navItems = el.queryAll(By.css('.navigation-items>li'));
+    const navItems = getNavItems();
 
     expect(navItems.length).toBeGreaterThan(
       0,
@@ -255,11 +252,8 @@ describe('HeaderComponent', () => {
   it('should call logout function and navigate to root when clicked', fakeAsync(() => {
     component.authStore.isLoggedIn$ = of(true);
 
-    fixture.detectChanges();
-    flush();
-
     // get logout button
-    const navItems = el.queryAll(By.css('.navigation-items>li'));
+    const navItems = getNavItems();
 
     expect(navItems.length).toBeGreaterThan(0, 'Could not find logout button');
 
