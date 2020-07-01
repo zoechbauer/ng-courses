@@ -25,13 +25,36 @@ fdescribe('SidenavListComponent', () => {
   let authStoreSpy: any;
   let navigateSpy: any;
 
-  function getDisabledItems() {
+  function getSidenavItemsDom(): HTMLElement[] {
     fixture.detectChanges();
     flush();
 
-    return el.queryAll(
-      By.css('.mat-nav-list>.mat-list-item.mat-list-item-disabled')
+    const itemsDe: DebugElement[] = el.queryAll(
+      By.css('.mat-nav-list>.mat-list-item')
     );
+    const itemsDom: HTMLElement[] = itemsDe.map((item) => item.nativeElement);
+    return itemsDom;
+  }
+
+  function getDisabledSidenavItemsDom(): HTMLElement[] {
+    return getSidenavItemsDom().filter((item) =>
+      item.classList.contains('mat-list-item-disabled')
+    );
+  }
+
+  function getSidenavItemsText(): string[] {
+    return getSidenavItemsDom()
+      .filter((item) => item.querySelector('span'))
+      .map((item) => {
+        console.log(item);
+        return item.querySelector('span').innerText.toLowerCase();
+      });
+  }
+
+  function getDisabledSidenavItemsText(): string[] {
+    return getDisabledSidenavItemsDom()
+      .filter((item) => item.querySelector('span'))
+      .map((item) => item.querySelector('span').innerText.toLowerCase());
   }
 
   beforeEach(async(() => {
@@ -71,15 +94,35 @@ fdescribe('SidenavListComponent', () => {
     pending();
   });
 
-  it('should disable all menu items if user is logged out except Login, Back, Home & Todos', () => {
-    pending();
-  });
+  it('should disable all menu items if user is logged out except Login, Back, Home & Todos', fakeAsync(() => {
+    component.authStore.isLoggedOut$ = of(true);
 
-  fit('should enable all menu items if logged in user is admin, otherwise not', fakeAsync(() => {
+    const disabledItems = getDisabledSidenavItemsText();
+    const allItems = getSidenavItemsText();
+
+    console.log('all & disabled sidenav items', allItems, disabledItems);
+
+    expect(disabledItems.length).toBeGreaterThan(
+      0,
+      'Could not find any disabled nav items'
+    );
+
+    expect(disabledItems).not.toContain('login');
+    expect(disabledItems).not.toContain('zurück');
+    expect(disabledItems).not.toContain('home');
+    expect(disabledItems).not.toContain('todos');
+
+    expect(allItems).toContain('login');
+    expect(allItems).toContain('zurück');
+    expect(allItems).toContain('home');
+    expect(allItems).toContain('todos');
+  }));
+
+  it('should enable all menu items if logged in user is admin, otherwise not', fakeAsync(() => {
     // logged in & admin
     component.authStore.isAdmin$ = of(true);
 
-    expect(getDisabledItems().length).toBe(
+    expect(getDisabledSidenavItemsDom().length).toBe(
       0,
       'Should not find any disabled nav items'
     );
@@ -88,7 +131,7 @@ fdescribe('SidenavListComponent', () => {
     component.authStore.isAdmin$ = of(false);
     component.authStore.isLoggedIn$ = of(true);
 
-    expect(getDisabledItems().length).toBeGreaterThan(
+    expect(getDisabledSidenavItemsDom().length).toBeGreaterThan(
       0,
       'Should find some disabled nav items'
     );
@@ -97,7 +140,7 @@ fdescribe('SidenavListComponent', () => {
     component.authStore.isAdmin$ = of(false);
     component.authStore.isLoggedIn$ = of(false);
 
-    expect(getDisabledItems().length).toBeGreaterThan(
+    expect(getDisabledSidenavItemsDom().length).toBeGreaterThan(
       0,
       'Should find some disabled nav items'
     );
