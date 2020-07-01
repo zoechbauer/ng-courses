@@ -9,11 +9,12 @@ import { of } from 'rxjs';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 
 import { HeaderComponent } from './header.component';
 import { AuthStore } from 'src/app/auth/auth.store';
-import { AppRoutingModule } from 'src/app/app-routing.module';
 import { MaterialModule } from 'src/app/material.module';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -21,9 +22,13 @@ describe('HeaderComponent', () => {
   let el: DebugElement;
   let authStore: AuthStore;
   let authStoreSpy: any;
+  let router: Router;
+  let navigateSpy: any;
 
   beforeEach(async(() => {
+    // mock logout
     authStoreSpy = jasmine.createSpyObj('AuthStore', ['logout']);
+    authStoreSpy.logout.and.callFake(() => of(router.navigate(['/'])));
 
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
@@ -37,11 +42,9 @@ describe('HeaderComponent', () => {
         component = fixture.componentInstance;
         el = fixture.debugElement;
         fixture.autoDetectChanges(true);
-
-        component.authStore.isLoggedIn$ = of(false);
-        component.authStore.isLoggedOut$ = of(false);
-        component.authStore.isAdmin$ = of(false);
-        fixture.detectChanges();
+        //  mock routing
+        router = TestBed.inject(Router);
+        navigateSpy = spyOn(router, 'navigate');
       });
   }));
 
@@ -179,7 +182,6 @@ describe('HeaderComponent', () => {
         disabled: li.nativeNode.disabled,
       };
     });
-    console.log('*************  menuItems', menuItems);
 
     const enabledItemsCounter = menuItems.reduce((acc, cur) => {
       const val = !cur.disabled ? 1 : 0;
@@ -228,7 +230,6 @@ describe('HeaderComponent', () => {
         disabled: li.nativeNode.disabled,
       };
     });
-    console.log('*************  menuItems', menuItems);
 
     const enabledItemsCounter = menuItems.reduce((acc, cur) => {
       const val = !cur.disabled ? 1 : 0;
@@ -249,5 +250,30 @@ describe('HeaderComponent', () => {
       0,
       'Incorrect number of disabled menu items'
     );
+  }));
+
+  it('should call logout function and navigate to root when clicked', fakeAsync(() => {
+    component.authStore.isLoggedIn$ = of(true);
+
+    fixture.detectChanges();
+    flush();
+
+    // get logout button
+    const navItems = el.queryAll(By.css('.navigation-items>li'));
+
+    expect(navItems.length).toBeGreaterThan(0, 'Could not find logout button');
+
+    const logout = navItems.filter(
+      (li) => li.nativeNode.innerText.toLowerCase() === 'logout'
+    );
+
+    const logoutButton = logout[0].nativeNode;
+
+    // check logout function and routing
+    logoutButton.click();
+
+    expect(authStoreSpy.logout).toHaveBeenCalled();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/']);
   }));
 });
