@@ -81,7 +81,7 @@ fdescribe('SidenavListComponent', () => {
 
     expect(getDisabledItems().length).toBe(
       0,
-      'Should no find any disabled nav items'
+      'Should not find any disabled nav items'
     );
 
     // logged in & user
