@@ -16,7 +16,7 @@ import { AuthStore } from 'src/app/auth/auth.store';
 import { MaterialModule } from 'src/app/material.module';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 
-fdescribe('HeaderComponent', () => {
+describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let el: DebugElement;
@@ -29,6 +29,15 @@ fdescribe('HeaderComponent', () => {
     fixture.detectChanges();
     flush();
     return el.queryAll(By.css('.navigation-items>li'));
+  }
+
+  function filterNavItems(
+    navItems: DebugElement[],
+    filterText: string
+  ): string[] {
+    return navItems
+      .map((li) => li.nativeNode.innerText)
+      .filter((txt) => txt.toLowerCase() === filterText.toLowerCase());
   }
 
   beforeEach(async(() => {
@@ -63,14 +72,12 @@ fdescribe('HeaderComponent', () => {
 
     const navItems = getNavItems();
 
-    expect(getNavItems().length).toBeGreaterThan(
+    expect(navItems.length).toBeGreaterThan(
       0,
       'Could not find navigation items'
     );
 
-    const logout: string[] = navItems
-      .map((li) => li.nativeNode.innerText)
-      .filter((txt) => txt.toLowerCase() === 'logout');
+    const logout = filterNavItems(navItems, 'logout');
 
     expect(logout[0].toLowerCase()).toEqual(
       'logout',
@@ -88,9 +95,7 @@ fdescribe('HeaderComponent', () => {
 
     expect(navItems.length).toBe(1, 'Could not find help icon');
 
-    const help: string[] = navItems
-      .map((li) => li.nativeNode.innerText)
-      .filter((txt) => txt.toLowerCase() === 'help');
+    const help = filterNavItems(navItems, 'help');
 
     expect(help[0].toLowerCase()).toEqual(
       'help',
@@ -108,9 +113,7 @@ fdescribe('HeaderComponent', () => {
       'Could not find navigation items'
     );
 
-    const login: string[] = navItems
-      .map((li) => li.nativeNode.innerText)
-      .filter((txt) => txt.toLowerCase() === 'login');
+    const login = filterNavItems(navItems, 'login');
 
     expect(login[0].toLowerCase()).toEqual(
       'login',
@@ -128,9 +131,7 @@ fdescribe('HeaderComponent', () => {
       'Could not find navigation items'
     );
 
-    const courses: string[] = navItems
-      .map((li) => li.nativeNode.innerText)
-      .filter((txt) => txt.toLowerCase() === 'kurse');
+    const courses = filterNavItems(navItems, 'kurse');
 
     expect(courses[0].toLowerCase()).toEqual(
       'kurse',
