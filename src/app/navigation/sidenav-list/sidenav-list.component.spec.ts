@@ -1,6 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  flush,
+  fakeAsync,
+} from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { DebugElement } from '@angular/core';
+import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 import { SidenavListComponent } from './sidenav-list.component';
 import { AppRoutingModule } from 'src/app/app-routing.module';
@@ -10,10 +19,20 @@ import { MaterialModule } from 'src/app/material.module';
 fdescribe('SidenavListComponent', () => {
   let component: SidenavListComponent;
   let fixture: ComponentFixture<SidenavListComponent>;
+  let el: DebugElement;
   let router: Router;
   let authStore: AuthStore;
   let authStoreSpy: any;
   let navigateSpy: any;
+
+  function getDisabledItems() {
+    fixture.detectChanges();
+    flush();
+
+    return el.queryAll(
+      By.css('.mat-nav-list>.mat-list-item.mat-list-item-disabled')
+    );
+  }
 
   beforeEach(async(() => {
     authStoreSpy = jasmine.createSpyObj('AuthStore', ['logout']);
@@ -31,7 +50,7 @@ fdescribe('SidenavListComponent', () => {
         router = TestBed.inject(Router);
         navigateSpy = spyOn(router, 'navigate');
         authStore = TestBed.inject(AuthStore);
-
+        el = fixture.debugElement;
         fixture.detectChanges();
       });
   }));
@@ -56,9 +75,33 @@ fdescribe('SidenavListComponent', () => {
     pending();
   });
 
-  it('should enable all menu items if logged in user is admin', () => {
-    pending();
-  });
+  fit('should enable all menu items if logged in user is admin, otherwise not', fakeAsync(() => {
+    // logged in & admin
+    component.authStore.isAdmin$ = of(true);
+
+    expect(getDisabledItems().length).toBe(
+      0,
+      'Should no find any disabled nav items'
+    );
+
+    // logged in & user
+    component.authStore.isAdmin$ = of(false);
+    component.authStore.isLoggedIn$ = of(true);
+
+    expect(getDisabledItems().length).toBeGreaterThan(
+      0,
+      'Should find some disabled nav items'
+    );
+
+    // not logged in
+    component.authStore.isAdmin$ = of(false);
+    component.authStore.isLoggedIn$ = of(false);
+
+    expect(getDisabledItems().length).toBeGreaterThan(
+      0,
+      'Should find some disabled nav items'
+    );
+  }));
 
   it('should call logout function and navigate to root when clicked', () => {
     pending();
