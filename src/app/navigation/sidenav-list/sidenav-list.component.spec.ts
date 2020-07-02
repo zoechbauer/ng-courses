@@ -16,7 +16,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { AuthStore } from 'src/app/auth/auth.store';
 import { MaterialModule } from 'src/app/material.module';
 
-fdescribe('SidenavListComponent', () => {
+describe('SidenavListComponent', () => {
   let component: SidenavListComponent;
   let fixture: ComponentFixture<SidenavListComponent>;
   let el: DebugElement;
@@ -46,7 +46,7 @@ fdescribe('SidenavListComponent', () => {
     return getSidenavItemsDom()
       .filter((item) => item.querySelector('span'))
       .map((item) => {
-        console.log(item);
+        // console.log(item);
         return item.querySelector('span').innerText.toLowerCase();
       });
   }
@@ -58,8 +58,9 @@ fdescribe('SidenavListComponent', () => {
   }
 
   beforeEach(async(() => {
+    //  mock authStore
     authStoreSpy = jasmine.createSpyObj('AuthStore', ['logout']);
-    authStoreSpy.logout.and.callFake(() => router.navigate(['/']));
+    authStoreSpy.logout.and.callFake(() => of(router.navigate(['/'])));
 
     TestBed.configureTestingModule({
       declarations: [SidenavListComponent],
@@ -69,12 +70,13 @@ fdescribe('SidenavListComponent', () => {
       .compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(SidenavListComponent);
+        authStore = TestBed.inject(AuthStore);
         component = fixture.componentInstance;
+        el = fixture.debugElement;
+        fixture.autoDetectChanges(true);
+        //  mock routing
         router = TestBed.inject(Router);
         navigateSpy = spyOn(router, 'navigate');
-        authStore = TestBed.inject(AuthStore);
-        el = fixture.debugElement;
-        fixture.detectChanges();
       });
   }));
 
@@ -94,8 +96,6 @@ fdescribe('SidenavListComponent', () => {
 
     expect(getSidenavItemsText()).not.toContain('login');
     expect(getSidenavItemsText()).toContain('logout');
-
-    console.log('getSidenavItemsText()', getSidenavItemsText());
   }));
 
   it('should disable some items in course menu depending on authentication', fakeAsync(() => {
@@ -191,7 +191,18 @@ fdescribe('SidenavListComponent', () => {
     );
   }));
 
-  it('should call logout function and navigate to root when clicked', () => {
-    pending();
-  });
+  it('should call logout function and navigate to root when clicked', fakeAsync(() => {
+    component.authStore.isLoggedIn$ = of(true);
+
+    const logout = getSidenavItemsDom().filter((item) =>
+      item.innerText.toLowerCase().match(/logout/)
+    );
+    const logoutBtn = logout[0];
+
+    logoutBtn.click();
+
+    expect(authStoreSpy.logout).toHaveBeenCalled();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/']);
+  }));
 });
