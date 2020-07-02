@@ -82,13 +82,21 @@ fdescribe('SidenavListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show login button if user is logged out', () => {
-    pending();
-  });
+  it('should show login button if user is logged out', fakeAsync(() => {
+    component.authStore.isLoggedOut$ = of(true);
 
-  it('should show logout button if user is logged in', () => {
-    pending();
-  });
+    expect(getSidenavItemsText()).toContain('login');
+    expect(getSidenavItemsText()).not.toContain('logout');
+  }));
+
+  it('should show logout button if user is logged in', fakeAsync(() => {
+    component.authStore.isLoggedIn$ = of(true);
+
+    expect(getSidenavItemsText()).not.toContain('login');
+    expect(getSidenavItemsText()).toContain('logout');
+
+    console.log('getSidenavItemsText()', getSidenavItemsText());
+  }));
 
   it('should disable some items in course menu depending on authentication', fakeAsync(() => {
     // logged in as user
