@@ -90,9 +90,46 @@ fdescribe('SidenavListComponent', () => {
     pending();
   });
 
-  it('should disable course maintenance & new course if logged in user is not admin', () => {
-    pending();
-  });
+  it('should disable some items in course menu depending on authentication', fakeAsync(() => {
+    // logged in as user
+    component.authStore.isLoggedIn$ = of(true);
+
+    let disabledItems = getDisabledSidenavItemsText();
+    let enabledItems = getSidenavItemsText();
+
+    expect(disabledItems).toContain('kurse bearbeiten');
+    expect(disabledItems).toContain('neuer kurs');
+    expect(disabledItems).not.toContain('kurse suchen');
+    expect(disabledItems).not.toContain('kurse anzeigen');
+
+    expect(enabledItems).toContain('kurse suchen');
+    expect(enabledItems).toContain('kurse anzeigen');
+
+    // logged in as admin
+    component.authStore.isAdmin$ = of(true);
+
+    disabledItems = getDisabledSidenavItemsText();
+    enabledItems = getSidenavItemsText();
+
+    expect(disabledItems).not.toContain('kurse anzeigen');
+    expect(disabledItems).not.toContain('kurse suchen');
+    expect(disabledItems).not.toContain('kurse bearbeiten');
+    expect(disabledItems).not.toContain('neuer kurs');
+
+    expect(enabledItems).not.toContain('kurse anzeigen');
+
+    // logged out
+    component.authStore.isLoggedOut$ = of(true);
+    component.authStore.isAdmin$ = of(false);
+    component.authStore.isLoggedIn$ = of(false);
+
+    disabledItems = getDisabledSidenavItemsText();
+
+    expect(disabledItems).toContain('kurse anzeigen');
+    expect(disabledItems).toContain('kurse suchen');
+    expect(disabledItems).toContain('kurse bearbeiten');
+    expect(disabledItems).toContain('neuer kurs');
+  }));
 
   it('should disable all menu items if user is logged out except Login, Back, Home & Todos', fakeAsync(() => {
     component.authStore.isLoggedOut$ = of(true);
