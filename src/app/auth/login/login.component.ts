@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthData, User, AuthUser } from '../auth-data.model';
+import {
+  AuthData,
+  User,
+  AuthUser,
+  EnvironmentCredentials,
+} from '../auth-data.model';
 import { environment } from 'src/environments/environment';
 import { AuthStore } from '../auth.store';
 
@@ -17,6 +22,9 @@ import { AuthStore } from '../auth.store';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   automaticAdminLogin = false;
+  // needed for unit tests
+  login: AuthData;
+  environmentCredentials: EnvironmentCredentials;
 
   constructor(private authStore: AuthStore, private router: Router) {}
 
@@ -28,11 +36,40 @@ export class LoginComponent implements OnInit {
       password: new FormControl('display#courses', {
         validators: [Validators.required, Validators.minLength(7)],
       }),
-      loginAsAdmin: new FormControl('checked'),
+      loginAsAdmin: new FormControl(),
     });
 
-    // show checkbox for automatic admin login if defined in settings
-    this.automaticAdminLogin = environment.admin.password !== '' ? true : false;
+    this.getAutomaticLoginCredentials();
+  }
+
+  /**
+   *  get credentials for automatic login as admin and store data in member obj
+   *  needed in unit tests
+   *  if admin password in ENV is not blank than checkbox for autom.login is displayed
+   */
+  private getAutomaticLoginCredentials() {
+    this.environmentCredentials = {};
+    if (environment.admin) {
+      this.environmentCredentials.admin = {
+        login: environment.admin.login,
+        password: environment.admin.password,
+      };
+      this.setupAutomaticLogin();
+    }
+  }
+
+  /**
+   * init form for automatic login
+   */
+  setupAutomaticLogin() {
+    if (this.environmentCredentials.admin.password !== '') {
+      this.automaticAdminLogin = true;
+      this.loginForm.patchValue({ loginAsAdmin: { checked: true } });
+    } else {
+      this.automaticAdminLogin = false;
+      this.loginForm.patchValue({ loginAsAdmin: { checked: false } });
+    }
+    console.log('automaticAdminLogin', this.automaticAdminLogin);
   }
 
   /**
@@ -40,24 +77,28 @@ export class LoginComponent implements OnInit {
    * Only in Development: If admin is selected and credentials are stored in config then use config credentials.
    */
   onSubmit() {
-    // console.log(this.loginForm.value.loginAsAdmin);
-    let login: AuthData;
-    if (
-      this.loginForm.value.loginAsAdmin &&
-      environment.admin.password.length !== 0
-    ) {
-      login = {
+    console.log('onSubmit', this.loginForm.value);
+    if (this.loginForm.value.loginAsAdmin.checked) {
+      console.log(
+        'use admin credentials for login',
+        this.loginForm.value.loginAsAdmin
+      );
+      this.login = {
         email: environment.admin.login,
         password: environment.admin.password,
       };
     } else {
-      login = {
+      console.log(
+        'use form credentials for login',
+        this.loginForm.value.loginAsAdmin
+      );
+      this.login = {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
       };
     }
 
-    this.authStore.login(login).subscribe((res: User) => {
+    this.authStore.login(this.login).subscribe((res: User) => {
       console.log(`${res.email} logged in as ${res.userType}`);
       if (res.userType === AuthUser.admin) {
         this.router.navigate(['/courses/edit']);

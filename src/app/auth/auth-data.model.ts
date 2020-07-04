@@ -22,3 +22,13 @@ export interface User {
   userType: AuthUser;
   photoUrl: string;
 }
+
+/**
+ * User object returned on login
+ */
+export interface EnvironmentCredentials {
+  admin?: {
+    login: string;
+    password: string;
+  };
+}
