@@ -153,29 +153,20 @@ describe('LoginComponent', () => {
     expect(component.automaticAdminLogin).toBeFalsy();
   });
 
-  it('should show checkbox if defined in environment', () => {
+  it('should set automaticAdminLogin property if defined in environment', () => {
+    // automaticAdminLogin = true
     component.ngOnInit();
     component.environmentCredentials.admin.password = 'password_mock';
     component.setupAutomaticLogin();
 
-    fixture.detectChanges();
+    expect(component.automaticAdminLogin).toBeTruthy();
 
-    const chkboxEl = fixture.debugElement.query(By.css('.mat-checkbox'))
-      .nativeElement;
-    expect(chkboxEl).toBeTruthy();
-  });
-
-  it('should hide checkbox if defined in environment', () => {
+    // automaticAdminLogin = false
     component.ngOnInit();
     component.environmentCredentials.admin.password = '';
     component.setupAutomaticLogin();
 
-    fixture.detectChanges();
-
-    const chkboxEl = fixture.debugElement.query(By.css('.mat-checkbox'))
-      .nativeElement;
-
-    expect(chkboxEl).toBeNull();
+    expect(component.automaticAdminLogin).toBeFalsy();
   });
 
   it('should use environment admin credentials for automated login if checkbox is selected', () => {
