@@ -26,12 +26,12 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let authStore: AuthStore;
   let authStoreSpy: any;
-  let router: Router;
-  let navigateSpy: any;
+  let routerSpy: any;
   let submitEl: DebugElement;
 
   beforeEach(async(() => {
     authStoreSpy = jasmine.createSpyObj('AuthStore', ['login']);
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
@@ -43,15 +43,16 @@ describe('LoginComponent', () => {
         MaterialModule,
         NoopAnimationsModule,
       ],
-      providers: [{ provide: AuthStore, useValue: authStoreSpy }],
+      providers: [
+        { provide: AuthStore, useValue: authStoreSpy },
+        { provide: Router, useValue: routerSpy },
+      ],
     })
       .compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(LoginComponent);
         component = fixture.componentInstance;
         authStore = TestBed.inject(AuthStore);
-        router = TestBed.inject(Router);
-        navigateSpy = spyOn(router, 'navigate');
         submitEl = fixture.debugElement.query(By.css('button'));
         component.ngOnInit();
       });
@@ -265,5 +266,54 @@ describe('LoginComponent', () => {
 
     expect(component.login.email).toEqual('user.email@mock.com');
     expect(component.login.password).toEqual('1234567_mock');
+  }));
+
+  it('should navigate to courses if logged in as user', fakeAsync(() => {
+    authStoreSpy.login.and.returnValue(
+      of({
+        email: 'user.email@mock.com',
+        userType: AuthUser.user,
+        photoUrl: '',
+      })
+    );
+
+    component.ngOnInit();
+    component.environmentCredentials.admin.password = '';
+    component.setupAutomaticLogin();
+
+    expect(component.automaticAdminLogin).toBeFalsy();
+
+    component.loginForm.patchValue({
+      email: 'user.email@mock.com',
+      password: '1234567_mock',
+    });
+
+    component.onSubmit();
+
+    tick();
+
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/courses']);
+  }));
+
+  it('should navigate to edit courses if logged in as admin', fakeAsync(() => {
+    authStoreSpy.login.and.returnValue(
+      of({
+        email: 'admin.email@mock.comk',
+        userType: AuthUser.admin,
+        photoUrl: '',
+      })
+    );
+
+    component.ngOnInit();
+    component.environmentCredentials.admin.password = 'admin_password_mock';
+    component.setupAutomaticLogin();
+
+    expect(component.automaticAdminLogin).toBeTruthy();
+
+    component.onSubmit();
+
+    tick();
+
+    expect(routerSpy.navigate).toHaveBeenCalledWith(['/courses/edit']);
   }));
 });
