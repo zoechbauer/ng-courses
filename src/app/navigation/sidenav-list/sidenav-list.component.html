@@ -75,15 +75,12 @@
     <span class="nav-caption">Login</span>
   </a>
 
-  <mat-list-item>
-    <button
-      mat-icon-button
-      (click)="onLogout()"
-      *ngIf="authStore.isLoggedIn$ | async"
-      (click)="onClose()"
-    >
-      <mat-icon>eject</mat-icon>
-      <span class="nav-caption">Logout</span>
-    </button>
-  </mat-list-item>
+  <a
+    mat-list-item
+    *ngIf="authStore.isLoggedIn$ | async"
+    (click)="onClose(); onLogout()"
+  >
+    <mat-icon>eject</mat-icon>
+    <span class="nav-caption">Logout</span>
+  </a>
 </mat-nav-list>

@@ -46,7 +46,10 @@
     >
       Anmelden
     </button>
-    <mat-checkbox *ngIf="automaticAdminLogin" formControlName="loginAsAdmin"
+    <mat-checkbox
+      [checked]="false"
+      *ngIf="automaticAdminLogin"
+      formControlName="loginAsAdmin"
       >Als Administrator anmelden</mat-checkbox
     >
   </form>

@@ -14,10 +14,15 @@
   <div fxFlex fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout="row" fxLayoutGap="20px" class="navigation-items">
       <li>
-        <button mat-button [matMenuTriggerFor]="menu" class="mnuItemButton">
+        <button
+          mat-button
+          [matMenuTriggerFor]="menu"
+          class="mnuItemButton"
+          id="course-menu"
+        >
           Kurse
         </button>
-        <mat-menu #menu="matMenu">
+        <mat-menu #menu="matMenu" class="course-menu">
           <button
             *ngIf="!(authStore.isAdmin$ | async)"
             mat-menu-item

@@ -1,8 +1,19 @@
+import { Injectable } from '@angular/core';
 import { Todos } from './todos.model';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TodosData {
+  get Todos(): Todos[] {
+    return todoList;
+  }
+}
+
 /**
  * This hardcoded TODO List must be maintained by the programmer during Development.
  */
-export const todoList: Todos[] = [
+const todoList: Todos[] = [
   {
     id: 1,
     todo: 'Komponente zur Verwaltung der Todos erstellen',
@@ -400,5 +411,19 @@ export const todoList: Todos[] = [
     category: 'Optimierung',
     type: 'Bug',
     status: 'erledigt',
+  },
+  {
+    id: 56,
+    todo: 'Einige Beispiele für Unit Test mit Jasmine',
+    category: 'Unit Test',
+    type: 'neu',
+    status: 'erledigt',
+  },
+  {
+    id: 56,
+    todo: 'Einige Beispiele für e2e Test mit Cypress',
+    category: 'e2e Test',
+    type: 'neu',
+    status: 'aktiv',
   },
 ];
