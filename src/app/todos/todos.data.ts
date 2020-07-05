@@ -414,8 +414,15 @@ const todoList: Todos[] = [
   },
   {
     id: 56,
-    todo: 'Einige Beispiele für Unit Test',
+    todo: 'Einige Beispiele für Unit Test mit Jasmine',
     category: 'Unit Test',
+    type: 'neu',
+    status: 'erledigt',
+  },
+  {
+    id: 56,
+    todo: 'Einige Beispiele für e2e Test mit Cypress',
+    category: 'e2e Test',
     type: 'neu',
     status: 'aktiv',
   },
