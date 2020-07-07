@@ -12,7 +12,6 @@
 
 # angular environment
 # src/environments
-src/environments/environment.ts
 
 #compodoc documentation - create docs with npm run compudoc
 documentation
