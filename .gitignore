@@ -37,6 +37,10 @@ speed-measure-plugin*.json
 !.vscode/extensions.json
 .history/*
 
+#cypress
+/cypress/videos
+/cypress/screenshots
+
 # misc
 /.sass-cache
 /connect.lock
@@ -46,7 +50,6 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-/cypress/videos
 
 # System Files
 .DS_Store
