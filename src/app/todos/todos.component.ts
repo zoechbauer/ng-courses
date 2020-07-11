@@ -32,7 +32,7 @@ export class TodosComponent implements OnInit {
 
     this.mobile$ = this.media.asObservable().pipe(
       map((mediaChanges: MediaChange[]) => {
-        console.log('mediaChange', mediaChanges);
+        // console.log('mediaChange', mediaChanges);
         const result = mediaChanges.filter(
           (mediaChange) => mediaChange.mqAlias === 'lt-md'
         )[0];
