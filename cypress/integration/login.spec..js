@@ -1,8 +1,7 @@
 // type definitions for Cypress object "cy"
 /// <reference types="cypress" />
 
-import { NotificationService } from '../../src/app/shared/notification.service';
-import { Environment } from '../../src/environments/environment';
+const { stringify } = require('querystring');
 
 describe('Login Page', () => {
 
@@ -37,7 +36,7 @@ describe('Login Page', () => {
     })
   }))
 
-  it.only('should disable login button  if field is empty or invalid', ()=> {
+  it('should disable login button  if field is empty or invalid', ()=> {
     cy.get('input[type=email]').clear();
     cy.get('button').should('be.disabled')
 
@@ -47,6 +46,50 @@ describe('Login Page', () => {
     cy.get('input[type=email]').type('show_courses@xxx');
     cy.get('input[type=password]').clear()
     cy.get('button').should('be.disabled')
+  })
+
+  it('should show loading spinner during login', ()=> {
+    cy.get('input[type=checkbox]').uncheck({force: true});
+
+    cy.get('form').submit().then(() => {
+      cy.get('.loading-container').should('be.visible')
+    })
+
+    cy.url().should('include', '/courses').then(() => {
+      cy.get('.loading-container').should('not.be.visible')
+    })
+  })
+
+  it('should store login data in local storage after login', ()=> {
+    cy.get('input[type=checkbox]').uncheck({force: true});
+    cy.get('form').submit()
+
+    cy.url().should('include', '/courses').then(() => {
+      expect(localStorage.getItem('auth_user')).to.exist
+
+      const authUser = JSON.parse(localStorage.getItem('auth_user'));
+      expect(authUser).to.deep.equal(
+        {
+          "email": "show_courses@test.com",
+          "userType": 0,
+          "photoUrl": null
+        }
+      )
+    })
+  })
+
+  it('should clear local storage after logout', ()=> {
+    cy.get('input[type=checkbox]').uncheck({force: true});
+    cy.get('form').submit()
+
+    cy.url().should('include', '/courses')
+
+    cy.get('.navigation-items').contains('Logout').click()
+
+    cy.url().should('include', '/welcome')
+      .then(() => {
+      expect(localStorage.getItem('auth_user')).to.not.exist
+    })
   })
 
 });
