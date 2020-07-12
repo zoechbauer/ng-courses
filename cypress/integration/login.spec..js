@@ -1,11 +1,16 @@
 // type definitions for Cypress object "cy"
 /// <reference types="cypress" />
 
-const { stringify } = require('querystring');
-
 describe('Login Page', () => {
 
   beforeEach(() => {
+    localStorage.removeItem('auth_user')
+    Cypress.config(
+      {
+        "defaultCommandTimeout": 20000
+      }
+    )
+
     cy.visit('/login');
   })
 
