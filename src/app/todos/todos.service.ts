@@ -25,7 +25,7 @@ export class TodosService {
     const closedTodosCount = this.todos.filter(
       (todo) => todo.status === 'erledigt'
     ).length;
-    console.log('closed/total', closedTodosCount, totalTodosCount);
+    // console.log('closed/total', closedTodosCount, totalTodosCount);
     return (closedTodosCount / totalTodosCount) * 100;
   }
 

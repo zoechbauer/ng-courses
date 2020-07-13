@@ -37,6 +37,10 @@ speed-measure-plugin*.json
 !.vscode/extensions.json
 .history/*
 
+#cypress
+/cypress/videos
+/cypress/screenshots
+
 # misc
 /.sass-cache
 /connect.lock
