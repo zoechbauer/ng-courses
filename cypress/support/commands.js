@@ -23,3 +23,35 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('loginAsUser', () => {
+  cy.visit('/login');
+  cy.get('input[type=checkbox]').uncheck({ force: true });
+  cy.get('form').submit();
+
+  cy.url()
+    .should('include', '/courses')
+    .then(() => {
+      expect(localStorage.getItem('auth_user')).to.exist;
+
+      const authUser = JSON.parse(localStorage.getItem('auth_user'));
+      expect(authUser).to.deep.equal({
+        email: 'show_courses@test.com',
+        userType: 0,
+        photoUrl: null,
+      });
+    });
+});
+
+Cypress.Commands.add('logout', () => {
+  cy.visit('/courses');
+  cy.url().should('include', '/courses');
+
+  cy.get('.navigation-items').contains('Logout').click();
+
+  cy.url()
+    .should('include', '/welcome')
+    .then(() => {
+      expect(localStorage.getItem('auth_user')).to.not.exist;
+    });
+});
