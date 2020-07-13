@@ -424,6 +424,6 @@ const todoList: Todos[] = [
     todo: 'Einige Beispiele für e2e Test mit Cypress',
     category: 'e2e Test',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
 ];
