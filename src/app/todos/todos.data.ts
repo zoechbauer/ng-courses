@@ -280,7 +280,7 @@ const todoList: Todos[] = [
       'Alle Repos von zoe anzeigen mit wichtigsten Infos, zB $ curl -i https://api.github.com/users/zoechbauer/repos',
     category: 'Github-api',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 39,
@@ -425,5 +425,26 @@ const todoList: Todos[] = [
     category: 'e2e Test',
     type: 'neu',
     status: 'erledigt',
+  },
+  {
+    id: 57,
+    todo: 'Github Menüsystem implementieren',
+    category: 'Github-api',
+    type: 'neu',
+    status: 'aktiv',
+  },
+  {
+    id: 58,
+    todo: 'Github Formulare implementieren',
+    category: 'Github-api',
+    type: 'neu',
+    status: 'aktiv',
+  },
+  {
+    id: 58,
+    todo: 'Github http-Funktionen implementieren',
+    category: 'Github-api',
+    type: 'neu',
+    status: 'aktiv',
   },
 ];
