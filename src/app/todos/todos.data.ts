@@ -216,7 +216,7 @@ const todoList: Todos[] = [
     todo: 'Anpassen Welcome-Text',
     category: 'Admin-Funktion freigeben',
     type: 'neu',
-    status: 'aktiv',
+    status: 'erledigt',
   },
   {
     id: 30,
