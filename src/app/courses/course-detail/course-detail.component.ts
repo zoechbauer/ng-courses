@@ -58,10 +58,12 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         this.initForm();
       } else {
         this.courseId = params.id;
-        this.actionHeader = 'Kurs ändern';
         this.subscription.add(
           this.courseService.getCourse(this.courseId).subscribe((course) => {
             this.course = course;
+            this.actionHeader = this.course.isProtected
+              ? 'Geschützter Kurs'
+              : 'Kurs ändern';
             this.initForm();
           })
         );

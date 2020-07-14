@@ -34,7 +34,7 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
   </mat-expansion-panel>
-  <!-- corse data-->
+  <!-- course data-->
   <mat-accordion class="course-headers-align" multi>
     <div *ngFor="let course of courses$ | async as courses">
       <mat-expansion-panel
@@ -44,9 +44,7 @@
         <mat-expansion-panel-header fxLayoutAlign="space-between" fxFlexFill>
           <mat-panel-title fxFlex="85%" fxFlex.gt-sm="40%">
             <ng-container *ngIf="currentOpenedCourseId !== course.id">
-              <div>
-                {{ course.title }}
-              </div>
+              <div>{{ course.title }}</div>
             </ng-container>
             <h3 *ngIf="currentOpenedCourseId === course.id">
               {{ course.title }}
@@ -72,7 +70,8 @@
             mat-icon-button
             (click)="editCourse(course.id)"
           >
-            <mat-icon>edit</mat-icon>
+            <mat-icon *ngIf="!course.isProtected">edit</mat-icon>
+            <mat-icon *ngIf="course.isProtected">star_rate</mat-icon>
           </button>
         </mat-expansion-panel-header>
         <app-course-detail-user

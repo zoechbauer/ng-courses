@@ -20,6 +20,7 @@ export class Course {
   hostedUrl: string;
   hostingProvider: string;
   hasCredentials: boolean;
+  isProtected?: boolean; // true: modification only in firebase db
 
   constructor() {
     this.id = 'new';
@@ -37,5 +38,6 @@ export class Course {
     this.hostedUrl = '';
     this.hostingProvider = '';
     this.hasCredentials = false;
+    this.isProtected = false;
   }
 }
