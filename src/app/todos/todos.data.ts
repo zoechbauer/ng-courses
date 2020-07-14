@@ -198,25 +198,25 @@ const todoList: Todos[] = [
   },
   {
     id: 27,
-    todo:
-      'eigenen Testuser erstellen, damit auch Kursverwaltung freigeschaltet wird',
+    todo: 'Protected-Flag in Firebase hinzufügen',
     category: 'Admin-Funktion freigeben',
     type: 'neu',
-    status: 'offen',
+    status: 'erledigt',
   },
   {
     id: 28,
-    todo: 'eigene Collection für Kurse durch Testuser erstellen',
+    todo:
+      'Kein Löschen u Speichern des Kurses erlauben wenn Protected-Flag in DB gesetzt ist',
     category: 'Admin-Funktion freigeben',
     type: 'neu',
-    status: 'offen',
+    status: 'erledigt',
   },
   {
     id: 29,
-    todo: 'Switchen zwischen Zoe-Kursen und user-defierten Kursen',
+    todo: 'Anpassen Welcome-Text',
     category: 'Admin-Funktion freigeben',
     type: 'neu',
-    status: 'offen',
+    status: 'erledigt',
   },
   {
     id: 30,

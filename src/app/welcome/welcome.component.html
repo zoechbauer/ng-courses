@@ -1,10 +1,14 @@
 <div class="welcome-page">
   <header class="header">
-    <h1>Hallo!</h1>
+    <h1>Grüß Gott!</h1>
     <h4>
-      Diese App enthält eine Beschreibung meiner wichtigsten Web-Developer
-      Forbildungs-Kurse, die auf meiner
-      <a href="https://github.com/zoechbauer" target="_blank">GitHub-Seite</a>
+      Diese App enthält eine
+      <strong
+        >Beschreibung meiner wichtigsten Web-Developer Forbildungs-Kurse</strong
+      >,<br />die in meinem öffentlichen
+      <a href="https://github.com/zoechbauer" target="_blank"
+        >GitHub Repository</a
+      >
       abgelegt sind.
     </h4>
   </header>
@@ -16,82 +20,142 @@
     fxLayoutGap="50px"
   >
     <section fxFlex>
-      <h2 class="welcome">Geplante Funktionen</h2>
+      <h2 class="welcome">Zweck dieser App</h2>
+      <p>
+        Diese App ist als Übungsprojekt vergangener Kursprojekte gedacht mit dem
+        Ziel,
+      </p>
+      <p>
+        Praxis in
+      </p>
+      <ol>
+        <li>
+          Angular und Angular Material,
+        </li>
+        <li>
+          rxJS,
+        </li>
+        <li>
+          Angular Fire und Web-APIs sowie
+        </li>
+        <li>
+          Javascript und CSS
+        </li>
+      </ol>
+      <p>zu erhalten.</p>
+
+      <p>
+        Diese App soll aber auch
+        <strong
+          >meine Kenntnisse in der Webprogrammierung mit Schwerpunkt Angular
+          9</strong
+        >
+        zeigen.
+      </p>
+      <p>Diese App enthält daher:</p>
       <ul>
         <li>
-          Speichern der Kursdaten als Admin in Firebase (Zugriff mittels
-          Angular/Fire)
+          Welche Kurse habe ich besucht &rArr; Verzweigen zur lauffähigen App
         </li>
         <li>
-          Abrufen und Anzeigen der Kursdaten als angemeldeteter User mit
-          öffentlichen Credentials. Dadurch kann durch PW-Änderung das Abrufen
-          gesperrt werden.
-          <ul>
-            <li>Darstellung als mat-table mit Filter- und Suchfunktion</li>
-            <li>Detail-Informationen des ausgewählten Kurses anzeigen</li>
-            <li>Link des Kurses zum GitHub-Repo</li>
-            <li>Link des Kurses zur lauffähigen gehosteten App-Version</li>
-          </ul>
+          Wie wurden die Projekte technisch umgesetzt &rArr; Verzweigen zum
+          GitHub Repository
         </li>
         <li>
-          Anzeigen allgemeiner Infos ohne Login, zB. Todo-Liste mit statischen,
-          d.h. hardcodierten Aktvitäten
-        </li>
-        <li>
-          Anmelden als Test-Admin, damit auch das Verwalten der Kursdaten
-          gezeigt werden kann.<br />
-          Bei Test-Admin arbeitet man in einer eigenen Test-Collection von
-          Firebase, damit die echten Kursdaten nicht geändert werden.
+          Wie wurde das Schulungswissen umgesetzt &rArr; diese App mit
+          <a href="https://github.com/zoechbauer/ng-courses" target="_blank"
+            >Source-Code</a
+          >.
         </li>
       </ul>
     </section>
     <section fxFlex>
-      <h2 class="welcome">Zweck dieser App</h2>
-      <ol>
+      <h2 class="welcome">Funktionen der App</h2>
+      <p>
+        Anmelden als User oder als Admin (checkbox). Die Login-Daten sind
+        vorbelegt, damit ein einfacher Benutzer-Wechsel möglich ist.
+      </p>
+      <p>
+        Die Kurse können als Admin verwaltet und als User nur angesehen werden.
+      </p>
+      <p>
+        Meine Kurse sind geschützt, d.h. diese Kursdaten können nicht geändert
+        werden. Die anderen Kursdaten können geändert, gelöscht und neue
+        Kursdaten angelegt werden.
+      </p>
+
+      <p>
+        <strong>Kursdaten anzeigen/verwalten nach Login:</strong>
+      </p>
+      <ul>
+        <li>Darstellung in Tabellenform mit Filter- und Suchfunktion</li>
+        <li>Detail-Informationen des ausgewählten Kurses anzeigen</li>
         <li>
-          Dieses App ist als Übungsprojekt vergangener Kursprojekte gedacht mit
-          dem Ziel Praxis in Angular, Angular Material, rxJS und Angular Fire
-          sowie CSS zu erhalten.
+          Verzweigen zum Source-Code des Kurses in GitHub.<br />Der Kurs wurde
+          nachprogrammiert, wobei die einzelnen Schritte mittels Branches
+          eingecheckt wurden.
         </li>
+        <li>Verzweigen zur lauffähigen gehosteten App-Version des Kurses</li>
+      </ul>
+      <p>
+        <strong>Anzeigen allgemeiner Informationen ohne Login</strong>
+      </p>
+      <ul>
+        <li>Diese Willkommens-Seite</li>
         <li>
-          Der Link zu dieser App wird auch in Bewerbungsgesprächen erwähnt,
-          wodurch Firmen die Möglichkeit haben, sich relativ schnell und einfach
-          einen Überblick über meine Kenntnisse in der Web-Programmierung zu
-          machen.
-          <ul>
-            <li>
-              Was habe ich an Schulungen gemacht ==> Verzweigen zu lauffähigen
-              App
-            </li>
-            <li>
-              Wie wurden die Projekte technisch umgesetzt ==> Verzweigen zum
-              GitHub Repository
-            </li>
-            <li>
-              Wie wurde das Schulungswissen umgesetzt ==> diese App.
-            </li>
-          </ul>
+          Todo-Liste der App-Entwicklung. <br />Die Tabelle kann nach allen
+          Spalten gefiltert werden. <br />Die Todos bestehen aus hardcodierten
+          Aktivitäten, die während der Entwicklung erfasst wurden.
         </li>
-      </ol>
+      </ul>
     </section>
+
     <section fxFlex>
-      <h2 class="welcome">Design Überlegungen</h2>
-      <p>Tabellen-Form mit Filter und Sortier-Funktion nur bei Todo-Liste.</p>
+      <h2 class="welcome">Implementierung der App</h2>
       <p>
-        Die Projekte werden mittels Expansion-Panel und Card angezeigt
+        <strong>Verwendeter Stack:</strong>
+      </p>
+      <ul>
+        <li>
+          Angular 9, Angular Material, Flex-Layout
+        </li>
+        <li>
+          Angularfire (=Google Firebase Datenbank)
+        </li>
+        <li>
+          Unit-Test mit Jasmine & e2e-Test mit Cypress, Doku mit Compodoc
+        </li>
+        <li>
+          Es wurde ein Reactive Design mit rxJS angestrebt.
+        </li>
+      </ul>
+
+      <p>Tabelle mit Filter- und Sortier-Funktion bei Todo-Liste.</p>
+      <p>
+        Expansion-Panel und Card bei Kursen
       </p>
       <p>
-        Alle möglichen Funktionen sind mittels Button und Menü auswählbar und
-        werden angezeigt, wobei die Admin-Funktionen bei der Anmeldung als User
-        disabled sind.
+        Alle möglichen Funktionen können mittels Button bzw. Menü ausgewählt
+        werden.
       </p>
       <p>
-        Es wird ein Reactive Design mit rxJS angestrebt.
+        Die Kursbestätigung wird in Firebase/Storage gehostet als jpeg-Datei
+        gehostet.
+      </p>
+      <p>
+        Bei Handies gibt es das Menü als Sidebar und bei größeren Bildschirmen
+        gibt es eine Menüleiste im Header.
+      </p>
+      <p>
+        Es wurde ein Reactive Design mit rxJS angestrebt.
       </p>
     </section>
   </div>
   <footer class="footer">
     <hr />
-    <h5>Anmerkung: diese Seite wird inhaltlich noch überarbeitet.</h5>
+    <h5>
+      Anmerkung: diese Seite wird inhaltlich noch überarbeitet, da noch nicht
+      alle Funktionen implementiert sind (siehe TODO-Liste).
+    </h5>
   </footer>
 </div>

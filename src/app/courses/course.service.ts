@@ -274,10 +274,11 @@ export class CourseService {
         .valueChanges()
         .pipe(
           map((docArray) => {
-            console.log('map docArray', docArray);
+            // console.log('map docArray', docArray);
             return docArray.map((doc: {}) => {
               return {
                 ...doc,
+                isProtected: doc['isProtected'] ? doc['isProtected'] : false,
                 confirmationDate: doc['confirmationDate'].toDate(),
               } as Course;
             });
@@ -303,9 +304,12 @@ export class CourseService {
         .pipe(
           map((docArray) => {
             return docArray.map((doc) => {
-              // console.log('doc', doc);
+              // console.log('doc.data', doc.payload.doc.data());
               return {
                 ...(doc.payload.doc.data() as {}),
+                isProtected: doc.payload.doc.data()['isProtected']
+                  ? doc.payload.doc.data()['isProtected']
+                  : false,
                 id: doc.payload.doc.id,
                 confirmationDate: doc.payload.doc
                   .data()

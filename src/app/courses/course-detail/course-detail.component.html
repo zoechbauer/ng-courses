@@ -295,7 +295,9 @@
                 mat-raised-button
                 color="primary"
                 [disabled]="
-                  courseForm.invalid || !courseForm.get('certificateName').value
+                  courseForm.invalid ||
+                  !courseForm.get('certificateName').value ||
+                  course.isProtected
                 "
               >
                 Speichern
@@ -307,6 +309,7 @@
                 type="button"
                 mat-raised-button
                 color="accent"
+                [disabled]="course.isProtected"
                 (click)="onDelete()"
               >
                 Löschen
