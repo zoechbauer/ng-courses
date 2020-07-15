@@ -8,6 +8,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { TodosComponent } from './todos/todos.component';
 import { AuthGuard } from './auth/auth.guard';
 import { SearchCoursesComponent } from './courses/search-courses/search-courses.component';
+import { OrganizationsComponent } from './github/organizations/organizations.component';
+import { ReposComponent } from './github/repos/repos.component';
 
 /**
  * This Module is used for Routing.
@@ -34,6 +36,16 @@ const routes: Routes = [
   {
     path: 'courses/edit/:id',
     component: CourseDetailComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'orgs/api',
+    component: OrganizationsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'repos/api',
+    component: ReposComponent,
     canActivate: [AuthGuard],
   },
   { path: 'login', component: LoginComponent },

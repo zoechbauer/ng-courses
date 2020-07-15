@@ -60,6 +60,34 @@
     >
   </a>
 
+  <a
+    mat-list-item
+    routerLink="/repos/api"
+    [disabled]="authStore.isLoggedOut$ | async"
+    (click)="onClose()"
+  >
+    <mat-icon [class.disabled]="authStore.isLoggedOut$ | async"
+      >search</mat-icon
+    >
+    <span class="nav-caption" [class.disabled]="authStore.isLoggedOut$ | async"
+      >GitHub Benutzer-Repos suchen</span
+    >
+  </a>
+
+  <a
+    mat-list-item
+    routerLink="/orgs/api"
+    [disabled]="authStore.isLoggedOut$ | async"
+    (click)="onClose()"
+  >
+    <mat-icon [class.disabled]="authStore.isLoggedOut$ | async"
+      >search</mat-icon
+    >
+    <span class="nav-caption" [class.disabled]="authStore.isLoggedOut$ | async"
+      >GitHub ORG-Repos suchen</span
+    >
+  </a>
+
   <a mat-list-item routerLink="/todos" (click)="onClose()">
     <mat-icon>build</mat-icon>
     <span class="nav-caption">Todos</span>

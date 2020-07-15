@@ -54,6 +54,32 @@
           </button>
         </mat-menu>
       </li>
+      <li>
+        <button
+          mat-button
+          [matMenuTriggerFor]="menuGithub"
+          class="mnuItemButton"
+          id="github-menu"
+        >
+          GitHub
+        </button>
+        <mat-menu #menuGithub="matMenu" class="github-menu">
+          <button
+            mat-menu-item
+            [disabled]="authStore.isLoggedOut$ | async"
+            (click)="onSearchRepos()"
+          >
+            Source-Repos des Benutzers suchen
+          </button>
+          <button
+            mat-menu-item
+            [disabled]="authStore.isLoggedOut$ | async"
+            (click)="onSearchOrganizations()"
+          >
+            Source-Repos der Organisation suchen
+          </button>
+        </mat-menu>
+      </li>
       <li routerLink="/todos"><a>Todos</a></li>
       <li *ngIf="authStore.isLoggedOut$ | async">
         <a routerLink="/login">Login</a>

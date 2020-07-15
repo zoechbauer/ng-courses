@@ -34,6 +34,8 @@ import { CourseDeleteDialogComponent } from './courses/course-delete-dialog.comp
 import { LoadingComponent } from './shared/loading/loading.component';
 import { SearchCoursesComponent } from './courses/search-courses/search-courses.component';
 import { CourseDetailUserComponent } from './courses/course-detail-user/course-detail-user.component';
+import { ReposComponent } from './github/repos/repos.component';
+import { OrganizationsComponent } from './github/organizations/organizations.component';
 
 /**
  * This is the Main Module of this App.
@@ -52,6 +54,8 @@ import { CourseDetailUserComponent } from './courses/course-detail-user/course-d
     LoadingComponent,
     SearchCoursesComponent,
     CourseDetailUserComponent,
+    ReposComponent,
+    OrganizationsComponent,
   ],
   imports: [
     BrowserModule,
