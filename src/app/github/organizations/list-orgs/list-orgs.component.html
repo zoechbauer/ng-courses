@@ -1,0 +1,95 @@
+<div class="list-orgs">
+  <section class="select-org">
+    <p>
+      Bitte suchen Sie eine Organisation und wählen Sie diese aus der
+      angezeigten Liste aus
+    </p>
+    <form [formGroup]="formOrg">
+      <mat-form-field class="searchField">
+        <mat-label>Organisation</mat-label>
+        <input
+          matInput
+          #org
+          type="text"
+          formControlName="organization"
+          autocomplete="off"
+          (keyup)="searchOrgs($event.target.value)"
+        />
+        <button
+          mat-button
+          *ngIf="org.value != ''"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="clearSearchValue()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </section>
+  <div *ngIf="!error">
+    <section>
+      <mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="avatar">
+          <mat-header-cell *matHeaderCellDef>
+            Avatar
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <img [src]="element.avatar" height="40px" alt="Avatar" />
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="login">
+          <mat-header-cell mat-sort-header *matHeaderCellDef>
+            Name
+          </mat-header-cell>
+          <mat-cell
+            *matCellDef="let element"
+            (click)="onSelect(element.login)"
+            style="cursor: pointer;"
+          >
+            {{ element.login }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="url">
+          <mat-header-cell *matHeaderCellDef> WebSite </mat-header-cell>
+          <mat-cell *matCellDef="let element"
+            ><a [href]="element.url" target="_blank">&rarr; GitHub</a>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+
+      <mat-paginator
+        [length]="100"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        [pageSize]="10"
+        showFirstLastButtons
+      ></mat-paginator>
+    </section>
+    <section *ngIf="(searchOrgResults$ | async)?.length > 0 && error == ''">
+      <small>
+        Klicken Sie in die Spalte Name , wenn die Organisation überommen werden
+        soll.
+      </small>
+      <br />
+      <small>
+        Klicken Sie in Spalte WebSite, wenn alle Repositories der Organisation
+        in einem neuen Reiter angezeigt werden sollen.
+      </small>
+    </section>
+  </div>
+  <section *ngIf="error != ''">
+    <h3>Es ist ein Fehler aufgetreten</h3>
+    <p>
+      Mögliche Fehlerursachen: Github erlaubt nur 60 Abrufe je Stunde oder
+      Netzwerkproblem
+    </p>
+    <p>Fehler: {{ error }}</p>
+  </section>
+  <p>Am Ende {{ error }}</p>
+</div>

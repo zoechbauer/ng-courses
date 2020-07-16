@@ -10,6 +10,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { SearchCoursesComponent } from './courses/search-courses/search-courses.component';
 import { OrganizationsComponent } from './github/organizations/organizations.component';
 import { ReposComponent } from './github/repos/repos.component';
+import { ListReposComponent } from './github/organizations/list-repos/list-repos.component';
 
 /**
  * This Module is used for Routing.
@@ -41,6 +42,11 @@ const routes: Routes = [
   {
     path: 'orgs/api',
     component: OrganizationsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'orgs/repos/api',
+    component: ListReposComponent,
     canActivate: [AuthGuard],
   },
   {

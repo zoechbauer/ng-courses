@@ -1,0 +1,12 @@
+<div class="list-repos">
+  <p>This site is unter construction</p>
+  <h3>
+    Liste der Repositories von {{ organization }},
+    {{ githubOrgRepos.length }} Repos
+  </h3>
+  <div *ngFor="let repo of githubOrgRepos; let i = index">
+    {{ i + 1 }} <br />
+    {{ repo.name }} <br />
+    {{ repo.description }} <br /><br />
+  </div>
+</div>

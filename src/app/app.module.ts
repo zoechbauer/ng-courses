@@ -18,6 +18,7 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,6 +37,8 @@ import { SearchCoursesComponent } from './courses/search-courses/search-courses.
 import { CourseDetailUserComponent } from './courses/course-detail-user/course-detail-user.component';
 import { ReposComponent } from './github/repos/repos.component';
 import { OrganizationsComponent } from './github/organizations/organizations.component';
+import { ListOrgsComponent } from './github/organizations/list-orgs/list-orgs.component';
+import { ListReposComponent } from './github/organizations/list-repos/list-repos.component';
 
 /**
  * This is the Main Module of this App.
@@ -56,6 +59,8 @@ import { OrganizationsComponent } from './github/organizations/organizations.com
     CourseDetailUserComponent,
     ReposComponent,
     OrganizationsComponent,
+    ListOrgsComponent,
+    ListReposComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +74,7 @@ import { OrganizationsComponent } from './github/organizations/organizations.com
     AngularFirestoreModule,
     AngularFireAuthModule,
     NgxDropzoneModule,
+    HttpClientModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'de-AT' },
