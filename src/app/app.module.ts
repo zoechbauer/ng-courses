@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +17,8 @@ import {
   // MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
+import { registerLocaleData } from '@angular/common';
+import localeAT from '@angular/common/locales/de-AT';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -39,6 +41,8 @@ import { ReposComponent } from './github/repos/repos.component';
 import { OrganizationsComponent } from './github/organizations/organizations.component';
 import { ListOrgsComponent } from './github/organizations/list-orgs/list-orgs.component';
 import { ListReposComponent } from './github/organizations/list-repos/list-repos.component';
+
+registerLocaleData(localeAT, 'de-AT');
 
 /**
  * This is the Main Module of this App.
@@ -78,6 +82,7 @@ import { ListReposComponent } from './github/organizations/list-repos/list-repos
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'de-AT' },
+    { provide: LOCALE_ID, useValue: 'de-AT' },
     // {
     //   provide: DateAdapter,
     //   useClass: MomentDateAdapter,

@@ -49,12 +49,20 @@
                 <td>{{ repo.language }}</td>
               </tr>
               <tr>
+                <td>Offene Issues</td>
+                <td>{{ repo.open_issues | number }}</td>
+              </tr>
+              <tr>
                 <td>Watchers</td>
-                <td>{{ repo.watchers }}</td>
+                <td>{{ repo.watchers | number }}</td>
               </tr>
               <tr>
                 <td>Forks</td>
-                <td>{{ repo.forks }}</td>
+                <td>{{ repo.forks | number }}</td>
+              </tr>
+              <tr>
+                <td>Größe</td>
+                <td>{{ repo.size / 1000 | number: '1.2-2' }} KB</td>
               </tr>
             </table>
           </div>
