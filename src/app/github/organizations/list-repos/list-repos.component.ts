@@ -41,7 +41,7 @@ export class ListReposComponent implements OnInit, OnDestroy {
   onGetReposTopics(repo: GitHubOrgRepo) {
     console.log('selected repo for topics', repo);
     this.githubService
-      .getGithubReposTopics(this.organization, repo.owner.login, repo.name)
+      .getGithubReposTopics(repo.owner.login, repo.name)
       .subscribe((topics: string[]) => {
         console.log('topics', topics);
         let topicsString;
@@ -116,7 +116,7 @@ export class ListReposComponent implements OnInit, OnDestroy {
     console.log('getReposTopics for org/owner/repos', org, owner, repo);
 
     this.topicsSub = this.githubService
-      .getGithubReposTopics(org, owner, repo)
+      .getGithubReposTopics(owner, repo)
       .subscribe((topics) => {
         console.log('topics for repo', repo, topics);
       });

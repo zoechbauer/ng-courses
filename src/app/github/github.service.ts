@@ -5,6 +5,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GitHubOrgRepo, GitHubOrg } from './githubOrganization.model';
 import { SelectOption } from './selectOption.model';
 
+enum UrlType {
+  Organization = 1,
+  OrganizationRepositories = 2,
+  RepoTopics = 3,
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -28,12 +33,6 @@ export class GithubService {
 
   DETAIL_LOG_INFOS = false;
 
-  UrlType = {
-    Organization: 1,
-    OrganizationRepositories: 2,
-    RepoTopics: 3,
-  };
-
   /**
    * create url for desired urlType
    * @param urlType
@@ -41,7 +40,7 @@ export class GithubService {
    * @param owner- optional
    * @param repo - optional
    */
-  getUrl(urlType: any, org: string, owner: string = '', repo: string = '') {
+  getUrl(urlType: UrlType, org: string, owner: string = '', repo: string = '') {
     // return 'https://api.github.com/users/zoechbauer';
     // return 'https://api.github.com/search/users?q=type:org';
 
@@ -50,19 +49,19 @@ export class GithubService {
     let url = '';
 
     switch (urlType) {
-      case this.UrlType.Organization:
+      case UrlType.Organization:
         // const url = 'https://api.github.com/organizations';
         baseUrl = 'https://api.github.com/search/users';
         query = `?q=${org} type:organization&per_page=100`;
         break;
 
-      case this.UrlType.OrganizationRepositories:
+      case UrlType.OrganizationRepositories:
         // return 'https://api.github.com/orgs/angular/repos';
         baseUrl = `https://api.github.com/orgs/${this.filterOrg.toLocaleLowerCase()}/repos`;
         query = `?${this.getPage()}`;
         break;
 
-      case this.UrlType.RepoTopics:
+      case UrlType.RepoTopics:
         // GET /repos/:owner/:repo/topics
         baseUrl = `https://api.github.com/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/topics`;
         break;
@@ -106,7 +105,7 @@ export class GithubService {
 
     return this.http
       .get<GitHubOrgRepo[]>(
-        this.getUrl(this.UrlType.OrganizationRepositories, org),
+        this.getUrl(UrlType.OrganizationRepositories, org),
         options
       )
       .pipe(
@@ -115,7 +114,7 @@ export class GithubService {
             'getGitHubOrgRepos: org, page, url',
             org,
             pageNumber,
-            this.getUrl(this.UrlType.OrganizationRepositories, org)
+            this.getUrl(UrlType.OrganizationRepositories, org)
           );
 
           // loop through api until all records are retrieved
@@ -152,20 +151,13 @@ export class GithubService {
   }
 
   /**
-   * Get the topics of a repo from an org and owner
+   * Get the topics of a repo from an owner
    * GET /repos/:owner/:repo/topics
-   * @param org
    * @param owner
    * @param repo
    */
-  getGithubReposTopics(
-    org: string,
-    owner: string,
-    repo: string
-  ): Observable<any> {
+  getGithubReposTopics(owner: string, repo: string): Observable<any> {
     if (
-      org === undefined ||
-      org === '' ||
       owner === undefined ||
       owner === '' ||
       repo === undefined ||
@@ -173,7 +165,6 @@ export class GithubService {
     ) {
       console.log(
         'ERROR in getGithubReposTopics: invalid search fields',
-        org,
         owner,
         repo
       );
@@ -189,8 +180,10 @@ export class GithubService {
       crossDomain: true,
     };
 
+    const org = null;
+
     return this.http
-      .get<any>(this.getUrl(this.UrlType.RepoTopics, org, owner, repo), options)
+      .get<any>(this.getUrl(UrlType.RepoTopics, org, owner, repo), options)
       .pipe(
         tap((res) => {
           console.log('topics from api', res);
@@ -223,7 +216,7 @@ export class GithubService {
       console.log('ERROR in getGithubOrganizations: empty Org', org);
       return;
     }
-    return this.http.get(this.getUrl(this.UrlType.Organization, org)).pipe(
+    return this.http.get(this.getUrl(UrlType.Organization, org)).pipe(
       tap((res: any) => {
         // console.log('items', res);
         // const items = res.items;
