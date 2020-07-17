@@ -1,12 +1,66 @@
 <div class="list-repos">
   <p>This site is unter construction</p>
-  <h3>
+  <h3 class="header">
     Liste der Repositories von {{ organization }},
     {{ githubOrgRepos.length }} Repos
   </h3>
   <div *ngFor="let repo of githubOrgRepos; let i = index">
-    {{ i + 1 }} <br />
+    <!-- {{ i + 1 }} <br />
     {{ repo.name }} <br />
     {{ repo.description }} <br /><br />
+    <div *ngIf="i == 0">
+      {{ repo | json }}
+    </div> -->
+    <div
+      fxLayout="column"
+      fxLayout.gt-md="row"
+      fxLayoutAlign.gt-md="start stretch"
+      fxLayoutAlign="start stretch"
+      fxFlexFill
+      fxLayoutGap="50px"
+    >
+      <mat-card class="repo-card part-1" fxFlex>
+        <mat-card-header>
+          <mat-card-title>{{ repo.name }}</mat-card-title>
+          <mat-card-subtitle>Nr.{{ i + 1 }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p [id]="repo.id">
+            {{ repo.description }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-button [href]="repo.html_url" target="_blank">GitHub</a>
+          <a mat-button [href]="repo.homepage" target="_blank">WWW</a>
+          <button mat-button (click)="onGetReposTopics(repo)">Topics</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="repo-card part-2" fxFlex>
+        <mat-card-header>
+          <!-- <mat-card-title>{{ repo.owner.login }}</mat-card-title> -->
+          <mat-card-subtitle>Technische Infos</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <table>
+              <tr>
+                <td>Sprache</td>
+                <td>{{ repo.language }}</td>
+              </tr>
+              <tr>
+                <td>Watchers</td>
+                <td>{{ repo.watchers }}</td>
+              </tr>
+              <tr>
+                <td>Forks</td>
+                <td>{{ repo.forks }}</td>
+              </tr>
+            </table>
+          </div>
+        </mat-card-content>
+        <mat-card-actions></mat-card-actions>
+      </mat-card>
+    </div>
   </div>
 </div>

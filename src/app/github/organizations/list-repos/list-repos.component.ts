@@ -15,6 +15,8 @@ export class ListReposComponent implements OnInit, OnDestroy {
   reposSub: Subscription;
   orgSub: Subscription;
   pageSub: Subscription;
+  topicsSub: Subscription;
+  reposCounter: number;
 
   constructor(private githubService: GithubService) {}
 
@@ -36,6 +38,35 @@ export class ListReposComponent implements OnInit, OnDestroy {
     });
   }
 
+  onGetReposTopics(repo: GitHubOrgRepo) {
+    console.log('selected repo for topics', repo);
+    this.githubService
+      .getGithubReposTopics(this.organization, repo.owner.login, repo.name)
+      .subscribe((topics: string[]) => {
+        console.log('topics', topics);
+        let topicsString;
+        if (topics.length > 0) {
+          topicsString = topics.join(', ');
+        } else {
+          topicsString = 'nicht vorhanden';
+        }
+        this.insertTopicsIntoDom(repo.id, topicsString);
+      });
+  }
+
+  insertTopicsIntoDom(repoId: number, topics: string) {
+    console.log('insertTopicsIntoDom', repoId, topics);
+    const repoEl = document.getElementById(repoId.toString());
+    const newTopicsEl = `<table><tr><td>Topics</td><td>${topics}</td></tr></table>`;
+    console.log(newTopicsEl);
+    repoEl.insertAdjacentHTML('afterend', newTopicsEl);
+  }
+
+  /**
+   * get 100 repos of the org starting at the desired page number
+   * @param org
+   * @param page
+   */
   getOrgRepos(org: string, page: number) {
     console.log('org/page', org, page);
 
@@ -52,7 +83,42 @@ export class ListReposComponent implements OnInit, OnDestroy {
             repos,
             this.githubOrgRepos
           );
+        } else {
+          // not possible because of access restrictions by GitHub
+          // this.getTopicsOfAllRepos();
         }
+      });
+  }
+
+  // Github does not allow to get the topics of all repos because of access restrictions
+  // solution: selecting a repo in template will read and display the topics of the selected repo
+  getTopicsOfAllRepos() {
+    this.reposCounter = this.githubOrgRepos.length;
+    this.githubOrgRepos.forEach((repo) => {
+      this.getReposTopics(this.organization, repo.owner.login, repo.name);
+    });
+    if (this.reposCounter !== this.githubOrgRepos.length) {
+      console.error(
+        'Error in getTopicsOfAllRepos: different arr.length from start/end',
+        this.reposCounter,
+        this.githubOrgRepos.length
+      );
+    }
+  }
+
+  /**
+   * get topics of a repo
+   * @param org
+   * @param owner
+   * @param repo
+   */
+  getReposTopics(org: string, owner: string, repo: string) {
+    console.log('getReposTopics for org/owner/repos', org, owner, repo);
+
+    this.topicsSub = this.githubService
+      .getGithubReposTopics(org, owner, repo)
+      .subscribe((topics) => {
+        console.log('topics for repo', repo, topics);
       });
   }
 
@@ -65,6 +131,9 @@ export class ListReposComponent implements OnInit, OnDestroy {
     }
     if (this.pageSub) {
       this.pageSub.unsubscribe();
+    }
+    if (this.topicsSub) {
+      this.topicsSub.unsubscribe();
     }
   }
 }

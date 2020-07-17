@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, Subject, BehaviorSubject, of } from 'rxjs';
 import { tap, map, catchError, take } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GitHubOrgRepo, GitHubOrg } from './githubOrganization.model';
@@ -31,9 +31,17 @@ export class GithubService {
   UrlType = {
     Organization: 1,
     OrganizationRepositories: 2,
+    RepoTopics: 3,
   };
 
-  getUrl(urlType: any, org: string) {
+  /**
+   * create url for desired urlType
+   * @param urlType
+   * @param org
+   * @param owner- optional
+   * @param repo - optional
+   */
+  getUrl(urlType: any, org: string, owner: string = '', repo: string = '') {
     // return 'https://api.github.com/users/zoechbauer';
     // return 'https://api.github.com/search/users?q=type:org';
 
@@ -53,12 +61,20 @@ export class GithubService {
         baseUrl = `https://api.github.com/orgs/${this.filterOrg.toLocaleLowerCase()}/repos`;
         query = `?${this.getPage()}`;
         break;
+
+      case this.UrlType.RepoTopics:
+        // GET /repos/:owner/:repo/topics
+        baseUrl = `https://api.github.com/repos/${owner.toLowerCase()}/${repo.toLowerCase()}/topics`;
+        break;
     }
     url = baseUrl + query;
     console.log('url', url);
     return url;
   }
 
+  /**
+   * increment pagenumber as Github allows only 100 records per httm request
+   */
   getPage(): string {
     // for organization repos you cannot search for the required sesarch fields
     // how can I search?
@@ -66,6 +82,12 @@ export class GithubService {
     return `page=${this.pageNumber}&per_page=100`;
   }
 
+  /**
+   * Read 100 repos of the desired ORG. If the returned array size is 100 then send a BehaviorSubject to get the next 100 revords.
+   * With this algo all repos of an Org are retrieved and from the caller merged.
+   * @param org
+   * @param pageNumber
+   */
   getGitHubOrgRepos(
     org: string,
     pageNumber: number
@@ -129,6 +151,73 @@ export class GithubService {
     return this.filterProps.slice();
   }
 
+  /**
+   * Get the topics of a repo from an org and owner
+   * GET /repos/:owner/:repo/topics
+   * @param org
+   * @param owner
+   * @param repo
+   */
+  getGithubReposTopics(
+    org: string,
+    owner: string,
+    repo: string
+  ): Observable<any> {
+    if (
+      org === undefined ||
+      org === '' ||
+      owner === undefined ||
+      owner === '' ||
+      repo === undefined ||
+      repo === ''
+    ) {
+      console.log(
+        'ERROR in getGithubReposTopics: invalid search fields',
+        org,
+        owner,
+        repo
+      );
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/vnd.github.mercy-preview+json',
+    });
+    const options = {
+      headers: headers,
+      crossDomain: true,
+    };
+
+    return this.http
+      .get<any>(this.getUrl(this.UrlType.RepoTopics, org, owner, repo), options)
+      .pipe(
+        tap((res) => {
+          console.log('topics from api', res);
+        }),
+        map((res) => res.names)
+      );
+
+    // simulation
+    // https://developer.github.com/v3/repos/#get-all-repository-topics
+    // return of({
+    //   names: [
+    //     'angular9',
+    //     'api',
+    //     'angular-material',
+    //     'angularfire',
+    //     'flex-layout',
+    //     'jasmine-tests',
+    //     'compodoc-documentation',
+    //     'cypress-e2e',
+    //   ],
+    // }).pipe(map((res) => res.names));
+  }
+
+  /**
+   * Get all Organizations that starts with the org param
+   * @param org
+   */
   getGithubOrganizations(org: string): Observable<GitHubOrg[]> {
     if (org === undefined || org === '') {
       console.log('ERROR in getGithubOrganizations: empty Org', org);
@@ -155,7 +244,7 @@ export class GithubService {
       ),
       // tap((res) => console.log('org-result', res)),
       catchError((err) => {
-        console.log(`Error in getGithubOrganizations(${org}): ${err}`);
+        console.error(`Error in getGithubOrganizations(${org}): ${err}`);
         return throwError(
           'Es ist ein Fehler aufgetreten. Versuchen Sie es später nochmals'
         );

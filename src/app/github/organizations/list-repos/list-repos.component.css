@@ -3,3 +3,13 @@
   max-width: 800px;
   text-align: center;
 }
+
+.header {
+  margin-bottom: 50px;
+}
+
+.repo-card {
+  text-align: left;
+  margin-bottom: 80px;
+  margin-top: -30px;
+}
