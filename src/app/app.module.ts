@@ -41,6 +41,8 @@ import { ReposComponent } from './github/repos/repos.component';
 import { OrganizationsComponent } from './github/organizations/organizations.component';
 import { ListOrgsComponent } from './github/organizations/list-orgs/list-orgs.component';
 import { ListReposComponent } from './github/organizations/list-repos/list-repos.component';
+import { SortPipe } from './shared/pipes/sort.pipe';
+import { FilterPipe } from './shared/pipes/filter.pipe';
 
 registerLocaleData(localeAT, 'de-AT');
 
@@ -65,6 +67,8 @@ registerLocaleData(localeAT, 'de-AT');
     OrganizationsComponent,
     ListOrgsComponent,
     ListReposComponent,
+    SortPipe,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,

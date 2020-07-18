@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, Subject, BehaviorSubject, of } from 'rxjs';
-import { tap, map, catchError, take } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GitHubOrgRepo, GitHubOrg } from './githubOrganization.model';
-import { SelectOption } from './selectOption.model';
 
 enum UrlType {
   Organization = 1,
@@ -14,15 +13,6 @@ enum UrlType {
   providedIn: 'root',
 })
 export class GithubService {
-  private filterProps: SelectOption[] = [
-    { name: 'Name', value: 'name' },
-    { name: 'Description', value: 'description' },
-    { name: 'Language', value: 'language' },
-    { name: 'Watchers', value: 'watchers' },
-    { name: 'Forks', value: 'forks' },
-    { name: 'Size', value: 'size' },
-  ];
-
   private filterOrg: string;
   private pageNumber: number;
   pageNumberSubject = new Subject<number>();
@@ -144,10 +134,6 @@ export class GithubService {
           return throwError(err);
         })
       );
-  }
-
-  getFilterProperties(): SelectOption[] {
-    return this.filterProps.slice();
   }
 
   /**

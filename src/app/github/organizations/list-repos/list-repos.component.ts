@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { GithubService } from '../../github.service';
 import { GitHubOrgRepo } from '../../githubOrganization.model';
+import { SelectOption } from '../../selectOption.model';
+import { reposFakeData } from '../../GithubRepos.fakedata';
 
 @Component({
   selector: 'app-list-repos',
@@ -10,6 +13,8 @@ import { GitHubOrgRepo } from '../../githubOrganization.model';
   styleUrls: ['./list-repos.component.css'],
 })
 export class ListReposComponent implements OnInit, OnDestroy {
+  isFakeReposList = false; // true: use fakedReposList for layout-design; ONLY FOR LAYOUT-CHANGES;
+  filterForm: FormGroup;
   organization: string;
   githubOrgRepos: GitHubOrgRepo[] = [];
   reposSub: Subscription;
@@ -17,10 +22,39 @@ export class ListReposComponent implements OnInit, OnDestroy {
   pageSub: Subscription;
   topicsSub: Subscription;
   reposCounter: number;
+  sortOrder: string;
+  searchString: string;
+  searchProperty: string;
+  numberFilterType: string = '';
 
-  constructor(private githubService: GithubService) {}
+  filterProps: SelectOption[] = [
+    { name: 'Repo-Name', value: 'name' },
+    { name: 'Beschreibung', value: 'description' },
+    { name: 'Programmier-Sprache', value: 'language' },
+    { name: 'Offene Issues', value: 'open_issues' },
+    { name: 'Watchers', value: 'watchers' },
+    { name: 'Forks', value: 'forks' },
+    { name: 'Größe', value: 'size' },
+  ];
+
+  numberCompareProps: SelectOption[] = [
+    { name: '\u003E', value: 'gt' },
+    { name: '\u003C', value: 'lt' },
+    { name: '\u003D', value: 'eq' },
+    { name: '\u2265', value: 'ge' },
+    { name: '\u2264', value: 'le' },
+  ];
+
+  constructor(public githubService: GithubService) {}
 
   ngOnInit(): void {
+    this.filterForm = new FormGroup({
+      numberCompare: new FormControl('gt'),
+      filterString: new FormControl(''),
+      filterProperty: new FormControl('name'),
+      sortOrder: new FormControl('asc'),
+    });
+
     // org changed
     this.orgSub = this.githubService.selectedOrg.subscribe((selectedOrg) => {
       console.log('selectedOrg', selectedOrg);
@@ -30,20 +64,76 @@ export class ListReposComponent implements OnInit, OnDestroy {
         this.getOrgRepos(selectedOrg, 1);
       }
     });
-
     // pagenumber changed
     this.pageSub = this.githubService.pageNumberSubject.subscribe((page) => {
       console.log('page', page);
       this.getOrgRepos(this.organization, page);
     });
+
+    // search fields changed
+    this.filterForm.valueChanges.subscribe(() => {
+      this.filterRepos();
+    });
+
+    // load faked data is defined in isFakeReposList
+    if (this.isFakeReposList) {
+      this.organization = 'angular - Faked Data!!!';
+      this.githubOrgRepos = reposFakeData;
+    }
   }
 
+  /**
+   * filter the data in githubOrgRepos array with form filter data.
+   * Filtering and sorting is implemented with pipes in template.
+   * The properties for the FilterPipe and SortPipe are set
+   */
+  filterRepos() {
+    console.log('filterRepos');
+
+    this.sortOrder = this.filterForm.value.sortOrder;
+    this.searchProperty = this.filterForm.value.filterProperty;
+    if (this.searchProperty === 'size') {
+      // convert entered value in KB because size is displayed in kb but stored in bytes
+      this.searchString = (parseFloat(this.searchString) * 1000).toString();
+    } else {
+      this.searchString = this.filterForm.value.filterString;
+    }
+    this.numberFilterType = this.filterForm.value.numberCompare;
+    this.setDefaultFilterType(this.searchProperty);
+  }
+
+  /**
+   * Set filtertype to blank for strings and to 'gt' for numbers
+   * @param searchProperty
+   */
+  setDefaultFilterType(searchProperty: string) {
+    if (
+      searchProperty === 'name' ||
+      searchProperty === 'description' ||
+      searchProperty === 'language'
+    ) {
+      this.numberFilterType = '';
+      console.log(
+        'setDefaultFilterType numberFilterType',
+        this.numberFilterType
+      );
+    } else {
+      this.numberFilterType = this.filterForm.value.numberCompare;
+      console.log(
+        'setDefaultFilterType numberFilterType',
+        this.numberFilterType
+      );
+    }
+  }
+
+  /**
+   * get topics for repo and insert into dom
+   * @param repo
+   */
   onGetReposTopics(repo: GitHubOrgRepo) {
-    console.log('selected repo for topics', repo);
     this.githubService
       .getGithubReposTopics(repo.owner.login, repo.name)
       .subscribe((topics: string[]) => {
-        console.log('topics', topics);
         let topicsString;
         if (topics.length > 0) {
           topicsString = topics.join(', ');
@@ -54,11 +144,14 @@ export class ListReposComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * generate table element with topics data
+   * @param repoId
+   * @param topics
+   */
   insertTopicsIntoDom(repoId: number, topics: string) {
-    console.log('insertTopicsIntoDom', repoId, topics);
     const repoEl = document.getElementById(repoId.toString());
     const newTopicsEl = `<table><tr><td>Topics</td><td>${topics}</td></tr></table>`;
-    console.log(newTopicsEl);
     repoEl.insertAdjacentHTML('afterend', newTopicsEl);
   }
 
@@ -76,6 +169,9 @@ export class ListReposComponent implements OnInit, OnDestroy {
         if (repos.length > 0) {
           console.log('repos', repos);
           this.githubOrgRepos.push(...repos);
+          this.githubOrgRepos.sort((a, b) => {
+            return a['name'] < b['name'] ? -1 : 1;
+          });
           console.log(
             '***org/page/repos/total',
             org,

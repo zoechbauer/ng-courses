@@ -1,16 +1,63 @@
 <div class="list-repos">
-  <p>This site is unter construction</p>
   <h3 class="header">
-    Liste der Repositories von {{ organization }},
-    {{ githubOrgRepos.length }} Repos
+    Liste der Repositories von <strong>{{ organization }}</strong> <br />
+    <small>{{ githubOrgRepos.length }} Repos</small>
   </h3>
-  <div *ngFor="let repo of githubOrgRepos; let i = index">
-    <!-- {{ i + 1 }} <br />
-    {{ repo.name }} <br />
-    {{ repo.description }} <br /><br />
-    <div *ngIf="i == 0">
-      {{ repo | json }}
-    </div> -->
+  <form [formGroup]="filterForm">
+    <div
+      fxLayout="column"
+      fxLayout.gt-md="row"
+      fxLayoutGap.gt-md="20px"
+      fxLayoutGap="0px"
+      fxFlexAlign.gt-md="start center"
+    >
+      <mat-form-field fxFlex="5" *ngIf="numberFilterType !== ''">
+        <mat-label>Art</mat-label>
+        <mat-select formControlName="numberCompare">
+          <mat-option
+            *ngFor="let item of numberCompareProps"
+            [value]="item.value"
+          >
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="60">
+        <mat-label>Repos filtern</mat-label>
+        <input
+          matInput
+          placeholder="suchen in ausgewähltem Feld"
+          formControlName="filterString"
+          autocomplete="off"
+        />
+      </mat-form-field>
+
+      <mat-form-field fxFlex="20">
+        <mat-label>Feld für Filtern & Sort. auswählen</mat-label>
+        <mat-select formControlName="filterProperty">
+          <mat-option *ngFor="let item of filterProps" [value]="item.value">
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="15">
+        <mat-label>Sortierung</mat-label>
+        <mat-select formControlName="sortOrder">
+          <mat-option value="asc" selected>aufsteigend</mat-option>
+          <mat-option value="desc">absteigend</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+  <p></p>
+  <div
+    *ngFor="
+      let repo of githubOrgRepos
+        | filter: searchString:searchProperty:numberFilterType
+        | sort: searchProperty:sortOrder;
+      let i = index
+    "
+  >
     <div
       fxLayout="column"
       fxLayout.gt-md="row"
