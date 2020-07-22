@@ -1,0 +1,121 @@
+<div class="list-repos">
+  <h3 class="header">
+    Liste der Repositories von <strong>{{ organization }}</strong> <br />
+    <small>{{ githubOrgRepos.length }} Repos</small>
+  </h3>
+  <form [formGroup]="filterForm">
+    <div
+      fxLayout="column"
+      fxLayout.gt-md="row"
+      fxLayoutGap.gt-md="20px"
+      fxLayoutGap="0px"
+      fxFlexAlign.gt-md="start center"
+    >
+      <mat-form-field fxFlex="5" *ngIf="numberFilterType !== ''">
+        <mat-label>Art</mat-label>
+        <mat-select formControlName="numberCompare">
+          <mat-option
+            *ngFor="let item of numberCompareProps"
+            [value]="item.value"
+          >
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="60">
+        <mat-label>Repos filtern</mat-label>
+        <input
+          matInput
+          placeholder="suchen in ausgewähltem Feld"
+          formControlName="filterString"
+          autocomplete="off"
+        />
+      </mat-form-field>
+
+      <mat-form-field fxFlex="20">
+        <mat-label>Feld für Filtern & Sort. auswählen</mat-label>
+        <mat-select formControlName="filterProperty">
+          <mat-option *ngFor="let item of filterProps" [value]="item.value">
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex="15">
+        <mat-label>Sortierung</mat-label>
+        <mat-select formControlName="sortOrder">
+          <mat-option value="asc" selected>aufsteigend</mat-option>
+          <mat-option value="desc">absteigend</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+  <p></p>
+  <div
+    *ngFor="
+      let repo of githubOrgRepos
+        | filter: searchString:searchProperty:numberFilterType
+        | sort: searchProperty:sortOrder;
+      let i = index
+    "
+  >
+    <div
+      fxLayout="column"
+      fxLayout.gt-md="row"
+      fxLayoutAlign.gt-md="start stretch"
+      fxLayoutAlign="start stretch"
+      fxFlexFill
+      fxLayoutGap="50px"
+    >
+      <mat-card class="repo-card part-1" fxFlex>
+        <mat-card-header>
+          <mat-card-title>{{ repo.name }}</mat-card-title>
+          <mat-card-subtitle>Nr.{{ i + 1 }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p [id]="repo.id">
+            {{ repo.description }}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-button [href]="repo.html_url" target="_blank">GitHub</a>
+          <a mat-button [href]="repo.homepage" target="_blank">WWW</a>
+          <button mat-button (click)="onGetReposTopics(repo)">Topics</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="repo-card part-2" fxFlex>
+        <mat-card-header>
+          <!-- <mat-card-title>{{ repo.owner.login }}</mat-card-title> -->
+          <mat-card-subtitle>Technische Infos</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <table>
+              <tr>
+                <td>Sprache</td>
+                <td>{{ repo.language }}</td>
+              </tr>
+              <tr>
+                <td>Offene Issues</td>
+                <td>{{ repo.open_issues | number }}</td>
+              </tr>
+              <tr>
+                <td>Watchers</td>
+                <td>{{ repo.watchers | number }}</td>
+              </tr>
+              <tr>
+                <td>Forks</td>
+                <td>{{ repo.forks | number }}</td>
+              </tr>
+              <tr>
+                <td>Größe</td>
+                <td>{{ repo.size / 1000 | number: '1.2-2' }} KB</td>
+              </tr>
+            </table>
+          </div>
+        </mat-card-content>
+        <mat-card-actions></mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

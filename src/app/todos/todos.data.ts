@@ -241,7 +241,7 @@ const todoList: Todos[] = [
   },
   {
     id: 33,
-    todo: 'Header: sticky und 2zeilig',
+    todo: 'Header: sticky und 2zeilig, Admin wird abgeschnitten',
     category: 'Optimierungen',
     type: 'neu',
     status: 'offen',
@@ -280,7 +280,7 @@ const todoList: Todos[] = [
       'Alle Repos von zoe anzeigen mit wichtigsten Infos, zB $ curl -i https://api.github.com/users/zoechbauer/repos',
     category: 'Github-api',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 39,
@@ -288,14 +288,14 @@ const todoList: Todos[] = [
       'Github Detailinfos zu best. Repo anzeigen zB. Zeitraum von-bis, zB. curl -i https://api.github.com/repos/zoechbauer/ng-courses',
     category: 'Github-api',
     type: 'neu',
-    status: 'offen',
+    status: 'aktiv',
   },
   {
     id: 40,
     todo: 'Eigener Menüpunkt mit Untermenüs für autom. Github-Auswertungen',
     category: 'Github-api',
     type: 'neu',
-    status: 'offen',
+    status: 'erledigt',
   },
   {
     id: 41,
@@ -425,5 +425,19 @@ const todoList: Todos[] = [
     category: 'e2e Test',
     type: 'neu',
     status: 'erledigt',
+  },
+  {
+    id: 57,
+    todo: 'Github http-Funktionen implementieren',
+    category: 'Github-api',
+    type: 'neu',
+    status: 'aktiv',
+  },
+  {
+    id: 58,
+    todo: 'Github Formulare implementieren',
+    category: 'Github-api',
+    type: 'neu',
+    status: 'aktiv',
   },
 ];

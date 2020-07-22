@@ -1,0 +1,13 @@
+.list-orgs {
+  margin: 20px auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+.searchField {
+  width: 300px;
+}
+
+.mat-column-login {
+  flex: 0 0 60%;
+}

@@ -58,6 +58,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/courses/new']);
   }
 
+  onSearchOrganizations() {
+    this.router.navigate(['/orgs/api']);
+  }
+
+  onSearchRepos() {
+    this.router.navigate(['/repos/api']);
+  }
+
   ngOnDestroy() {
     if (this.authStoreSub) {
       this.authStoreSub.unsubscribe();

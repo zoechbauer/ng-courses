@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +17,10 @@ import {
   // MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
+import { registerLocaleData } from '@angular/common';
+import localeAT from '@angular/common/locales/de-AT';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +37,14 @@ import { CourseDeleteDialogComponent } from './courses/course-delete-dialog.comp
 import { LoadingComponent } from './shared/loading/loading.component';
 import { SearchCoursesComponent } from './courses/search-courses/search-courses.component';
 import { CourseDetailUserComponent } from './courses/course-detail-user/course-detail-user.component';
+import { ReposComponent } from './github/repos/repos.component';
+import { OrganizationsComponent } from './github/organizations/organizations.component';
+import { ListOrgsComponent } from './github/organizations/list-orgs/list-orgs.component';
+import { ListReposComponent } from './github/organizations/list-repos/list-repos.component';
+import { SortPipe } from './shared/pipes/sort.pipe';
+import { FilterPipe } from './shared/pipes/filter.pipe';
+
+registerLocaleData(localeAT, 'de-AT');
 
 /**
  * This is the Main Module of this App.
@@ -52,6 +63,12 @@ import { CourseDetailUserComponent } from './courses/course-detail-user/course-d
     LoadingComponent,
     SearchCoursesComponent,
     CourseDetailUserComponent,
+    ReposComponent,
+    OrganizationsComponent,
+    ListOrgsComponent,
+    ListReposComponent,
+    SortPipe,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -65,9 +82,11 @@ import { CourseDetailUserComponent } from './courses/course-detail-user/course-d
     AngularFirestoreModule,
     AngularFireAuthModule,
     NgxDropzoneModule,
+    HttpClientModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'de-AT' },
+    { provide: LOCALE_ID, useValue: 'de-AT' },
     // {
     //   provide: DateAdapter,
     //   useClass: MomentDateAdapter,
