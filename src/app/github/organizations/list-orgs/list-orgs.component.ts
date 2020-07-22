@@ -23,8 +23,11 @@ import { GitHubOrg } from '../../githubOrganization.model';
 })
 export class ListOrgsComponent implements OnInit {
   dataSource: MatTableDataSource<GitHubOrg>;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  length = 100;
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
   formOrg: FormGroup;
   searchOrg$ = new Subject<string>();
   searchOrgResults$: Observable<GitHubOrg[]>;

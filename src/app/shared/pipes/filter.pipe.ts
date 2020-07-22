@@ -115,36 +115,36 @@ export class FilterPipe implements PipeTransform {
     switch (nbrFilterType) {
       case 'gt':
         if (Number.parseFloat(property) > Number.parseFloat(searchString)) {
-          console.log('add gt', property, searchString);
+          // console.log('add gt', property, searchString);
           hasFiltered = true;
         }
         break;
       case 'lt':
         if (Number.parseFloat(property) < Number.parseFloat(searchString)) {
-          console.log('add lt', property, searchString);
+          // console.log('add lt', property, searchString);
           hasFiltered = true;
         }
         break;
       case 'eq':
         if (Number.parseFloat(property) === Number.parseFloat(searchString)) {
-          console.log('add eq', property, searchString);
+          // console.log('add eq', property, searchString);
           hasFiltered = true;
         }
         break;
       case 'ge':
         if (Number.parseFloat(property) >= Number.parseFloat(searchString)) {
-          console.log('add ge', property, searchString);
+          // console.log('add ge', property, searchString);
           hasFiltered = true;
         }
         break;
       case 'le':
         if (Number.parseFloat(property) <= Number.parseFloat(searchString)) {
-          console.log('add le', property, searchString);
+          // console.log('add le', property, searchString);
           hasFiltered = true;
         }
         break;
       default:
-        console.log('default - not added', property, searchString);
+        // console.log('default - not added', property, searchString);
         break;
     }
     return hasFiltered;
